@@ -26,7 +26,7 @@ module.exports = /*@ngInject*/($delegate, $rootScope, $translate, co, consts, ut
 		CACHE_UNFOLD
 	));
 
-	const requestModifyLabelProxy = function *(requestModifyLabel, args){
+	const requestModifyLabelProxy = function *(requestModifyLabel, args) {
 		const [thread] = args;
 
 		const labels = yield self.getLabels();
