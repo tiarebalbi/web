@@ -11,6 +11,31 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 	];
 	$scope.taggingTokens = 'SPACE|,|/';
 
+	$scope.textAreaSetup = function($element){
+		$element.attr('ui-codemirror', '');
+	};
+
+	let codeMirror = null;
+
+	$scope.mode = 'wysiwyg';
+
+	$scope.codeMirrorLoaded = (_editor) => {
+		codeMirror = _editor;
+	};
+
+	$scope.$watch('mode', (n, o) => {
+		if (n == o || !codeMirror)
+			return;
+		
+		codeMirror.setOption('mode', $scope.mode);
+	});
+
+	$scope.editorOptions = {
+		lineWrapping : true,
+		lineNumbers: true,
+		mode: 'text/plain'
+	};
+
 	$scope.isWarning = false;
 	$scope.isError = false;
 	$scope.isXCC = false;

@@ -23,13 +23,18 @@
 		"cfp.hotkeys",
 		"yaru22.angular-timeago",
 		"dialogs.main",
-		"ngMessages"
+		"ngMessages",
+		"ui.codemirror"
 	]
 
 	productionOnlyDependencies = [
 	]
 
 	vendorDependencies = [
+		"bower@codemirror/lib/codemirror.js",
+		"bower@codemirror/mode/xml/xml.js",
+		"bower@codemirror/mode/htmlmixed/htmlmixed.js",
+		"bower@angular-ui-codemirror/ui-codemirror.js",
 		"bower@angular-bootstrap/ui-bootstrap.js",
 		"bower@angular-bootstrap/ui-bootstrap-tpls.js",
 		"bower@angular-ui-select/dist/select.js",
