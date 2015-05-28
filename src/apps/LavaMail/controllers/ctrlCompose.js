@@ -11,10 +11,6 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 	];
 	$scope.taggingTokens = 'SPACE|,|/';
 
-	$scope.textAreaSetup = function($element){
-		$element.attr('ui-codemirror', '');
-	};
-
 	let codeMirror = null;
 
 	$scope.mode = 'wysiwyg';
@@ -26,7 +22,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 	$scope.$watch('mode', (n, o) => {
 		if (n == o || !codeMirror)
 			return;
-		
+
 		codeMirror.setOption('mode', $scope.mode);
 	});
 
