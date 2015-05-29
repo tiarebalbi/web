@@ -76,16 +76,10 @@ module.exports = function ($q, $rootScope, $filter, $translate, co, crypto, cons
 		let backup = self.verifyAndReadBackup(jsonBackup);
 
 		for(let key of backup.prv)
-			if (!crypto.getPrivateKeyByFingerprint(key.primaryKey.fingerprint))
-				crypto.importPrivateKey(key);
-			else
-				console.log('skip private key import - already existing', key.primaryKey.fingerprint);
+			crypto.importPrivateKey(key);
 
 		for(let key of backup.pub)
-			if (!crypto.getPublicKeyByFingerprint(key.primaryKey.fingerprint))
-				crypto.importPublicKey(key);
-			else
-				console.log('skip public key import - already existing', key.primaryKey.fingerprint);
+			crypto.importPublicKey(key);
 
 		crypto.storeKeyring();
 		crypto.initialize();
@@ -100,6 +94,7 @@ module.exports = function ($q, $rootScope, $filter, $translate, co, crypto, cons
 			readme: consts.KEYS_BACKUP_README,
 			warning: translations.BACKUP_WARNING_TEXT,
 			body: body,
+			exported: $filter('date')(Date.now(), 'yyyy-MM-dd HH:mm:ss Z'),
 			bodyHash: bodyHash
 		}, null, 4);
 	}
@@ -116,8 +111,7 @@ module.exports = function ($q, $rootScope, $filter, $translate, co, crypto, cons
 		}, {});
 
 		return formatExportFile({
-			key_pairs: keyPairs,
-			exported: $filter('date')(Date.now(), 'yyyy-MM-dd HH:mm:ss Z')
+			key_pairs: keyPairs
 		});
 	};
 
@@ -127,16 +121,13 @@ module.exports = function ($q, $rootScope, $filter, $translate, co, crypto, cons
 		const privateKey = keyring.privateKeys.findByFingerprint(fingerprint);
 		const publicKey = keyring.publicKeys.findByFingerprint(fingerprint);
 
-		console.log(privateKey, publicKey);
-
 		return formatExportFile({
 			key_pairs: {
 				[privateKey.users[0].userId.userid]: {
 					prv: [privateKey.armor()],
 					pub: [publicKey.armor()]
 				}
-			},
-			exported: $filter('date')(Date.now(), 'yyyy-MM-dd HH:mm:ss Z')
+			}
 		});
 	};
 
