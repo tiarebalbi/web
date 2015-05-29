@@ -1,5 +1,5 @@
-module.exports = function (utils, taSelection) {
-	const self = this;
+module.exports = function (utils/*, taSelection*/) {
+	/*const self = this;
 	const newLineRegex = /(\r\n|\r|\n)/g;
 	const tagRegex = /<[a-z][\s\S]*>/gi;
 
@@ -57,5 +57,5 @@ module.exports = function (utils, taSelection) {
 		}
 
 		return formatted;
-	};
+	};*/
 };

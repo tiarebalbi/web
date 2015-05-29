@@ -20,7 +20,7 @@
 		"Symbol": true,
 		"loader": true,
 		"checker": true,
-
+        "$": true,
 		"assets": true,
 		"primaryApplicationName": true,
 		"console": true

@@ -1,4 +1,4 @@
-module.exports = ($rootScope, $scope, $stateParams, $translate,
+module.exports = ($rootScope, $scope, $stateParams, $translate, $timeout,
 							   utils, consts, co, router, composeHelpers, textAngularHelpers, crypto,
 							   user, contacts, inbox, Manifest, Contact, hotkey, ContactEmail, Email, Attachment) => {
 	$scope.toolbar = [
@@ -11,25 +11,10 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 	];
 	$scope.taggingTokens = 'SPACE|,|/';
 
-	let codeMirror = null;
-
 	$scope.mode = 'wysiwyg';
-
-	$scope.codeMirrorLoaded = (_editor) => {
-		codeMirror = _editor;
-	};
-
-	$scope.$watch('mode', (n, o) => {
-		if (n == o || !codeMirror)
-			return;
-
-		codeMirror.setOption('mode', $scope.mode);
-	});
-
-	$scope.editorOptions = {
-		lineWrapping : true,
-		lineNumbers: true,
-		mode: 'text/plain'
+	$scope.froalaOptions = {
+		inlineMode: false,
+		buttons: ['undo', 'redo' , 'sep', 'bold', 'italic', 'underline']
 	};
 
 	$scope.isWarning = false;
@@ -484,7 +469,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 				);
 		};
 
-	$scope.formatPaste = (html) => textAngularHelpers.formatPaste(html);
+	//$scope.formatPaste = (html) => textAngularHelpers.formatPaste(html);
 
 	hotkey.registerCustomHotkeys($scope, [
 		{
@@ -497,5 +482,5 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		}
 	], {scope: 'ctrlCompose'});
 
-	textAngularHelpers.ctrlEnterCallback = $scope.send;
+	//textAngularHelpers.ctrlEnterCallback = $scope.send;
 };

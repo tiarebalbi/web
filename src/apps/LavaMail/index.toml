@@ -15,7 +15,6 @@
 		"ui.router",
 		"ui.bootstrap",
 		"ui.select",
-		"textAngular",
 		"pascalprecht.translate",
 		"infinite-scroll",
 		"angular-co",
@@ -24,23 +23,32 @@
 		"yaru22.angular-timeago",
 		"dialogs.main",
 		"ngMessages",
-		"ui.codemirror"
+		"froala"
 	]
 
 	productionOnlyDependencies = [
 	]
 
 	vendorDependencies = [
-		"bower@codemirror/lib/codemirror.js",
-		"bower@codemirror/mode/xml/xml.js",
-		"bower@codemirror/mode/markdown/markdown.js",
-		"bower@codemirror/mode/htmlmixed/htmlmixed.js",
-		"bower@angular-ui-codemirror/ui-codemirror.js",
+		"bower@FroalaWysiwygEditor/js/froala_editor.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/tables.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/urls.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/lists.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/colors.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/font_family.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/font_size.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/block_styles.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/media_manager.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/video.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/char_counter.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/entities.min.js",
+		"bower@FroalaWysiwygEditor/js/langs/en_us.js",
+		"bower@angular-froala/src/angular-froala.js",
+
 		"bower@angular-bootstrap/ui-bootstrap.js",
 		"bower@angular-bootstrap/ui-bootstrap-tpls.js",
 		"bower@angular-ui-select/dist/select.js",
-		"bower@textAngular/dist/textAngular-rangy.min.js",
-		"bower@textAngular/dist/textAngular.min.js",
+
 		"bower@ngInfiniteScroll/build/ng-infinite-scroll.js",
 		"bower@angular-hotkeys/build/hotkeys.js",
 		"bower@angular-timeago/src/timeAgo.js",

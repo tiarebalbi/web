@@ -10,8 +10,10 @@ module.exports = ($interval) => {
 					elem.unbind('submit').bind('submit', function (e) {
 						e.preventDefault();
 						var arr = elem.find('input');
-						if (arr.length > 0) {
-							arr.triggerHandler('input').triggerHandler('change').triggerHandler('keydown');
+						if (arr && arr.length > 0) {
+							arr.triggerHandler('input');
+							arr.triggerHandler('change');
+							arr.triggerHandler('keydown');
 							scope.$apply(attrs.ngSubmit);
 						}
 					});
