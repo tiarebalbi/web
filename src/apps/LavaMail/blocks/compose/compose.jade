@@ -72,7 +72,7 @@ div#compose-wrapper
 
 		article#compose-body
 			//text-angular.tag-transferable(ng-show="mode == 'wysiwyg'", name="body", ng-model="form.body", ta-toolbar="toolbar")
-			textarea(froala, ng-model="form.body")
+			textarea(froala="froalaOptions", ng-model="form.body")
 			//div.tag-transferable(ng-show="mode != 'wysiwyg'", ui-refresh='mode', ui-codemirror='{onLoad: codeMirrorLoaded}', ui-codemirror-opts="editorOptions", ng-model="form.body")
 		footer
 			#attachments.row

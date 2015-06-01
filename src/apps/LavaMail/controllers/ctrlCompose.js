@@ -13,8 +13,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $timeout,
 
 	$scope.mode = 'wysiwyg';
 	$scope.froalaOptions = {
-		inlineMode: false,
-		buttons: ['undo', 'redo' , 'sep', 'bold', 'italic', 'underline']
+		inlineMode: false
 	};
 
 	$scope.isWarning = false;

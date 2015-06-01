@@ -22,29 +22,29 @@
 
 	vendorDependencies = [
 		"vendor@blob.js",
-		"vendor@html-sanitizer.min.js",
-		"bower@jquery/dist/jquery.js",
+		"npm@babel-core/browser-polyfill.js",
+        "npm@babel-core/external-helpers.js",
+        "npm@setimmediate/setImmediate.js",
 
-		"bower@angular/angular.js",
-		"bower@angular-sanitize/angular-sanitize.js",
+        "bower@jquery/dist/jquery.js",
+        "bower@angular/angular.js",
+
+		"vendor@html-sanitizer.min.js",
+		"bower@file-saver/FileSaver.js",
+		"npm@levenshtein/lib/levenshtein.js",
 
 		"bower@sockjs-client/dist/sockjs.js",
 		"bower@lavaboom/dist/lavaboom-api.js",
 		"bower@lavaboom/dist/lavaboom-angular.js",
 
+		"bower@angular-sanitize/angular-sanitize.js",
 		"bower@angular-ui-router/release/angular-ui-router.js",
 		"bower@angular-translate/angular-translate.js",
 		"bower@angular-translate-loader-static-files/angular-translate-loader-static-files.js",
 		"bower@angular-messages/angular-messages.js",
 		"bower@angular-autodisable/angular-autodisable.js",
+		"bower@angular-co/dist/co.js"
 
-		"bower@angular-co/dist/co.js",
-		"bower@file-saver/FileSaver.js",
-
-		"npm@babel-core/browser-polyfill.js",
-		"npm@babel-core/external-helpers.js",
-		"npm@setimmediate/setImmediate.js",
-		"npm@levenshtein/lib/levenshtein.js"
 	]
 
 	vendorExternalDependencies = [
