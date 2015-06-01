@@ -26,17 +26,6 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $timeout,
 		]
 	};
 
-	window.onresize = function (event) {
-		var maxHeight = window.screen.height,
-			maxWidth = window.screen.width,
-			curHeight = window.innerHeight,
-			curWidth = window.innerWidth;
-
-		if (maxWidth == curWidth && maxHeight == curHeight) {
-			console.log('fullscreen');
-		}
-	};
-
 	$scope.isWarning = false;
 	$scope.isError = false;
 	$scope.isXCC = false;
