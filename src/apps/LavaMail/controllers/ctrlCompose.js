@@ -12,7 +12,12 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $timeout,
 	$scope.taggingTokens = 'SPACE|,|/';
 
 	$scope.froalaOptions = {
-		inlineMode: false
+		inlineMode: false,
+		buttons: [
+			'bold', 'italic', 'underline', 'strikeThrough', 'fontFamily', 'color', 'sep',
+			'formatBlock', 'blockStyle', 'inlineStyle', 'align', 'insertOrderedList', 'insertUnorderedList', 'outdent', 'indent', 'sep',
+			'createLink', 'insertImage', 'insertVideo', 'table', 'undo', 'redo', 'html', 'removeFormat', 'fullscreen'
+		]
 	};
 
 	$scope.isWarning = false;

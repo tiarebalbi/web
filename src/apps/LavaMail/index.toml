@@ -41,7 +41,7 @@
 		"bower@FroalaWysiwygEditor/js/plugins/media_manager.min.js",
 		"bower@FroalaWysiwygEditor/js/plugins/video.min.js",
 		"bower@FroalaWysiwygEditor/js/plugins/char_counter.min.js",
-		"bower@FroalaWysiwygEditor/js/plugins/entities.min.js",
+		"bower@FroalaWysiwygEditor/js/plugins/fullscreen.min.js",
 		"bower@FroalaWysiwygEditor/js/langs/en_us.js",
 		"bower@angular-froala/src/angular-froala.js",
 
