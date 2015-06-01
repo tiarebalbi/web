@@ -1,0 +1,112 @@
+# dialogs
+DIALOGS_ERROR = "Błąd"
+DIALOGS_ERROR_MSG = "Wystąpił nieznany błąd."
+DIALOGS_CLOSE = "Zamknij"
+DIALOGS_PLEASE_WAIT = "Proszę czekać"
+DIALOGS_PLEASE_WAIT_ELIPS = "Proszę czekać..."
+DIALOGS_PLEASE_WAIT_MSG = "Oczekiwanie na zakończenie operacji"
+DIALOGS_PERCENT_COMPLETE = "% ukończony"
+DIALOGS_NOTIFICATION = "Powiadomienie"
+DIALOGS_NOTIFICATION_MSG = "Nieznane powiadomienie aplikacji."
+DIALOGS_CONFIRMATION = "Potwierdzenie"
+DIALOGS_CONFIRMATION_MSG = "Potwierdzenie wymagane."
+DIALOGS_OK = "OK"
+DIALOGS_YES = "Tak"
+DIALOGS_NO = "Nie"
+
+[LANG]
+	CODE = "pl"
+	FULL_CODE = "pl_PL"
+
+# timeago i18n data, " " means default
+[DATES.TIMEAGO]
+	PREFIX_AGO = " "
+	PREFIX_FROM_NOW = "za "
+	SUFFIX_AGO = " temu"
+	SUFFIX_FROM_NOW = " "
+	SECONDS = "sekund"
+	MINUTE = "minuta"
+	MINUTES = "minut"
+	HOUR = "godzina"
+	HOURS = "godzin"
+	DAY = "dzień"
+	DAYS = "dni"
+	MONTH = "miesiąc"
+	MONTHS = "miesiące"
+	YEAR = "rok"
+	YEARS = "lat"
+
+[DATES]
+	TODAY = "Dzisiaj"
+    YESTERDAY = "Wczoraj"
+
+[NOTIFICATIONS]
+	WEB_CRYPTO_IS_NOT_AVAILABLE_TITLE="Proszę zaktualizować przeglądarkę internetową."
+	WEB_CRYPTO_IS_NOT_AVAILABLE_TEXT="Wygląda na to, że Twoja przeglądarka jest zbyt wolna, by płynnie obsługiwać Lavaboom. Prosimy o <a href='http://support.lavaboom.com/knowledge_base/topics/what-browsers-should-you-use', target='_blank'>jej zaktualizowanie</a> lub zmianę na najnowsża wersję Google Chrome, Firefox lub Safari."
+	WEB_WORKERS_IS_NOT_AVAILABLE_TITLE="Proszę zaktualizować przeglądarkę internetową."
+    WEB_WORKERS_IS_NOT_AVAILABLE_TEXT="Wygląda na to, że Twoja przeglądarka jest zbyt wolna, by płynnie obsługiwać Lavaboom. Prosimy o <a href='http://support.lavaboom.com/knowledge_base/topics/what-browsers-should-you-use', target='_blank'>jej zaktualizowanie</a> lub zmianę na najnowsża wersję Google Chrome, Firefox lub Safari."
+    SERVED_BY_TITLE = "Witamy ponownie"
+    SERVED_BY_TEXT = "obsługiwane przez {{servedBy}}"
+    SERVED_BY_UNKNOWN_TITLE = "obsługiwane przez nieznany serwer"
+    SERVED_BY_UNKNOWN_TEXT = "Nie wiadomo jaki serwer obsługuje twoje zapytanie. Prosimy o kontakt z hello@lavaboom.com."
+    NO_KEY_TITLE = "Nie znaleziono klucza prywatnego"
+    NO_KEY_TEXT = "Nie posiadasz odszyfrowanego klucza prywatnego. Sprawdź ustawienia bezpieczeństwa i wczytaj lub odszyfruj klucz."
+    BAD_BROWSER_TITLE = "O holender! Twoja przeglądarka nie obsługuje tej funkcjonalności."
+    BAD_BROWSER_TEXT = "Wystąpił problem z pobieraniem, <a href='http://support.lavaboom.com/knowledge_base/topics/what-browsers-should-you-use', target='_blank'>rozważ skorzystanie z Google Chrome, Firefox lub IE ≥ 10</a>"
+    MOBILE_BROWSER_TITLE = "Proszę skorzystać z komputera"
+    MOBILE_BROWSER_TEXT = "Nasza platforma mobilna jest we wczesnej fazie rozwoju. Prosimy o kontakt w razie zauważenia błędów."
+    BACKUP_WARNING_TEXT = "Jeżeli ten plik otworzył się w przeglądarce, zapisz go w bezpiecznym miejscu."
+
+[USER]
+	LB_SIGNATURE_LN1 = "Wysłane z Lavaboom - Twojego dostawcy szyfrowanej poczty e-mail."
+    LB_SIGNATURE_LN2 = "Zarezerwuj swój własny adres na lavaboom.com"
+
+[GLOBAL]
+	USERNAME = "nazwa użytkownika"
+	CURRENT_EMAIL = "twój obecny adres e-mail"
+	NEXT_STEP = "Dalej"
+	PLC_USERNAME_OR_EMAIL = "nazwa konta lub adres e-mail"
+	PLC_PASSWORD = "hasło"
+	PLC_FIRST_NAME = "Imię"
+	PLC_LAST_NAME = "Nazwisko"
+	PLC_DISPLAY_NAME = "Nazwa wyświetlana"
+	PLC_COMPANY_NAME = "Nazwa firmy"
+	LB_DISPLAY_NAME = "Jest to nazwa, która wyświetli się, gdy będziesz wysyłać wiadomości. Możesz użyć swoich własnych danych lub pseudonimu."
+	PLC_CHOOSE_PASSWORD = "Wybierz hasło"
+	PLC_RETYPE_PASSWORD = "Potwórz hasło"
+	LB_PRIVATE_KEY = "Klucz prywatny"
+    LB_PUBLIC_KEY = "Klucz publiczny"
+    LB_NOT_IMPLEMENTED = "Nie zaimplementowano."
+    BTN_REMOVE_NOTIFICATION = "Ok"
+
+[VALIDATION]
+	LB_REQUIRED = "To pole jest wymagane"
+	LB_MIN = "Zbyt krótkie"
+	LB_EMAIL = "Wpisz poprawny adres e-mail"
+	LB_MATCH = "Oba hasła powinny być identyczne"
+	LB_TOO_MANY_REPEATING_CHARACTERS = "Zbyt wiele powtarzających się znaków"
+	LB_TOO_SIMPLE = "Twoje hasło jest zbyt proste"
+	LB_USERNAME_PATTERN = "Nazwa konta może składać się jedynie ze znaków alfanumerycznych oraz kropek."
+
+[LOADER]
+	LB_INITIALIZATION_FAILED = "Inicjalizacja zakończona niepowodzeniem..."
+	LB_INITIALIZING_I18N = "Wczytywanie tłumaczenia..."
+	LB_INITIALIZING_OPENPGP = "Wczytywanie openpgp.js..."
+	LB_AUTHENTICATING = "Logowanie..."
+	LB_LOADING = "Wczytywanie wiadomości i kontaktów..."
+	LB_DECRYPTING = "Odszyfrowywanie skrzynki odbiorczej..."
+	LB_SUCCESS = "Gotowe!"
+	LB_BYE = "Do zobaczenia ponownie!"
+
+# Generic error messages for Lavaboom REST API
+[LAVABOOM.API.ERROR]
+	UNKNOWN = "Wystąpił nieznany błąd, przepraszamy."
+	DOWN = "Wystąpił problem z serwerem, prosimy spróbować ponownie później."
+	403 = "Dostęp zabroniony."
+
+# Specific error message for Lavaboom REST API
+[LAVABOOM.API.ERROR.ACCOUNTS.UPDATE]
+	403 = "Podano błędne aktualne hasło"
+
+[LAVABOOM.API.ERROR.ACCOUNTS.CREATE.SETUP]
+	403 = "Podano słabe nowe hasło"
