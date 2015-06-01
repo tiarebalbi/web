@@ -11,14 +11,6 @@ div#compose-wrapper
 						li
 							button.btn.btn-default.lava-font(ng-click="toggleToolbar()", tooltip="{{'MAIN.COMPOSE.TOOLTIP_FORMATTING_OPTIONS' | translate}}", tooltip-append-to-body="true")
 								span A
-						li
-							button.btn.btn-default(ng-click="mode = 'wysiwyg'", ng-class="{active : mode == 'wysiwyg'}") wysiwyg
-						li
-							button.btn.btn-default(ng-click="mode = 'text/plain'", ng-class="{active : mode == 'text/plain'}") text/plain
-						li
-							button.btn.btn-default(ng-click="mode = 'text/html'", ng-class="{active : mode == 'text/html'}") text/html
-						li
-							button.btn.btn-default(ng-click="mode = 'markdown'", ng-class="{active : mode == 'markdown'}") markdown
 					ul.nav.navbar-nav.navbar-right(ng-show="selectedTid !== null")
 						li(ng-show="isError")
 							span {{'MAIN.COMPOSE.LB_ERROR' | translate}}
@@ -71,9 +63,7 @@ div#compose-wrapper
 					input#subject.tag-transferable.form-control.text-primary.col-xs-24(type="text", name="subject", autocomplete='off', ng-model="form.subject")
 
 		article#compose-body
-			//text-angular.tag-transferable(ng-show="mode == 'wysiwyg'", name="body", ng-model="form.body", ta-toolbar="toolbar")
 			textarea(froala="froalaOptions", ng-model="form.body")
-			//div.tag-transferable(ng-show="mode != 'wysiwyg'", ui-refresh='mode', ui-codemirror='{onLoad: codeMirrorLoaded}', ui-codemirror-opts="editorOptions", ng-model="form.body")
 		footer
 			#attachments.row
 				div.col-xs-12.col-md-8(ng-repeat="attachment in attachments")

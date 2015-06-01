@@ -11,7 +11,6 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $timeout,
 	];
 	$scope.taggingTokens = 'SPACE|,|/';
 
-	$scope.mode = 'wysiwyg';
 	$scope.froalaOptions = {
 		inlineMode: false
 	};
