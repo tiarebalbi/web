@@ -1,0 +1,114 @@
+[LANG]
+	CODE = "pl"
+	FULL_CODE = "pl_PL"
+
+[LOGIN.SECURE_USERNAME]
+	TITLE = "Zarezerwuj swój adres email!"
+	LNK_INVITE_QUESTION = "Czy posiadasz zaproszenie??"
+#   LB_NEWS = "Wysyłaj aktualności na mój adres Lavaboom." not required.
+	BTN_SECURE = "Zarezerwuj adres"
+
+[LOGIN.SECURED]
+	TITLE = "Dobra robota!"
+	SUB_TITLE = "Wybrany adres e-mail został zarezerwowany."
+	LB_EMAIL_SENT = "Właśnie wysłaliśmy e-maila do"
+	LB_COMPLETE = "Jesteśmy obecnie w fazie zamkniętej bety i stopniowo wysyłamy zaproszenia do zapisanych osób. E-mail który dostaniesz będzie zawierać informację o tym, kiedy otrzymasz zaproszenie."
+	BTN_COMPLETE = "Kontynuuj"
+	#Should we be giving users link to registration box if they aren't going to receive a registration code?
+
+[LOGIN.INVITE]
+	TITLE = "Czy posiadasz już zaproszenie?"
+	BTN_SEND_ME_INVITE = "Nie, wyślij mi zaproszenie"
+	BTN_I_HAVE_INVITE_CODE = "Tak, posiadam kod z zaproszenia"
+
+[LOGIN.VERIFY_INVITE]
+	TITLE = "Zweryfikuj kod"
+	PLC_INVITE_CODE = "proszę o wklejenie kodu zaproszenia"
+	LB_NEWS = "Wysyłaj mi aktualności na mój adres Lavaboom."
+	LB_TOS = "Rejestrując się oznajmiasz, że przeczytałeś i zaakceptowałeś " 
+	LNK_TOS = "Zasady usługi"
+	AND_THE = " oraz "
+	LINK_PRIVACY = "Politykę prywatności"
+
+[LOGIN.PLAN]
+	TITLE = "Twój plan"
+	PLAN1_TITLE = "Beta"
+	PLAN1_OPT1_VALUE = "1 GB"
+	PLAN1_OPT2_VALUE = "Wieloskładnikowe"
+	PLAN1_OPT3_VALUE = "Bezpieczne"
+	PLAN1_OPT4_VALUE = "Dodatkowe"
+	PLAN1_OPT5_VALUE = "Za darmo"
+	PLAN1_OPT1_KEY = "miejsca na bezpieczne przechowywanie"
+	PLAN1_OPT2_KEY = "logowanie"
+	PLAN1_OPT3_KEY = "Kontakty"
+	PLAN1_OPT4_KEY = "500 MB darmowe na zawsze"
+	PLAN1_OPT5_KEY = "na zawsze!"
+	BTN_SELECT = "Wybieram"
+
+[LOGIN.DETAILS]
+	TITLE = "Dane osobowe"
+	SUB_TITLE = "Jesteśmy prawnie zobowiązani by pobrać od Ciebie te dane, lecz nie skorzystamy ani nie zweryfikujemy ich."
+
+[LOGIN.CHOOSE_PASSWORD_INTRO]
+	TITLE = "Wybierz hasło"
+	LB_WARNING_TITLE = "Uwaga"
+	LB_WARNING0 = "Za chwilę wygenerujesz nową parę kluczy dla swojego konta, ale przed tym wybierz swoje hasło"
+	LB_WARNING1 = "Proszę zauważyć, że nie przechowujemy twojego hasła w czystej formie na naszych serwerach. Dzięki temu twoje konto jest bezpieczniejsze, lecz jeżeli zapomnisz swoje hasło, wszystkie twoje dane zostaną utracone."
+	LB_WARNING2 = "Gdy wybierzesz hasło, zapisz je w bezpiecznym miejscu (np. na karce papieru). Bez hasła nie odszyfrujesz swoich kluczy!"
+	BTN_NEXT = "Rozumiem"
+
+[LOGIN.CHOOSE_PASSWORD]
+	TITLE = "Wybierz swoje hasło"
+	LB_WARNING1 = "Sugerujemy długie hasło, posiadające liczby i znaki specjalne. Upewnij się jednak, że będziesz w stanie je zapamiętać."
+	LB_WARNING2 = "Jeżeli utracisz hasło, jedynie będziemy mogli usunąć twoje konto. Kontynuuj jedynie wtedy, gdy zapamiętasz swoje hasło."
+	BTN_NEXT = "Gotowe!"
+	LB_PRIVATE_PC = "Korzystam z prywatnego komputera"
+
+[LOGIN.GENERATE_KEYS]
+	TITLE = "Generowanie pary kluczy"
+	LB_WARNING1 = "Lavaboom szyfruje Twoje dane w Twojej przeglądarce. Aby to umożliwić, musimy umieścić twoje klucze w pamięci prezglądarki."
+	LB_WARNING2 = "Ten klucz jest używany do zaszyfrowania danych. Podziel się nim z twoimi znajomymi, aby umożliwić im wysyłanie do Ciebie zaszyfrowanych wiadomości."
+	LB_WARNING3 = "Ten klucz jest używany do odszyfrowywania danych. Przechowywaj go w bezpiecznym miejscu i nie udostepniaj go nikomu!"
+	BTN_NEXT = "Generuj moje klucze"
+
+[LOGIN.GENERATING_KEYS]
+	LB_GENERATING = "Generowanie twoich kluczy..."
+	LB_UPLOADING = "Wysyłanie klucza publicznego..."
+	LB_READY = "Twoje klucze są gotowe!"
+	LB_REACHED = "Popędzamy chomiki, lecz odmawiają posłuszeństwa! Zmień przeglądarkę lub poczekaj trochę dłużej."
+	LB_ERROR = "Nie można wygenerować kluczy. Upewnij się, że korzystasz z najnowszej wersji Firefoxa, Google Chrome lub Internet Eplorera i spróbuj ponownie."
+	LB_PERFORMANCE_TEST = "Testowanie wydajności..."
+	LB_DO_NOT_CLOSE_REF = "Proszę nie zamykać tego okna"
+	LB_DO_NOT_CLOSE_HAMSTER = "Proszę być cierpliwym, generowanie kluczy może zająć kilka minut..."
+	LB_DO_NOT_CLOSE_TURTLE = "Proszę być cierpliwym, generowanie kluczy może zająć chwilę..."
+
+[LOGIN.BACKUP_KEY]
+	TITLE = "Stwórz kopię zapasowa klucza"
+	INFO1 = "Tworzymy i przechowujemy twoje klucze w pamięci Twojej przeglądarki."
+	INFO2 = "Oznacza to, że jeżeli chciałbyś skorzystać z konta Lavaboom w innej przegląarce lub na innym komputerze, będziesz musiał wczytać klucze swojego konta w nowej przeglądarce."
+	INFO3 = "Jeżeli wyczyścisz pamięć podręczną oraz kopię zapasową kluczy, zostaną one permamentnie utracone i stracisz dostęp do swojego konta."
+	INFO4 = "By temu przeciwdziałać, powinieneś umieścić kopię zapasową w bezpiecznym miejscu."
+	INFO5 = "Będziesz mógł stworzyć taką kopię ustawieniach twojego konta, lub włączyć usługę Lavaboom Sync, która przeniesie odpowiedzialność zarządzania kluczami na nas."
+	INFO6 = "Lavaboom Sync polega na umieszczeniu zaszyfrowanego zbioru kluczy na naszych serwerach. Jeżlie twoje hasło jest dość trudne do odgadnięcia, nie powinno to odbić się na bezpieczeństwie twojego konta."
+	BTN_ENABLE_LB_SYNC = "Włącz Lavaboom Sync"
+	BTN_BACKUP_NOW = "Stwórz nową kopię zapasową"
+	BTN_SKIP = "Pomiń ten krok"
+	LB_PRIVATE_PC = "Korzystam z prywatnego komputera"
+
+[LOGIN.IMPORT_KEY]
+	TITLE = "Wczytaj klucz prwyatny"
+	LB_INFO1 = "Nie mogliśmy odnaleźć Twojego klucza prywatnego w pamięci podręcznej przeglądarki."
+	LB_INFO2 = "Zdarza się to, gdy korzysztasz z naszej usługi po raz pierwszy przy użyciu tej przeglądarki, lub jej pamięć podręczna została wyczyszczona."
+	LB_INFO3 = "Wczytaj kopię zapasową, którą pobrałeś podczas rejestracji w naszej usłudze."
+	BTN_UPLOAD_KEY = "Zaimportuj swój klucz"
+
+[LOGIN.SIGNUP]
+	HEADER = "Witaj w Lavaboom"
+	LOGIN = "Zaloguj się"
+	SIGNUP = "Rejestracja"
+
+[LOGIN.AUTH]
+	BTN_GO_TO_MY_INBOX = "Zaloguj"
+	BTN_NO_ACCOUNT_YET = "Nie posiadasz konta? Zarejestruj się tutaj."
+	LB_KEEP_ME_LOGGED_IN = "Zapamiętaj mnie"
+	LB_PRIVATE_PC = "Korzystam z komputera prywatnego"
