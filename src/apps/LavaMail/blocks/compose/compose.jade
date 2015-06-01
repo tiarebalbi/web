@@ -63,7 +63,7 @@ div#compose-wrapper
 					input#subject.tag-transferable.form-control.text-primary.col-xs-24(type="text", name="subject", autocomplete='off', ng-model="form.subject")
 
 		article#compose-body
-			textarea(froala="froalaOptions", ng-model="form.body")
+			textarea(froala="froalaOptions", ng-model="form.body", froala-event-focus="editorOnFocus")
 		footer
 			#attachments.row
 				div.col-xs-12.col-md-8(ng-repeat="attachment in attachments")

@@ -11,6 +11,12 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $timeout,
 	];
 	$scope.taggingTokens = 'SPACE|,|/';
 
+	$timeout(() => {
+		try {
+			$scope.froalaOptions.froala('focus');
+		} catch (e) {}
+	}, 500);
+
 	$scope.froalaOptions = {
 		inlineMode: false,
 		buttons: [
@@ -18,6 +24,17 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $timeout,
 			'formatBlock', 'blockStyle', 'inlineStyle', 'align', 'insertOrderedList', 'insertUnorderedList', 'outdent', 'indent', 'sep',
 			'createLink', 'insertImage', 'insertVideo', 'table', 'undo', 'redo', 'html', 'removeFormat', 'fullscreen'
 		]
+	};
+
+	window.onresize = function (event) {
+		var maxHeight = window.screen.height,
+			maxWidth = window.screen.width,
+			curHeight = window.innerHeight,
+			curWidth = window.innerWidth;
+
+		if (maxWidth == curWidth && maxHeight == curHeight) {
+			console.log('fullscreen');
+		}
 	};
 
 	$scope.isWarning = false;
