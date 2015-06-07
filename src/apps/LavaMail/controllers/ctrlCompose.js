@@ -46,7 +46,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		LB_ATTACHMENT_STATUS_UPLOADED: '',
 		LB_NO_SUBJECT: ''
 	};
-	$translate.bindAsObject(translations, 'MAIN.COMPOSE');
+	$translate.bindAsObject(translations, 'LAVAMAIL.COMPOSE');
 
 	const processAttachment = (attachmentStatus) => co(function *() {
 		attachmentStatus.status = translations.LB_ATTACHMENT_STATUS_READING;
@@ -315,7 +315,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 				attachmentStatus.attachment.getBodyAsBinaryString(), attachmentStatus.attachment.name, attachmentStatus.attachment.type);
 
 		try {
-			let body = $scope.form.body;
+			let body = composeHelpers.cleanupOutboundEmail($scope.form.body);
 
 			let sendStatus = yield inbox.send({
 				body: body,
@@ -468,7 +468,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 	hotkey.registerCustomHotkeys($scope, [
 		{
 			combo: ['ctrl+enter', 'command+enter'],
-			description: 'HOTKEY.SEND_EMAIL',
+			description: 'LAVAMAIL.HOTKEY.SEND_EMAIL',
 			callback: (event, key) => {
 				event.preventDefault();
 				$scope.send();
