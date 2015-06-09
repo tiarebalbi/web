@@ -4,7 +4,7 @@ module.exports = function ($rootScope, $http, co, utils, consts, router, dialogs
 	self.initialize = () => {
 		co(function *(){
 			while (true) {
-				yield utils.sleep(10000);
+				yield utils.sleep(consts.UPDATE_PULL_INTERVAL);
 
 				if (router.isOpenedDialog())
 					continue;
