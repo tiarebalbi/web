@@ -99,6 +99,12 @@ gulp.task('build:styles', () => {
 		.pipe(pipelines.livereloadPipeline()());
 });
 
+gulp.task('copy:manifest', () =>
+		gulp.src('manifest.json')
+			.pipe(plumber())
+			.pipe(gulp.dest(paths.output))
+);
+
 // Copy images into output folder
 gulp.task('copy:images', () =>
 	gulp.src(paths.img.input)
@@ -150,6 +156,7 @@ gulp.task('serve', cb => {
 let coreAppBundles = {};
 
 const compileSteps = [
+	'copy:manifest',
 	'copy:images',
 	'copy:fonts',
 	'build:styles'
