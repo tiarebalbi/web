@@ -447,5 +447,12 @@
   "LAVAMAIL.LABEL.STARRED": "Starred",
   "LAVAMAIL.LABEL.SPAM": "Spam",
   "LAVAMAIL.LABEL.TRASH": "Trash",
-  "LAVAMAIL.LABEL.DRAFTS": "Drafts"
+  "LAVAMAIL.LABEL.DRAFTS": "Drafts",
+
+  "LAVAMAIL.UPDATE.TITLE": "There is an update available",
+  "LAVAMAIL.UPDATE.LB_DESCRIPTION": "There is something new ready for you, would you like to refresh the page and use the newest version of Lavaboom?",
+  "LAVAMAIL.UPDATE.LB_DESCRIPTION_LOGOUT_REQUIRED": "Warning: in order to perform this update we need to logout you and you will have to re-enter you Lavaboom login and password",
+
+  "LAVAMAIL.UPDATE.BTN_UPDATE": "Update",
+  "LAVAMAIL.UPDATE.BTN_REMIND_LATER": "Remind me later"
 }

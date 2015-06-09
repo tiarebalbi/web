@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - build system: added translation file normalization(same keys as en.json, same keys order, same spacing)
 - more tooltips all around
+- update is available notification(hard refresh + logout if defined in manifest.json)
 
 ### Modified
 - contacts: star works in non-edit mode and triggers auto-save after standard delay

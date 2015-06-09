@@ -42,6 +42,8 @@ module.exports = {
 	KEY_EXPIRY_DAYS: 365 * 30,
 	KEY_EXPIRY_DAYS_WARNING: 10,
 
+	UPDATE_REMIND_AFTER: 60 * 3 * 1000,
+
 	// what, why? because reasons ^^
 	stripBOM: (str) => str.replace(/^\ufeff/g, '')
 };

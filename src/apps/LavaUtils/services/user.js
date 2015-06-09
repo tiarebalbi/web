@@ -239,7 +239,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 		delete sessionStorage['lava-token'];
 	};
 
-	this.logout = () => co(function *(){
+	this.logoutFromMemory = () => {
 		$rootScope.$broadcast('logout');
 
 		self.settings = {};
@@ -250,6 +250,10 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 		LavaboomHttpAPI.setAuthToken('');
 		isAuthenticated = false;
 		token = '';
+	};
+
+	this.logout = () => co(function *(){
+		self.logoutFromMemory();
 
 		yield $state.go('empty');
 

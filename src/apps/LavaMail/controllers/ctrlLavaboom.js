@@ -1,6 +1,6 @@
 module.exports = ($rootScope, $timeout, $scope, $state, $translate, $sanitize,
 							   notifications, tests, utils,
-							   router,
+							   router, update,
 							   LavaboomAPI, co, translate, crypto, user, inbox, contacts, hotkey, loader, timeAgo) => {
 
 	const translations = {
@@ -271,6 +271,9 @@ module.exports = ($rootScope, $timeout, $scope, $state, $translate, $sanitize,
 			$rootScope.isInitialized = true;
 
 			hotkey.initialize(user.settings.isHotkeyEnabled);
+
+			update.initialize();
+
 			return {lbDone: translations.LB_SUCCESS};
 		} catch (error) {
 			throw {message: translations.LB_INITIALIZATION_FAILED, error: error};
