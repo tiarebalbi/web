@@ -450,8 +450,8 @@
   "LAVAMAIL.LABEL.DRAFTS": "Drafts",
 
   "LAVAMAIL.UPDATE.TITLE": "There is an update available",
-  "LAVAMAIL.UPDATE.LB_DESCRIPTION": "There is something new ready for you, would you like to refresh the page and use the newest version of Lavaboom?",
-  "LAVAMAIL.UPDATE.LB_DESCRIPTION_LOGOUT_REQUIRED": "Warning: in order to perform this update we need to logout you and you will have to re-enter you Lavaboom login and password",
+  "LAVAMAIL.UPDATE.LB_DESCRIPTION": "To update to the newest version of Lavaboom click the button below",
+  "LAVAMAIL.UPDATE.LB_DESCRIPTION_LOGOUT_REQUIRED": "Note: In order to perform this upgrade we will need to log you out and you will need to log back in again using your Lavaboom login and password",
 
   "LAVAMAIL.UPDATE.BTN_UPDATE": "Update",
   "LAVAMAIL.UPDATE.BTN_REMIND_LATER": "Remind me later"
