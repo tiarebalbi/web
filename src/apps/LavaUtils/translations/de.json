@@ -237,7 +237,7 @@
   "LAVAMAIL.INBOX.TITLE_CONFIRM": "Bestätigung",
   "LAVAMAIL.INBOX.TITLE_OPENPGP_BLOCK_DECRYPT_ERROR": "Etwas ist schief gelaufen beim dechiffrieren dieses Teiles der Email.",
   "LAVAMAIL.INBOX.TITLE_OPENPGP_BLOCK_DECRYPT_ERROR_NO_KEY_FOUND": "Wir können den Dechiffrierungsschlüssel für diesen Teil der Email nicht finden.",
-  "LAVAMAIL.INBOX.TITLE_REFRESH_INBOX": "Check for new emails",
+  "LAVAMAIL.INBOX.TITLE_REFRESH_INBOX": "Aktualisieren",
 
   "LAVAMAIL.COMPOSE.BTN_CONFIRM": "Senden",
   "LAVAMAIL.COMPOSE.BTN_DELETE": "Löschen",
@@ -316,19 +316,19 @@
   "LAVAMAIL.CONTACTS.PUBLIC_KEY_PROMPT_REQUEST": "Request key",
   "LAVAMAIL.CONTACTS.PUBLIC_KEY_PROMPT_UPLOAD": "Upload key",
   "LAVAMAIL.CONTACTS.TITLE_BUSINESS_EMAIL": "Business Email",
-  "LAVAMAIL.CONTACTS.TITLE_CONFIRM_DELETE": "Confirm deletion",
+  "LAVAMAIL.CONTACTS.TITLE_CONFIRM_DELETE": "Löschen bestätigen",
   "LAVAMAIL.CONTACTS.TITLE_PRIVATE_EMAIL": "Private Email",
 
-  "LAVAMAIL.CONTACTS.LB_IMPORT_CONTACTS": "Import contacts",
-  "LAVAMAIL.CONTACTS.TITLE_IMPORT_CONTACTS": "Import contacts",
-  "LAVAMAIL.CONTACTS.LB_IMPORT_CONTACTS_DETAILS": "You can import your contacts from another email provider",
-  "LAVAMAIL.CONTACTS.LB_IMPORT_CONTACTS_CSV": "Import contacts from csv",
-  "LAVAMAIL.CONTACTS.LB_IMPORT_CONTACTS_VCARD": "Import contacts from vCard",
-  "LAVAMAIL.CONTACTS.LB_IMPORT_OK": "Get back",
+  "LAVAMAIL.CONTACTS.LB_IMPORT_CONTACTS": "Kontakte importieren",
+  "LAVAMAIL.CONTACTS.TITLE_IMPORT_CONTACTS": "Kontakte importieren",
+  "LAVAMAIL.CONTACTS.LB_IMPORT_CONTACTS_DETAILS": "Sie können Ihre Kontakte hier von einem anderen Email Postfach importieren",
+  "LAVAMAIL.CONTACTS.LB_IMPORT_CONTACTS_CSV": "Kontakte von csv importieren",
+  "LAVAMAIL.CONTACTS.LB_IMPORT_CONTACTS_VCARD": "Kontakte von vCard importieren",
+  "LAVAMAIL.CONTACTS.LB_IMPORT_OK": "Zurück",
 
-  "LAVAMAIL.CONTACTS.LB_PROCESSED_FROM": "{{processed}} from {{total}}",
-  "LAVAMAIL.CONTACTS.LB_DUPLICATES": "{{duplicates}} duplicates",
-  "LAVAMAIL.CONTACTS.LB_ERRORS": "{{errors}} errors",
+  "LAVAMAIL.CONTACTS.LB_PROCESSED_FROM": "{{processed}} von {{total}}",
+  "LAVAMAIL.CONTACTS.LB_DUPLICATES": "{{duplicates}} Duplikate",
+  "LAVAMAIL.CONTACTS.LB_ERRORS": "{{errors}} Fehler",
 
   "LAVAMAIL.NAV.LB_COMPOSE": "Schreiben",
   "LAVAMAIL.NAV.LB_CONTACTS": "Kontakte",
@@ -343,11 +343,11 @@
   "LAVAMAIL.SETTINGS.GENERAL.LB_IMAGES_ALL_TITLE": "Ihr Browser wird alle Bilder sofort laden, egal ob es sich um eine sichere https oder eine normale http Verbindung handelt",
   "LAVAMAIL.SETTINGS.GENERAL.LB_IMAGES_HTTPS": "Lade nur https Bilder direkt",
   "LAVAMAIL.SETTINGS.GENERAL.LB_IMAGES_HTTPS_TITLE": "Ihr Browser wird alle Bilder sofort laden, nur wenn es sich um eine sichere https Verbindung handelt",
-  "LAVAMAIL.SETTINGS.GENERAL.LB_IMAGES_NONE": "none",
+  "LAVAMAIL.SETTINGS.GENERAL.LB_IMAGES_NONE": "Keine",
   "LAVAMAIL.SETTINGS.GENERAL.LB_IMAGES_NONE_TITLE": "Blockiere alle externen Bilder, die sicherste Option",
-  "LAVAMAIL.SETTINGS.GENERAL.LB_IMAGES_PROXY": "Nutze RitRat, den Lavaboom Proxy Server um Bilder zu laden",
+  "LAVAMAIL.SETTINGS.GENERAL.LB_IMAGES_PROXY": "Nutze den Lavaboom Proxy Server",
   "LAVAMAIL.SETTINGS.GENERAL.LB_IMAGES_PROXY_TITLE": "Ihr Browser wird alle Bilder durch den Lavaboom Proxyserver laden, effektiv wird Ihre Identität durch Lavaboom geschützt",
-  "LAVAMAIL.SETTINGS.GENERAL.LB_KEYBOARD_SHORTCUTS": "AKtiviert",
+  "LAVAMAIL.SETTINGS.GENERAL.LB_KEYBOARD_SHORTCUTS": "Aktiviert",
   "LAVAMAIL.SETTINGS.GENERAL.LB_LANGUAGE": "Sprache",
   "LAVAMAIL.SETTINGS.GENERAL.LB_MARKED_AS_SPAM": "Markiert als Spam",
   "LAVAMAIL.SETTINGS.GENERAL.LB_SECURED_IMAGES": "Externe Bilder",
@@ -454,5 +454,5 @@
   "LAVAMAIL.UPDATE.LB_DESCRIPTION_LOGOUT_REQUIRED": "Warning: in order to perform this update we need to logout you and you will have to re-enter you Lavaboom login and password",
 
   "LAVAMAIL.UPDATE.BTN_UPDATE": "Update",
-  "LAVAMAIL.UPDATE.BTN_REMIND_LATER": "Remember me later"
+  "LAVAMAIL.UPDATE.BTN_REMIND_LATER": "Remind me later"
 }
