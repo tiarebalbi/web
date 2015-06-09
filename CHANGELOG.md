@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - update notification
 
-###Modified
+### Modified
 - german language
 
 ## 0.4.4 - 2015-06-09

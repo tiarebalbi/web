@@ -1,10 +1,13 @@
-module.exports = function ($rootScope, $http, co, utils, consts, dialogs, user) {
+module.exports = function ($rootScope, $http, co, utils, consts, router, dialogs, user) {
 	const self = this;
 
 	self.initialize = () => {
 		co(function *(){
 			while (true) {
 				yield utils.sleep(10000);
+
+				if (router.isOpenedDialog())
+					continue;
 
 				let manifest = null;
 				try {
