@@ -292,6 +292,7 @@
   "LAVAMAIL.CONTACTS.LB_CONTACT_CANNOT_BE_DELETED": "Kontakt kann nicht gelöscht werden",
   "LAVAMAIL.CONTACTS.LB_CONTACT_CANNOT_BE_SAVED": "Speichern derzeit nicht möglich",
   "LAVAMAIL.CONTACTS.LB_CONTACT_CANNOT_BE_SAVED_DUPLICATE": "Contact cannot be saved because it contains duplicate emails",
+
   "LAVAMAIL.CONTACTS.LB_CONTACT_DELETED": "Kontakt gelöscht",
   "LAVAMAIL.CONTACTS.LB_CONTACT_NAME": "Name",
   "LAVAMAIL.CONTACTS.LB_CONTACT_SAVED": "Kontakt gespeichert",
@@ -410,6 +411,7 @@
   "LAVAMAIL.SETTINGS.SECURITY.LB_CANNOT_IMPORT_NO_PRIVATE_KEYS_FOUND": "Kein privater Schlüssel gefunden im Backup",
   "LAVAMAIL.SETTINGS.SECURITY.LB_CANNOT_IMPORT_UNEXPECTED_KEY_TYPE_FOUND": "Kann nicht importieren, falsches Format",
   "LAVAMAIL.SETTINGS.SECURITY.LB_CANNOT_IMPORT_WRONG_FORMAT": "Kann nicht importieren, json oder verschlüsselter Schlüssel erwartet",
+  "LAVAMAIL.SETTINGS.SECURITY.LB_CANNOT_IMPORT_LS_ERROR": "Cannot import keys - Lavaboom sync update error, try again",
   "LAVAMAIL.SETTINGS.SECURITY.LB_CONFIRM_KEYS_REMOVAL": "Möchten Sie alle dechiffrierten Schlüssel entfernen?",
   "LAVAMAIL.SETTINGS.SECURITY.LB_CONFIRM_LS_DISABLE": "Möchten sie wirklich Lavaboom Sync ausschalten?",
   "LAVAMAIL.SETTINGS.SECURITY.LB_CONFIRM_LS_DISABLE_NO": "Nein",

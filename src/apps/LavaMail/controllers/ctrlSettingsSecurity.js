@@ -24,6 +24,7 @@ module.exports = ($scope, $timeout, $translate, $state,
 		LB_CANNOT_IMPORT_CORRUPTED: '',
 		LB_CANNOT_IMPORT_NO_PRIVATE_KEYS_FOUND: '',
 		LB_CANNOT_IMPORT_UNEXPECTED_KEY_TYPE_FOUND: '',
+		LB_CANNOT_IMPORT_LS_ERROR: '',
 		LB_IMPORTED: '%'
 	};
 	$translate.bindAsObject(translations, 'LAVAMAIL.SETTINGS.SECURITY');
@@ -105,41 +106,47 @@ module.exports = ($scope, $timeout, $translate, $state,
 	};
 
 	$scope.importKeys = (data) => {
-		try {
-			let c = cryptoKeys.importKeys(data);
+		co(function *(){
+			try {
+				let c = cryptoKeys.importKeys(data);
 
-			if (c < 1) {
+				if (c < 1) {
+					notifications.set('import-keys', {
+						text: translations.LB_CANNOT_IMPORT_NO_PRIVATE_KEYS_FOUND,
+						type: 'warning',
+						namespace: 'settings',
+						kind: 'crypto'
+					});
+				} else {
+					if ($scope.settings.isLavaboomSynced) {
+						$scope.settings.keyring = cryptoKeys.exportKeys(user.email);
+
+						try {
+							yield user.update($scope.settings);
+						} catch (err) {
+							throw new Error('LS_ERROR');
+						}
+					}
+
+					notifications.set('import-keys', {
+						text: translations.LB_IMPORTED({count: c}),
+						namespace: 'settings',
+						kind: 'crypto'
+					});
+				}
+			} catch (err) {
+				console.log('cannot import', err.message);
+				const translatedErrorMessage = translations['LB_CANNOT_IMPORT_' + err.message];
+
 				notifications.set('import-keys', {
-					text: translations.LB_CANNOT_IMPORT_NO_PRIVATE_KEYS_FOUND,
+					text: translatedErrorMessage ? translatedErrorMessage : translations.LB_CANNOT_IMPORT,
 					type: 'warning',
 					namespace: 'settings',
 					kind: 'crypto'
 				});
-			} else {
-				notifications.set('import-keys', {
-					text: translations.LB_IMPORTED({count: c}),
-					namespace: 'settings',
-					kind: 'crypto'
-				});
-
-				if ($scope.settings.isLavaboomSynced) {
-					let keysBackup = cryptoKeys.exportKeys(user.email);
-					$scope.settings.keyring = keysBackup;
-					user.update($scope.settings);
-				}
 			}
-		} catch (err) {
-			console.log('cannot import', err.message);
-			const translatedErrorMessage = translations['LB_CANNOT_IMPORT_' + err.message];
-
-			notifications.set('import-keys', {
-				text: translatedErrorMessage ? translatedErrorMessage : translations.LB_CANNOT_IMPORT,
-				type: 'warning',
-				namespace: 'settings',
-				kind: 'crypto'
-			});
-		}
-		inbox.invalidateEmailCache();
+			inbox.invalidateEmailCache();
+		});
 	};
 
 	let updateTimeout = null;
