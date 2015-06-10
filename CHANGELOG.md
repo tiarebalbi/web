@@ -8,7 +8,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Modified
 - german language
-- hidden contacts now create unnamed contact - they can be edited and removed same as any other contact
+- contacts: hidden contacts now create unnamed contact - they can be edited and removed same as any other contact
+- contacts: saving contacts with duplicate emails results in a warning
+
+### Fixed
+- use N-1 web-threads for crypto as UI may become unresponsive on heavy tasks
 
 ## 0.4.4 - 2015-06-09
 ### Added
