@@ -291,6 +291,7 @@
   "LAVAMAIL.CONTACTS.LB_CONFIRM": "Do you really want to delete '{{name}}' contact?",
   "LAVAMAIL.CONTACTS.LB_CONTACT_CANNOT_BE_DELETED": "Contact cannot be deleted",
   "LAVAMAIL.CONTACTS.LB_CONTACT_CANNOT_BE_SAVED": "Contact cannot be saved",
+  "LAVAMAIL.CONTACTS.LB_CONTACT_CANNOT_BE_SAVED_DUPLICATE": "Contact cannot be saved because it contains duplicate emails",
   "LAVAMAIL.CONTACTS.LB_CONTACT_DELETED": "Contact deleted",
   "LAVAMAIL.CONTACTS.LB_CONTACT_NAME": "Contact name",
   "LAVAMAIL.CONTACTS.LB_CONTACT_SAVED": "Contact saved",
