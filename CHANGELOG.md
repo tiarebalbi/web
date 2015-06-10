@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - use N-1 web-threads for crypto as UI may become unresponsive on heavy tasks
 - up/down hotkey removed from settings/* as it may interfere with scrolling(which is more important operation here)
 - reply-to shortcut
+- pgp/inline should be handled properly now
 
 ## 0.4.4 - 2015-06-09
 ### Added

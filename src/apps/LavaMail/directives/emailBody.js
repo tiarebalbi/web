@@ -2,7 +2,6 @@ module.exports = ($translate, $timeout, $state, $compile, $sanitize, $templateCa
 							   co, user, consts, utils, crypto, notifications) => {
 	const emailRegex = /([-A-Z0-9_.]*[A-Z0-9]@[-A-Z0-9_.]*[A-Z0-9])/ig;
 	const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-	const pgpRegex = /(-----BEGIN PGP MESSAGE-----[^-]+-----END PGP MESSAGE-----)/ig;
 
 	const translations = {
 		TITLE_OPENPGP_BLOCK_DECRYPT_ERROR_NO_KEY_FOUND: '',
@@ -23,8 +22,18 @@ module.exports = ($translate, $timeout, $state, $compile, $sanitize, $templateCa
 					continue;
 
 				let newData = node.data;
-				for (let t of transforms)
-					newData = newData.replace(t.regex, t.replace);
+				for (let t of transforms) {
+					if (t.begin && t.end) {
+						let beginIndex = newData.indexOf(t.begin);
+						let endIndex = newData.indexOf(t.end);
+						if (beginIndex > -1 && endIndex > beginIndex)
+							newData = newData.substr(0, beginIndex)
+								+ t.replace(newData, newData.substring(beginIndex, endIndex + t.end.length))
+								+ newData.substr(endIndex + t.end.length);
+					} else {
+						newData = newData.replace(t.regex, t.replace);
+					}
+				}
 
 				if (newData && newData != node.data) {
 					const newDataDOM = utils.getDOM(newData);
@@ -84,6 +93,7 @@ module.exports = ($translate, $timeout, $state, $compile, $sanitize, $templateCa
 					return `<pre title='${translations.TITLE_OPENPGP_BLOCK_DECRYPT_ERROR}'>${pgpMessage}</pre>`;
 				}
 			});
+
 			return pgpMessage;
 		};
 
@@ -95,13 +105,13 @@ module.exports = ($translate, $timeout, $state, $compile, $sanitize, $templateCa
 		};
 
 		transformCustomTextNodes(dom, [
-			{regex: pgpRegex, replace: pgpRemember}
+			{begin: '-----BEGIN PGP MESSAGE-----', end: '-----END PGP MESSAGE-----', replace: pgpRemember}
 		]);
 
 		pgpMessages = yield pgpMessages;
 
 		transformCustomTextNodes(dom, [
-			{regex: pgpRegex, replace: pgpReplace}
+			{begin: '-----BEGIN PGP MESSAGE-----', end: '-----END PGP MESSAGE-----', replace: pgpReplace}
 		]);
 
 		transformCustomTextNodes(dom, [
