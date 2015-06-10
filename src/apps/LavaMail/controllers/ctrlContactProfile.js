@@ -1,9 +1,10 @@
 module.exports = ($rootScope, $scope, $translate, $state, $stateParams, utils,
 							   dialogs, co, contacts, notifications, ContactEmail) => {
 	$scope.contactId = $stateParams.contactId;
-	const email = $stateParams.email;
-
 	$scope.isEditMode = $scope.contactId == 'new';
+
+	const email = $stateParams.email;
+	let originalContact = null;
 
 	const translations = {
 		LB_NEW_CONTACT: '',
@@ -54,8 +55,6 @@ module.exports = ($rootScope, $scope, $translate, $state, $stateParams, utils,
 		$scope.details.businessEmails.push(e);
 	};
 
-	let originalContact = null;
-
 	$scope.openEditMode = () => {
 		originalContact = angular.copy($scope.details);
 		$scope.isEditMode = true;
@@ -70,8 +69,6 @@ module.exports = ($rootScope, $scope, $translate, $state, $stateParams, utils,
 		try {
 			let allEmails = $scope.details.privateEmails.concat($scope.details.businessEmails);
 			let uniqEmails = utils.uniq(allEmails, e => e.email);
-
-			console.log(allEmails, uniqEmails);
 
 			if (uniqEmails.length != allEmails.length) {
 				notifications.set('contact-save-fail', {
