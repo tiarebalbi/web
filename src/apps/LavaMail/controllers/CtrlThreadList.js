@@ -133,13 +133,12 @@ module.exports = ($rootScope, $scope, $state, $timeout, $interval, $translate,
 
 	$scope.replyThread = (event, tid) => {
 		let thread = $scope.threads[tid];
-		console.log(thread);
+
 		if (thread)
 			$scope.showPopup('compose', {replyThreadId: tid, replyEmailId: thread.emails[thread.emails.length - 1]});
 	};
 
 	$scope.deleteThread = (tid) => {
-		console.log('deleteThread', tid, $scope.threads[tid]);
 		inbox.requestDelete($scope.threads[tid]);
 	};
 
