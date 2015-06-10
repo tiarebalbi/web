@@ -181,7 +181,7 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, CryptoKe
 		localStorage['lava-crypto-options'] = JSON.stringify(self.options);
 
 		if (!isInitialized) {
-			const threadsCount = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : consts.CRYPTO_DEFAULT_THREAD_POOL_SIZE;
+			const threadsCount = navigator.hardwareConcurrency ? navigator.hardwareConcurrency - 1 : consts.CRYPTO_DEFAULT_THREAD_POOL_SIZE;
 
 			console.log('Initialize openpgp in multi-threading mode, workers count: ', threadsCount);
 			openpgp.initWorker('/js/vendor/LavaUtils/openpgp.worker.js', {threadsCount: threadsCount});
