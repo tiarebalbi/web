@@ -121,6 +121,12 @@ module.exports = ($scope, $timeout, $translate, $state,
 					namespace: 'settings',
 					kind: 'crypto'
 				});
+
+				if ($scope.settings.isLavaboomSynced) {
+					let keysBackup = cryptoKeys.exportKeys(user.email);
+					$scope.settings.keyring = keysBackup;
+					user.update($scope.settings);
+				}
 			}
 		} catch (err) {
 			console.log('cannot import', err.message);

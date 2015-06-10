@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - up/down hotkey removed from settings/* as it may interfere with scrolling(which is more important operation here)
 - reply-to shortcut
 - pgp/inline should be handled properly now
+- import keys should update synced copy when Lavaboom sync is enabled
 
 ## 0.4.4 - 2015-06-09
 ### Added
