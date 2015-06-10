@@ -24,12 +24,9 @@ module.exports = ($translate, $timeout, $state, $compile, $sanitize, $templateCa
 				let newData = node.data;
 				for (let t of transforms) {
 					if (t.begin && t.end) {
-						let beginIndex = newData.indexOf(t.begin);
-						let endIndex = newData.indexOf(t.end);
-						if (beginIndex > -1 && endIndex > beginIndex)
-							newData = newData.substr(0, beginIndex)
-								+ t.replace(newData, newData.substring(beginIndex, endIndex + t.end.length))
-								+ newData.substr(endIndex + t.end.length);
+						let chunk = utils.findChunkEnclosedWith(newData, t.begin, t.end);
+						if (chunk)
+							newData = newData.replace(chunk, () => t.replace(newData, chunk));
 					} else {
 						newData = newData.replace(t.regex, t.replace);
 					}
