@@ -90,15 +90,6 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 			let people = [...contacts.people.values()];
 			let map = new Map();
 
-			const addHiddenEmails = (checkEmail) => {
-				people.reduce((a, c) => {
-					if (c.hiddenEmail && c.hiddenEmail.email && checkEmail(c.hiddenEmail))
-						a.set(c.hiddenEmail.email, c.hiddenEmail);
-
-					return a;
-				}, map);
-			};
-
 			const addEmails = (checkEmail) => {
 				people.reduce((a, c) => {
 					c.privateEmails.forEach(e => {
@@ -118,9 +109,6 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 			addEmails(e => e.isSecured() && !e.isStar);
 			addEmails(e => !e.isSecured() && e.isStar);
 			addEmails(e => !e.isSecured() && !e.isStar);
-
-			addHiddenEmails(e => e.isSecured());
-			addHiddenEmails(e => !e.isSecured());
 
 			if (toEmailContact)
 				map.set(toEmailContact.email, toEmailContact);
@@ -356,9 +344,9 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 			yield manifest.getDestinationEmails()
 				.filter(email => !contacts.getContactByEmail(email))
 				.map(email => {
-					let contact = new Contact({name: '$hidden'});
-					contact.hiddenEmail = hiddenContacts[email];
-					return contacts.createContact(contact);
+					return contacts.createContact(new Contact({
+						privateEmails: [hiddenContacts[email]]
+					}));
 				});
 
 			manifest = null;
@@ -439,14 +427,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		if (contacts.getContactByEmail(email))
 			return null;
 
-		newHiddenContact = new ContactEmail(null, {
-			isTag: true,
-			tag: newTag,
-			name,
-			email,
-			isNew: true
-		}, 'hidden');
-
+		newHiddenContact = ContactEmail.newHiddenEmail(email, name, newTag);
 		newHiddenContact.loadKey();
 
 		hiddenContacts[newHiddenContact.email] = newHiddenContact;

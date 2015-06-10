@@ -3,7 +3,6 @@ module.exports = ($rootScope, $translate, $timeout, $injector, co, consts, crypt
 		LB_NEW : '',
 		LB_PRIVATE : '',
 		LB_BUSINESS : '',
-		LB_HIDDEN : '',
 		LB_EMAIL_NOT_FOUND : 'MAIN.CONTACTS'
 	};
 
@@ -43,8 +42,7 @@ module.exports = ($rootScope, $translate, $timeout, $injector, co, consts, crypt
 
 		label = {
 			'private': translations.LB_PRIVATE,
-			'business': translations.LB_BUSINESS,
-			'hidden': (opts.isNew ? `${translations.LB_NEW} ` : '') + translations.LB_HIDDEN
+			'business': translations.LB_BUSINESS
 		}[kind];
 		if (!label)
 			throw new Error('Invalid contact email kind "' + kind + '"!');
@@ -66,7 +64,6 @@ module.exports = ($rootScope, $translate, $timeout, $injector, co, consts, crypt
 		this.getFirstName = () => contact ? contact.firstName : '';
 		this.getLastName = () => contact ? contact.lastName : '';
 		this.getDisplayName = () => contact ? contact.getFullName() : '';
-		this.isHidden = () => kind == 'hidden';
 		this.isNew = () => !!opts.isNew;
 		this.getLabel = () => label;
 		this.getTooltip = () => tooltip;
@@ -144,11 +141,13 @@ module.exports = ($rootScope, $translate, $timeout, $injector, co, consts, crypt
 		};
 	}
 
-	ContactEmail.newHiddenEmail = email => new ContactEmail(null, {
-		name: 'hidden',
+	ContactEmail.newHiddenEmail = (email, name, tag)=> new ContactEmail(null, {
+		isTag: !!tag,
+		tag: tag,
+		name: name ? name : '',
 		email,
 		isNew: true
-	}, 'hidden');
+	}, 'private');
 
 	ContactEmail.transform = email => {
 		let contacts = $injector.get('contacts');

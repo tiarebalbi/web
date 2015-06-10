@@ -64,7 +64,9 @@ module.exports = ($rootScope, $scope, $translate, $state, $stateParams, dialogs,
 	$scope.$bind('contacts-changed', () => {
 		let oldContactPosition = $scope.selectedContactId !== null ? findContact($scope.selectedContactId) : null;
 
-		const list = [...contacts.people.values()].filter(c => !c.isHidden());
+		//[...contacts.people.values()].map(c => contacts.deleteContact(c.id));
+
+		const list = [...contacts.people.values()];
 		$scope.contacts = contacts.people;
 
 		const group = (map, letter, item) => {

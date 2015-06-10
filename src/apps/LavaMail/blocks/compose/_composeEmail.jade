@@ -22,14 +22,14 @@
 			span(ng-show="personEmail && personEmail.isError && !personEmail.isNotFoundError") &#60;{{personEmail.email}}&#62; {{'LAVAMAIL.COMPOSE.LB_ERROR_UNKNOWN' | translate}}
 
 			div.item(ng-if="personEmail && !personEmail.isError && personEmail.isTag")
-				span(ng-show="!personEmail.isHidden()") {{personEmail.getDisplayName()}}
+				span {{personEmail.getDisplayName()}}
 				span.icon-star(ng-show="personEmail.isStar")
 				span {{personEmail.email}}
 				img.inverted.loading(src="/img/loader.svg", ng-show="personEmail.isLoadingKey()")
 				span(class="icon-lock {{personEmail.getSecureClass()}}", ng-show="!personEmail.isLoadingKey()")
 
 			div.item(ng-if="personEmail && !personEmail.isError && !personEmail.isTag")
-				span(ng-show="!personEmail.isHidden()", ng-bind-html="personEmail.getDisplayName() | highlight: $select.search")
+				span(ng-bind-html="personEmail.getDisplayName() | highlight: $select.search")
 				span.icon-star(ng-show="personEmail.isStar")
 				span.muted(ng-bind-html="personEmail.email | highlight: $select.search")
 				span(class="icon-lock {{personEmail.getSecureClass()}}")
