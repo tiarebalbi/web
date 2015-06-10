@@ -64,6 +64,10 @@ module.exports = ($rootScope, $timeout, $scope, $state, $translate, $sanitize,
 				YEARS: ''
 			};
 
+			function isValidTimeAgoTranslation(t) {
+				return t && !t.startsWith('DATES.TIMEAGO.');
+			}
+
 			yield $translate.bindAsObject(datesTranslations, 'DATES.TIMEAGO', null, () => {
 				const fullLangCode = $translate.instant('LANG.FULL_CODE');
 				const settings = timeAgo.settings.strings[fullLangCode];
@@ -71,35 +75,35 @@ module.exports = ($rootScope, $timeout, $scope, $state, $translate, $sanitize,
 				for (let k of Object.keys(datesTranslations))
 					datesTranslations[k] = datesTranslations[k].trim();
 
-				if (datesTranslations.PREFIX_AGO)
+				if (isValidTimeAgoTranslation(datesTranslations.PREFIX_AGO))
 					settings.prefixAgo = datesTranslations.PREFIX_AGO;
-				if (datesTranslations.PREFIX_FROM_NOW)
+				if (isValidTimeAgoTranslation(datesTranslations.PREFIX_FROM_NOW))
 					settings.prefixFromNow = datesTranslations.PREFIX_FROM_NOW;
-				if (datesTranslations.SUFFIX_AGO)
+				if (isValidTimeAgoTranslation(datesTranslations.SUFFIX_AGO))
 					settings.suffixAgo = datesTranslations.SUFFIX_AGO;
-				if (datesTranslations.SUFFIX_FROM_NOW)
+				if (isValidTimeAgoTranslation(datesTranslations.SUFFIX_FROM_NOW))
 					settings.suffixFromNow = datesTranslations.SUFFIX_FROM_NOW;
-				if (datesTranslations.SECONDS)
+				if (isValidTimeAgoTranslation(datesTranslations.SECONDS))
 					settings.seconds = datesTranslations.SECONDS;
-				if (datesTranslations.MINUTE)
+				if (isValidTimeAgoTranslation(datesTranslations.MINUTE))
 					settings.minute = datesTranslations.MINUTE;
-				if (datesTranslations.MINUTES)
+				if (isValidTimeAgoTranslation(datesTranslations.MINUTES))
 					settings.minutes = datesTranslations.MINUTES;
-				if (datesTranslations.HOUR)
+				if (isValidTimeAgoTranslation(datesTranslations.HOUR))
 					settings.hour = datesTranslations.HOUR;
-				if (datesTranslations.HOURS)
+				if (isValidTimeAgoTranslation(datesTranslations.HOURS))
 					settings.hours = datesTranslations.HOURS;
-				if (datesTranslations.DAY)
+				if (isValidTimeAgoTranslation(datesTranslations.DAY))
 					settings.day = datesTranslations.DAY;
-				if (datesTranslations.DAYS)
+				if (isValidTimeAgoTranslation(datesTranslations.DAYS))
 					settings.days = datesTranslations.DAYS;
-				if (datesTranslations.MONTH)
+				if (isValidTimeAgoTranslation(datesTranslations.MONTH))
 					settings.month = datesTranslations.MONTH;
-				if (datesTranslations.MONTHS)
+				if (isValidTimeAgoTranslation(datesTranslations.MONTHS))
 					settings.months = datesTranslations.MONTHS;
-				if (datesTranslations.YEAR)
+				if (isValidTimeAgoTranslation(datesTranslations.YEAR))
 					settings.year = datesTranslations.YEAR;
-				if (datesTranslations.YEARS)
+				if (isValidTimeAgoTranslation(datesTranslations.YEARS))
 					settings.years = datesTranslations.YEARS;
 			});
 		});
