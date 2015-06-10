@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.4.6 - 2015-06-10
+### Fixed
+- fixed initialization failed caused by migration issue from old contacts format
+- fixed wrong time titles display caused by timeAgo i18n issue
+
 ## 0.4.5 - 2015-06-10
 ### Added
 - update notification

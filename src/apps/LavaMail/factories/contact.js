@@ -17,7 +17,9 @@ module.exports = ($translate, co, user, crypto, ContactEmail) => {
 		this.businessEmails = this.businessEmails ? this.businessEmails.map(e => new ContactEmail(this, e, 'business')) : [];
 
 		// todo: migration script
-		this.hiddenEmail = this.hiddenEmail ? new ContactEmail(this, this.hiddenEmail, 'hidden') : null;
+		if (this.name == '$hidden')
+			this.name = '';
+		this.hiddenEmail = this.hiddenEmail ? new ContactEmail(this, this.hiddenEmail, 'private') : null;
 		if (this.hiddenEmail)
 			this.privateEmails.push(this.hiddenEmail);
 		//
