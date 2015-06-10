@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-##UNRELEASED
+## 0.4.5 - 2015-06-10
 ### Added
 - update notification
 - support for mixed public-private .asc key-pairs
@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - german language
 - contacts: hidden contacts now create unnamed contact - they can be edited and removed same as any other contact
 - contacts: saving contacts with duplicate emails results in a warning
+- better error handling for keys import and Lavaboom sync update
 
 ### Fixed
 - use N-1 web-threads for crypto as UI may become unresponsive on heavy tasks
