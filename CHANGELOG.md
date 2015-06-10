@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ##UNRELEASED
 ### Added
 - update notification
+- support for mixed public-private .asc key-pairs
 
 ### Modified
 - german language

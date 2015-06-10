@@ -15,20 +15,31 @@ module.exports = function ($q, $rootScope, $filter, $translate, co, crypto, cons
 		try {
 			importObj = JSON.parse(jsonBackup);
 		} catch (error) {
-			let keyring = openpgp.key.readArmored(jsonBackup);
+			let publicArmoredKey = utils.findChunkEnclosedWith(jsonBackup, '-----BEGIN PGP PUBLIC KEY BLOCK-----', '-----END PGP PUBLIC KEY BLOCK-----');
+			let privateArmoredKey = utils.findChunkEnclosedWith(jsonBackup, '-----BEGIN PGP PRIVATE KEY BLOCK-----', '-----END PGP PRIVATE KEY BLOCK-----');
 
-			if (keyring.err && keyring.err.length > 0)
-				throw new Error('WRONG_FORMAT');
+			function processKeyring(armored) {
+				if (!armored)
+					return;
 
-			for (let key of keyring.keys) {
-				if (key.primaryKey.tag == 5)
-					privateKeys.push(key);
-				else
-				if (key.primaryKey.tag == 6)
-					publicKeys.push(key);
-				else
-					throw new Error('UNEXPECTED_KEY_TYPE_FOUND');
+				let keyring = openpgp.key.readArmored(armored);
+
+				if (keyring.err && keyring.err.length > 0)
+					throw new Error('WRONG_FORMAT');
+
+				for (let key of keyring.keys) {
+					if (key.primaryKey.tag == 5)
+						privateKeys.push(key);
+					else
+					if (key.primaryKey.tag == 6)
+						publicKeys.push(key);
+					else
+						throw new Error('UNEXPECTED_KEY_TYPE_FOUND');
+				}
 			}
+
+			processKeyring(publicArmoredKey);
+			processKeyring(privateArmoredKey);
 
 			return {
 				prv: privateKeys,

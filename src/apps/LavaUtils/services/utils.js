@@ -158,6 +158,18 @@ module.exports = function($injector, $rootScope, $templateCache, co, consts) {
 		return a.name;
 	};
 
+	this.findChunkEnclosedWith = (str, begin, end) => {
+		if (!str || !begin || !end)
+			return '';
+
+		let beginIndex = str.indexOf(begin);
+		let endIndex = str.indexOf(end);
+		if (beginIndex > -1 && endIndex > beginIndex)
+			return str.substring(beginIndex, endIndex + end.length);
+
+		return '';
+	};
+
 	this.cmpSemver =  (a, b) => {
 		var pa = a.split('.');
 		var pb = b.split('.');
