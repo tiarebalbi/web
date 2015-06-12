@@ -13,7 +13,7 @@ RUN rm /etc/nginx/sites-enabled/default
 COPY ./website.conf /etc/nginx/sites-enabled/default
 
 COPY . /tmp/build
-RUN . /root/.nvm/nvm.sh && nvm use 0.12 && cd /tmp/build && npm install && gulp production
+RUN . /root/.nvm/nvm.sh && nvm use 0.12 && cd /tmp/build && npm install && ./prepare-env.sh && gulp production
 RUN rm -f /var/www && mv /tmp/build/dist /var/www
 
 CMD ["nginx", "-g", "daemon off;"]
