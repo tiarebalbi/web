@@ -2,6 +2,8 @@ FROM ubuntu:trusty
 
 MAINTAINER Piotr Zduniak <piotr@zduniak.net>
 
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
 RUN apt-get update && apt-get upgrade -y && apt-get install -y nginx curl
 RUN apt-get install -y git
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | bash
