@@ -13,25 +13,20 @@ module.exports = ($translate, co, user, crypto, ContactEmail) => {
 		if (this.isNew)
 			this.isDecrypted = true;
 
+		this.hiddenEmail = this.hiddenEmail ? new ContactEmail(this, this.hiddenEmail, 'hidden') : null;
 		this.privateEmails = this.privateEmails ? this.privateEmails.map(e => new ContactEmail(this, e, 'private')) : [];
 		this.businessEmails = this.businessEmails ? this.businessEmails.map(e => new ContactEmail(this, e, 'business')) : [];
-
-		// todo: migration script
-		if (this.name == '$hidden')
-			this.name = '';
-		this.hiddenEmail = this.hiddenEmail ? new ContactEmail(this, this.hiddenEmail, 'private') : null;
-		if (this.hiddenEmail)
-			this.privateEmails.push(this.hiddenEmail);
-		//
 
 		this.isCustomName = () => self.firstName && self.lastName && self.name != `${self.firstName.trim()} ${self.lastName.trim()}`;
 
 		this.getFullName = () => {
-			const fullName = self.isCustomName() ? self.name + ` (${self.firstName.trim()} ${self.lastName.trim()})` : self.name;
+			const fullName = self.isCustomName() ? self.name + ` (${self.firstName.trim()} ${self.lastName.trim()})` :
+				(self.isHidden() ? '' + self.hiddenEmail.email : self.name);
 			return fullName ? fullName : translations.LB_UNNAMED_CONTACT;
 		};
 
 		this.isMatchEmail = (email) =>
+			(self.hiddenEmail && self.hiddenEmail.email == email) ||
 			(self.privateEmails && self.privateEmails.some(e => e.email == email)) ||
 			(self.businessEmails && self.businessEmails.some(e => e.email == email));
 
@@ -56,7 +51,12 @@ module.exports = ($translate, co, user, crypto, ContactEmail) => {
 			});
 		};
 
+		this.isHidden = () => !!self.hiddenEmail || self.name == '$hidden';
+
 		this.isStar = () => {
+			if (self.hiddenEmail && self.hiddenEmail.isStar)
+				return true;
+
 			if (self.privateEmails)
 				if (self.privateEmails.some(e => e.isStar))
 					return true;
@@ -69,6 +69,9 @@ module.exports = ($translate, co, user, crypto, ContactEmail) => {
 		};
 
 		this.isSecured = () => {
+			if (self.hiddenEmail && self.hiddenEmail.isSecured())
+				return true;
+
 			if (self.privateEmails)
 				if (self.privateEmails.some(e => e.isSecured()))
 					return true;
@@ -81,6 +84,9 @@ module.exports = ($translate, co, user, crypto, ContactEmail) => {
 		};
 
 		this.getEmail = (email) => {
+			if (self.hiddenEmail && self.hiddenEmail.email == email)
+				return self.hiddenEmail;
+
 			if (self.privateEmails) {
 				let e = self.privateEmails.find(e => e.email == email);
 				if (e)
@@ -122,7 +128,7 @@ module.exports = ($translate, co, user, crypto, ContactEmail) => {
 			data: data,
 			encoding: 'json'
 		}, [user.key.armor()], 'data');
-		envelope.name = '$contact';
+		envelope.name = contact.name == '$hidden' ? '$hidden' : '$contact';
 
 		return envelope;
 	});
