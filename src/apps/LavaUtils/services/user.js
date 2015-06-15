@@ -112,10 +112,13 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 		let publicKeys = crypto.getAvailablePublicKeysForEmail(self.email);
 		let keysCreationPromises = [];
 
+		console.log('user.syncKeys publicKeys: ', publicKeys);
+
 		publicKeys.forEach(key => {
 			if (!keysByFingerprint[key.primaryKey.fingerprint]) {
 				console.log(`Importing key with fingerprint '${key.primaryKey.fingerprint}' to the server...`);
 
+				console.log(key, key.armor());
 				keysCreationPromises.push(LavaboomAPI.keys.create(key.armor()));
 			} else
 				console.log(`Key with fingerprint '${key.primaryKey.fingerprint}' already imported...`);

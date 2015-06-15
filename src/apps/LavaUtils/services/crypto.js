@@ -15,7 +15,7 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, helpers,
 
 		const findIndexByFingerprint = (keys, fingerprint) => keys.findIndex(k => k.primaryKey.fingerprint == fingerprint);
 
-		const findForAddress = (keys, email) => keys.filter(k => helpers.unStyleEmail(utils.getEmailFromAddressString(k.users[0].userId.userid)) == email);
+		const getForAddress = (keys, email) => keys.filter(k => helpers.unStyleEmail(utils.getEmailFromAddressString(k.users[0].userId.userid)) == email);
 
 		keyring.publicKeys.findByFingerprint = (fingerprint) => findByFingerprint(keyring.publicKeys.keys, fingerprint);
 		keyring.privateKeys.findByFingerprint = (fingerprint) => findByFingerprint(keyring.privateKeys.keys, fingerprint);
@@ -23,8 +23,8 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, helpers,
 		keyring.publicKeys.findIndexByFingerprint = (fingerprint) => findIndexByFingerprint(keyring.publicKeys.keys, fingerprint);
 		keyring.privateKeys.findIndexByFingerprint = (fingerprint) => findIndexByFingerprint(keyring.privateKeys.keys, fingerprint);
 
-		keyring.publicKeys.getForAddress = (email) => findForAddress(keyring.publicKeys.keys, helpers.unStyleEmail(email));
-		keyring.privateKeys.getForAddress = (email) => findForAddress(keyring.privateKeys.keys, helpers.unStyleEmail(email));
+		keyring.publicKeys.getForAddress = (email) => getForAddress(keyring.publicKeys.keys, helpers.unStyleEmail(email));
+		keyring.privateKeys.getForAddress = (email) => getForAddress(keyring.privateKeys.keys, helpers.unStyleEmail(email));
 
 		return keyring;
 	};

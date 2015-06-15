@@ -65,7 +65,7 @@ module.exports = ($rootScope, $scope, $state, $interval, $timeout, $translate, c
 
 			console.log('generate keys for ', user.nameEmail, user.nameStyledEmail);
 
-			let res = yield crypto.generateKeys(user.nameEmail, signUp.password, consts.DEFAULT_KEY_LENGTH);
+			let res = yield crypto.generateKeys(user.nameStyledEmail, signUp.password, consts.DEFAULT_KEY_LENGTH);
 			console.log('login app: keys generated', res);
 
 			crypto.importPublicKey(res.pub);
