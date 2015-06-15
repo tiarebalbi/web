@@ -1,8 +1,7 @@
-module.exports = {
+const config = {
 	isProduction: false,
 	isDebugable: true,
 	isLogs: true,
-	defaultApiUri: 'https://api.lavaboom.com',
 	contribPluginsBaseUrl: 'https://github.com/lavab-plugins/',
 	coreAppNames: ['LavaLoader', 'LavaUtils', 'LavaLogin', 'LavaMail'],
 	defaultLanguageCode: 'en',
@@ -13,3 +12,7 @@ module.exports = {
 	listenPort: 5000,
 	nodeVersion: '>=0.10.35'
 };
+
+config.defaultApiUri = config.isProduction ? 'https://api.lavaboom.com' : 'https://api.lavaboom.com';
+
+module.exports = config;
