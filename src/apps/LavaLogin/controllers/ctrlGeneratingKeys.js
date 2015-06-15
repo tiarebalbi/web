@@ -60,12 +60,13 @@ module.exports = ($rootScope, $scope, $state, $interval, $timeout, $translate, c
 
 			$scope.label = translations.LB_GENERATING;
 
-			if (!user.nameEmail || !user.nameStyledEmail)
+			if (!user.styledEmail)
 				throw new Error('wups');
 
-			console.log('generate keys for ', user.nameEmail, user.nameStyledEmail);
+			let userId = `${user.settings.firstName} ${user.settings.lastName} <${user.styledEmail}>`;
+			console.log('generate keys for ', userId);
 
-			let res = yield crypto.generateKeys(user.nameStyledEmail, signUp.password, consts.DEFAULT_KEY_LENGTH);
+			let res = yield crypto.generateKeys(userId, signUp.password, consts.DEFAULT_KEY_LENGTH);
 			console.log('login app: keys generated', res);
 
 			crypto.importPublicKey(res.pub);

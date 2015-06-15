@@ -119,6 +119,8 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 				console.log(`Importing key with fingerprint '${key.primaryKey.fingerprint}' to the server...`);
 
 				console.log(key, key.armor());
+				console.log(openpgp.key.readArmored(key.armor()));
+
 				keysCreationPromises.push(LavaboomAPI.keys.create(key.armor()));
 			} else
 				console.log(`Key with fingerprint '${key.primaryKey.fingerprint}' already imported...`);

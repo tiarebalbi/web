@@ -149,8 +149,14 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, helpers,
 			: openpgp.key.readArmored(publicKeySubst).keys;
 
 		for(let publicKey of publicKeys) {
-			publicKey.users.splice(1);
-			publicKey.users[0].userId.userid = `${user.settings.firstName} ${user.settings.lastName} <${user.styledEmail}>`;
+			const i = keyring.publicKeys.findIndexByFingerprint(publicKey.primaryKey.fingerprint);
+			if (i > -1) {
+				console.log('remove existing public key with fingerprint', publicKey.primaryKey.fingerprint, 'index', i);
+				keyring.publicKeys.keys.splice(i, 1);
+			}
+
+			//publicKey.users.splice(1);
+			//publicKey.users[0].userId.userid = `${user.settings.firstName} ${user.settings.lastName} <${user.styledEmail}>`;
 
 			keyring.publicKeys.importKey(publicKey.armor());
 			keyring.store();
