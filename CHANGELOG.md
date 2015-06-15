@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## UNRELEASED
+### Fixed
+- fixed openpgp.js issue with decrypting messages when there is one or more keys are still encrypted
+
 ## 0.4.6 - 2015-06-10
 ### Fixed
 - fixed initialization failed caused by migration issue from old contacts format
