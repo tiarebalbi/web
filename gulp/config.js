@@ -13,6 +13,6 @@ const config = {
 	nodeVersion: '>=0.10.35'
 };
 
-config.defaultApiUri = config.isProduction ? 'https://api.lavaboom.com' : 'https://api.lavaboom.com';
+config.defaultApiUri = config.isProduction ? 'https://api.lavaboom.com' : 'https://api.lavaboom.io';
 
 module.exports = config;

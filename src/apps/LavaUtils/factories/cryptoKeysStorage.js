@@ -8,7 +8,7 @@ const privateSecureName = prefix + 'secure-' + privateKeysItem;
 
 const memoryStorage = [];
 
-module.exports = (co, utils) => {
+module.exports = (co, utils, helpers) => {
 	/*
 	There are 3 storages for private key possible:
 		- memory variable (exists just during application live-cycle)
@@ -27,8 +27,6 @@ module.exports = (co, utils) => {
 	 isLoadDecrypted: load decrypted private keys
 	 */
 
-
-
 	function CryptoKeysStorage (isPrivateComputer = false, isLavaboomSync = false, loadOnlyForEmails = [], isLoadDecrypted = false) {
 		const self = this;
 
@@ -45,7 +43,7 @@ module.exports = (co, utils) => {
 				for (let keyArmored of armoredKeys) {
 					const key = openpgp.key.readArmored(keyArmored);
 					if (!key.err) {
-						const email = utils.getEmailFromAddressString(key.keys[0].users[0].userId.userid);
+						const email = helpers.unStyleEmail(utils.getEmailFromAddressString(key.keys[0].users[0].userId.userid));
 
 						if (notForEmail) {
 							if (email != notForEmail)

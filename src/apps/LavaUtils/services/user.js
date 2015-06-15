@@ -12,6 +12,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 	this.email = '';
 	this.styledEmail = '';
 	this.nameEmail = '';
+	this.nameStyledEmail = '';
 	this.altEmail = '';
 	this.aliases = [];
 	this.accountType = '';
@@ -73,6 +74,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 		self.email = `${username}@${consts.ROOT_DOMAIN}`;
 		self.styledEmail = `${styledUsername}@${consts.ROOT_DOMAIN}`;
 		self.nameEmail = `${self.name} <${self.email}>`;
+		self.nameStyledEmail = `${self.name} <${self.styledEmail}>`;
 		self.altEmail = altEmail;
 		self.accountType = type;
 		self.aliases = aliases ? aliases.map(a => `${a}@${consts.ROOT_DOMAIN}`) : [];
@@ -103,7 +105,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 	this.isAuthenticated = () => token && isAuthenticated;
 
 	this.syncKeys = () => co(function *(){
-		let res = yield LavaboomAPI.keys.list(self.name);
+		let res = yield LavaboomAPI.keys.list(self.styledName);
 
 		let keysByFingerprint = res.body.keys ? utils.toMap(res.body.keys) : {};
 
@@ -205,7 +207,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 				yield gatherAndSetupInformation();
 				crypto.initialize({isPrivateComputer: isPrivateComputer, email: self.email, isShortMemory: self.settings.isLavaboomSynced});
 
-				res = yield LavaboomAPI.keys.list(self.name);
+				res = yield LavaboomAPI.keys.list(self.styledName);
 				if (!res.body.keys || res.body.keys.length < 1) {
 					yield $state.go('generateKeys');
 					return;

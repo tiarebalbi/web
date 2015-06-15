@@ -1,4 +1,4 @@
-module.exports = function($q, $rootScope, $injector, consts, co, utils, CryptoKeysStorage) {
+module.exports = function($q, $rootScope, $injector, consts, co, utils, helpers, CryptoKeysStorage) {
 	const self = this;
 
 	let storage = null;
@@ -15,11 +15,16 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, CryptoKe
 
 		const findIndexByFingerprint = (keys, fingerprint) => keys.findIndex(k => k.primaryKey.fingerprint == fingerprint);
 
+		const findForAddress = (keys, email) => keys.filter(k => helpers.unStyleEmail(utils.getEmailFromAddressString(k.users[0].userId.userid)) == email);
+
 		keyring.publicKeys.findByFingerprint = (fingerprint) => findByFingerprint(keyring.publicKeys.keys, fingerprint);
 		keyring.privateKeys.findByFingerprint = (fingerprint) => findByFingerprint(keyring.privateKeys.keys, fingerprint);
 
 		keyring.publicKeys.findIndexByFingerprint = (fingerprint) => findIndexByFingerprint(keyring.publicKeys.keys, fingerprint);
 		keyring.privateKeys.findIndexByFingerprint = (fingerprint) => findIndexByFingerprint(keyring.privateKeys.keys, fingerprint);
+
+		keyring.publicKeys.getForAddress = (email) => findForAddress(keyring.publicKeys.keys, helpers.unStyleEmail(email));
+		keyring.privateKeys.getForAddress = (email) => findForAddress(keyring.privateKeys.keys, helpers.unStyleEmail(email));
 
 		return keyring;
 	};
@@ -131,14 +136,25 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, CryptoKe
 		return openpgp.key.readArmored(key).keys[0];
 	};
 
-	this.importPublicKey = (publicKey) => {
-		console.log('importing public key', publicKey);
+	this.importPublicKey = (publicKeySubst) => {
+		console.log('importing public key', publicKeySubst);
 
-		if (!publicKey)
+		if (!publicKeySubst)
 			return;
 
-		keyring.publicKeys.importKey(publicKey.armor ? publicKey.armor() : publicKey);
-		keyring.store();
+		let user = $injector.get('user');
+
+		let publicKeys = publicKeySubst.armor
+			? [publicKeySubst]
+			: openpgp.key.readArmored(publicKeySubst).keys;
+
+		for(let publicKey of publicKeys) {
+			publicKey.users.splice(1);
+			publicKey.users[0].userId.userid = `${user.settings.firstName} ${user.settings.lastName} <${user.styledEmail}>`;
+
+			keyring.publicKeys.importKey(publicKey.armor ? publicKey.armor() : publicKey);
+			keyring.store();
+		}
 	};
 
 	this.importPrivateKey = (privateKeySubst) => {
@@ -161,7 +177,7 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, CryptoKe
 			}
 
 			privateKey.users.splice(1);
-			privateKey.users[0].userId.userid = `${user.settings.firstName} ${user.settings.lastName} <${user.email}>`;
+			privateKey.users[0].userId.userid = `${user.settings.firstName} ${user.settings.lastName} <${user.styledEmail}>`;
 
 			keyring.privateKeys.importKey(privateKey.armor());
 			keyring.store();
