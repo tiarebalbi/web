@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## To be published
+### Added
+- Spanish (provided by mortaldamm)
+
 ## 0.4.6 - 2015-06-10
 ### Fixed
 - fixed initialization failed caused by migration issue from old contacts format
