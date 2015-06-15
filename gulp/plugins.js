@@ -325,7 +325,7 @@ module.exports = function () {
 						content: JSON.stringify(translations[k], null, 2).replace(/^\s*"NEW_LINE[0-9]*".*$/gm, '')
 					})))
 						.pipe(plg.buffer())
-						.pipe(gulp.dest(base + name + '/translations/'));
+						.pipe(gulp.dest(paths.translations.outputFormattedForPlugin(name)));
 				},
 				cb => {
 					if (isWatching)
