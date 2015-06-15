@@ -79,9 +79,21 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, CryptoKe
 
 		const pgpMessage = openpgp.message.readArmored(message);
 
-		const decryptResults = yield getDecryptedPrivateKeys().map(key => {
-			return co.def(openpgp.decryptMessage(key, pgpMessage), null);
-		});
+		console.log('decodeRaw with keys', getDecryptedPrivateKeys());
+
+		const decryptResults = yield (getDecryptedPrivateKeys()
+			.map(key => {
+				var encryptionKeyIds = pgpMessage.getEncryptionKeyIds();
+				if (!encryptionKeyIds.length)
+					return null;
+
+				var privateKeyPacket = key.getKeyPacket(encryptionKeyIds);
+				if (!privateKeyPacket || !privateKeyPacket.isDecrypted)
+					return null;
+
+				return co.def(openpgp.decryptMessage(key, pgpMessage), null);
+			})
+			.filter(k => !!k));
 
 		const r = decryptResults.find(r => r);
 		if (!r)
