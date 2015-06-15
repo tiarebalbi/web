@@ -28,7 +28,7 @@
     "angular-messages": "~1.3.11",
     "angular-co": "~0.2",
     "file-saver": "https://github.com/eligrey/FileSaver.js/archive/master.tar.gz",
-    "openpgp": "https://github.com/lavab/openpgpjs/archive/v1.0.1.3.tar.gz",
+    "openpgp": "https://github.com/lavab/openpgpjs/archive/v1.0.1.4.tar.gz",
     "angular-autodisable": "~0.2.0",
     "jquery": "2.1.4"
   },
