@@ -64,21 +64,18 @@ div(ng-if="selectedTid").main-view
 						span(ng-bind="email.date | lavaday")
 						span(ng-bind="email.date | lavatime")
 				.mail-content
-					div(ng-show="email.body.state == 'ok'",
-						show-loading-sign-after="500",
+					div(show-loading-sign-after="500",
 						is-html="email.isHtml",
 						thread-id="selectedTid",
 						open-email="openEmail",
 						download-email="downloadEmail",
 						original-email-name="email.id",
 						email-body="email.displayBodyData",
+						email-state="email.body.state",
 						snap-template-url="LavaMail/directives/snap",
 						no-image-template-url="LavaMail/directives/noImage",
-						loading-template-url="LavaMail/directives/loading")
-					.col-xs-22(ng-show="email.body.state == 'no_private_key'") {{'LAVAMAIL.INBOX.LB_NO_PRIVATE_KEY_FOUND1' | translate}}
-						div {{'LAVAMAIL.INBOX.LB_NO_PRIVATE_KEY_FOUND2' | translate}}
-							a(ui-sref="main.settings.security") {{'LAVAMAIL.INBOX.LB_SETTINGS' | translate}}
-							| {{'LAVAMAIL.INBOX.LB_NO_PRIVATE_KEY_FOUND3' | translate}}
+						loading-template-url="LavaMail/directives/loading",
+						no-private-key-template-url="LavaMail/directives/noPrivateKeyFound")
 				footer.attachments(ng-show="email.files.length")
 					.row.no-gutter
 						.col-xs-12(ng-repeat="file in email.files")

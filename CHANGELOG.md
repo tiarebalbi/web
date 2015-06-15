@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## UNRELEASED
 ### Fixed
 - fixed openpgp.js issue with decrypting messages when there is one or more keys are still encrypted
+- wrong error message when message can't be decrypted
 
 ## 0.4.6 - 2015-06-10
 ### Fixed

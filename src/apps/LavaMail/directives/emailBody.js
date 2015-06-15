@@ -233,40 +233,52 @@ module.exports = ($translate, $timeout, $state, $compile, $sanitize, $templateCa
 
 		const noImageTemplate = yield $templateCache.fetch(scope.noImageTemplateUrl);
 		const snapTemplate = yield $templateCache.fetch(scope.snapTemplateUrl);
+		const noPrivateKeyTemplate = yield $templateCache.fetch(scope.noPrivateKeyTemplateUrl);
 
 		let emailBody = null;
-		try {
-			let wrapperTag = scope.isHtml ? 'div' : 'pre';
-			let wrappedEmailBody = `<${wrapperTag} class="email">${scope.emailBody}</${wrapperTag}>`;
 
-			console.log('email before sanitize', wrappedEmailBody);
-			let sanitizedEmailBody = $sanitize(wrappedEmailBody);
-			console.log('email after sanitize', sanitizedEmailBody);
-
-			let dom = utils.getDOM(sanitizedEmailBody);
-
-			yield transformTextNodes(dom, scope.threadId);
-
-			transformEmail(dom, {
-				imagesSetting: user.settings.images,
-				noImageTemplate: noImageTemplate,
-				emails: scope.emails,
-				status: scope.status
-			});
-
-			let emailBodyHtml = dom.innerHTML;
-
-			let emailBodyEl = angular.element(emailBodyHtml);
-			emailBody = $compile(emailBodyEl)(scope);
-		} catch (err) {
-			console.error(`error during email body transforming: "${err.message}"`);
-
+		if (scope.emailState == 'no_private_key') {
 			try {
-				let emailBodyEl = angular.element(snapTemplate);
+				let emailBodyEl = angular.element(noPrivateKeyTemplate);
 				emailBody = $compile(emailBodyEl)(scope);
 			} catch (err) {
-				console.error(`error during snap template processing: "${err.message}"`);
+				console.error(`error during no private key template processing: "${err.message}"`);
 				return;
+			}
+		} else {
+			try {
+				let wrapperTag = scope.isHtml ? 'div' : 'pre';
+				let wrappedEmailBody = `<${wrapperTag} class="email">${scope.emailBody}</${wrapperTag}>`;
+
+				console.log('email before sanitize', wrappedEmailBody);
+				let sanitizedEmailBody = $sanitize(wrappedEmailBody);
+				console.log('email after sanitize', sanitizedEmailBody);
+
+				let dom = utils.getDOM(sanitizedEmailBody);
+
+				yield transformTextNodes(dom, scope.threadId);
+
+				transformEmail(dom, {
+					imagesSetting: user.settings.images,
+					noImageTemplate: noImageTemplate,
+					emails: scope.emails,
+					status: scope.status
+				});
+
+				let emailBodyHtml = dom.innerHTML;
+
+				let emailBodyEl = angular.element(emailBodyHtml);
+				emailBody = $compile(emailBodyEl)(scope);
+			} catch (err) {
+				console.error(`error during email body transforming: "${err.message}"`);
+
+				try {
+					let emailBodyEl = angular.element(snapTemplate);
+					emailBody = $compile(emailBodyEl)(scope);
+				} catch (err) {
+					console.error(`error during snap template processing: "${err.message}"`);
+					return;
+				}
 			}
 		}
 
@@ -286,11 +298,13 @@ module.exports = ($translate, $timeout, $state, $compile, $sanitize, $templateCa
 			showLoadingSignAfter: '=',
 			isHtml: '=',
 			threadId: '=',
+			emailState: '=',
 			emailBody: '=',
 			originalEmailName: '=',
 			noImageTemplateUrl: '@',
 			loadingTemplateUrl: '@',
 			snapTemplateUrl: '@',
+			noPrivateKeyTemplateUrl: '@',
 			openEmail: '=',
 			downloadEmail: '='
 		},
