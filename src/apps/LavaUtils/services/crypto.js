@@ -152,7 +152,7 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, helpers,
 			publicKey.users.splice(1);
 			publicKey.users[0].userId.userid = `${user.settings.firstName} ${user.settings.lastName} <${user.styledEmail}>`;
 
-			keyring.publicKeys.importKey(publicKey.armor ? publicKey.armor() : publicKey);
+			keyring.publicKeys.importKey(publicKey.armor());
 			keyring.store();
 		}
 	};

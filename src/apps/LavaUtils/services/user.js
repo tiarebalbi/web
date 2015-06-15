@@ -105,7 +105,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 	this.isAuthenticated = () => token && isAuthenticated;
 
 	this.syncKeys = () => co(function *(){
-		let res = yield LavaboomAPI.keys.list(self.styledName);
+		let res = yield LavaboomAPI.keys.list(self.name);
 
 		let keysByFingerprint = res.body.keys ? utils.toMap(res.body.keys) : {};
 
@@ -210,7 +210,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 				yield gatherAndSetupInformation();
 				crypto.initialize({isPrivateComputer: isPrivateComputer, email: self.email, isShortMemory: self.settings.isLavaboomSynced});
 
-				res = yield LavaboomAPI.keys.list(self.styledName);
+				res = yield LavaboomAPI.keys.list(self.name);
 				if (!res.body.keys || res.body.keys.length < 1) {
 					yield $state.go('generateKeys');
 					return;
