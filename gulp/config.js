@@ -5,7 +5,6 @@ const config = {
 	contribPluginsBaseUrl: 'https://github.com/lavab-plugins/',
 	coreAppNames: ['LavaLoader', 'LavaUtils', 'LavaLogin', 'LavaMail'],
 	defaultLanguageCode: 'en',
-	defaultRootDomain: 'lavaboom.com',
 	livereloadListenAddress: '0.0.0.0',
 	livereloadListenPort: 35729,
 	listenAddress: '0.0.0.0',
@@ -13,6 +12,7 @@ const config = {
 	nodeVersion: '>=0.10.35'
 };
 
-config.defaultApiUri = config.isProduction ? 'https://api.lavaboom.com' : 'https://api.lavaboom.io';
+config.defaultRootDomain = config.isProduction ? 'lavaboom.com' : 'lavaboom.io';
+config.defaultApiUri = 'https://api.' + config.defaultRootDomain;
 
 module.exports = config;
