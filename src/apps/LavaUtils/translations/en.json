@@ -444,6 +444,8 @@
   "LAVAMAIL.SETTINGS.SECURITY.TITLE_KEYS_MANAGEMENT": "Manage your keys",
   "LAVAMAIL.SETTINGS.SECURITY.TP_KEY_IS_DECRYPTED": "This key is decrypted and can be used to access your emails/contacts",
   "LAVAMAIL.SETTINGS.SECURITY.TP_KEY_IS_ENCRYPTED": "This key is still encrypted",
+  "LAVAMAIL.SETTINGS.SECURITY.LB_PASSWORDS_SHOULD_MATCH": "passwords should match",
+  "LAVAMAIL.SETTINGS.SECURITY.LB_PASSWORD_REQUIRED": "password is empty",
 
   "LAVAMAIL.LABEL.INBOX": "Inbox",
   "LAVAMAIL.LABEL.SENT": "Sent",

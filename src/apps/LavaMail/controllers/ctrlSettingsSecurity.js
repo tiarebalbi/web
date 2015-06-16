@@ -18,6 +18,8 @@ module.exports = ($scope, $timeout, $translate, $state,
 		LB_LAVABOOM_SYNC_CANNOT_UPDATE: '',
 		TITLE_CONFIRM: '',
 		LB_CONFIRM_PASSWORD_CHANGE: '',
+		LB_PASSWORDS_SHOULD_MATCH: '',
+		LB_PASSWORD_REQUIRED: '',
 		LB_CONFIRM_KEYS_REMOVAL: '',
 		LB_CANNOT_IMPORT: '',
 		LB_CANNOT_IMPORT_WRONG_FORMAT: '',
@@ -28,6 +30,20 @@ module.exports = ($scope, $timeout, $translate, $state,
 		LB_IMPORTED: '%'
 	};
 	$translate.bindAsObject(translations, 'LAVAMAIL.SETTINGS.SECURITY');
+
+	function updateLavaboomSync(){
+		return co(function *(){
+			if ($scope.settings.isLavaboomSynced) {
+				$scope.settings.keyring = cryptoKeys.exportKeys(user.email);
+
+				try {
+					yield user.update($scope.settings);
+				} catch (err) {
+					throw new Error('LS_ERROR');
+				}
+			}
+		});
+	}
 
 	$scope.$bind('user-settings', () => {
 		$scope.settings = user.settings;
@@ -51,6 +67,24 @@ module.exports = ($scope, $timeout, $translate, $state,
 	});
 
 	$scope.changePassword = () => co(function *(){
+		//console.log($scope.__formChangePassword);
+		/*
+		if ($scope.form.password != $scope.form.passwordRepeat) {
+			notifications.set('password-changed-fail', {
+				text: translations.LB_PASSWORD_CANNOT_BE_CHANGED({error: translations.LB_PASSWORDS_SHOULD_MATCH}),
+				namespace: 'settings'
+			});
+			return;
+		}
+
+		if (!$scope.form.oldPassword || !$scope.form.password) {
+			notifications.set('password-changed-fail', {
+				text: translations.LB_PASSWORD_CANNOT_BE_CHANGED({error: translations.LB_PASSWORD_REQUIRED}),
+				namespace: 'settings'
+			});
+			return;
+		}
+
 		try {
 			const confirmed = yield co.def(dialogs.confirm(translations.TITLE_CONFIRM, translations.LB_CONFIRM_PASSWORD_CHANGE).result, 'cancelled');
 			if (confirmed == 'cancelled')
@@ -58,6 +92,7 @@ module.exports = ($scope, $timeout, $translate, $state,
 
 			yield user.updatePassword($scope.form.oldPassword, $scope.form.password);
 			crypto.changePassword(user.email, $scope.form.oldPassword, $scope.form.password);
+			yield updateLavaboomSync();
 
 			notifications.set('password-changed-ok', {
 				text: translations.LB_PASSWORD_CHANGED,
@@ -70,7 +105,7 @@ module.exports = ($scope, $timeout, $translate, $state,
 				text: translations.LB_PASSWORD_CANNOT_BE_CHANGED({error: err.message}),
 				namespace: 'settings'
 			});
-		}
+		}*/
 	});
 
 	$scope.exportKeys = () => {
@@ -118,15 +153,7 @@ module.exports = ($scope, $timeout, $translate, $state,
 						kind: 'crypto'
 					});
 				} else {
-					if ($scope.settings.isLavaboomSynced) {
-						$scope.settings.keyring = cryptoKeys.exportKeys(user.email);
-
-						try {
-							yield user.update($scope.settings);
-						} catch (err) {
-							throw new Error('LS_ERROR');
-						}
-					}
+					yield updateLavaboomSync();
 
 					notifications.set('import-keys', {
 						text: translations.LB_IMPORTED({count: c}),

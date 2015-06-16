@@ -7,15 +7,19 @@
 					.text-control
 						label {{'LAVAMAIL.SETTINGS.SECURITY.LB_CURRENT_PASSWORD' | translate}}
 						input.form-control(type='password', name="oldPassword", ng-model="form.oldPassword", required)
+						div.alert.alert-danger(ng-show="__formChangePassword.$submitted", ng-messages="__formChangePassword.oldPassword.$error", ng-messages-include="LavaMail/misc/validationMessages")
 				li.list-group-item
 					.text-control
 						label {{'LAVAMAIL.SETTINGS.SECURITY.LB_NEW_PASSWORD' | translate}}
-						input.form-control(type='password', name="password", ng-model="form.password", required)
+						input.form-control(type='password', name="password", ng-model="form.password", required, minlength="8", max-repeating="2", dictionary="/vendor/pw.dict", min-levenshtein-distance="3")
+						div.alert.alert-danger(ng-show="__formChangePassword.$submitted", ng-messages="__formChangePassword.password.$error", ng-messages-include="LavaMail/misc/validationMessages")
 					.text-control
 						label {{'LAVAMAIL.SETTINGS.SECURITY.LB_CONFIRM_PASSWORD' | translate}}
 						input.form-control(type='password', name="passwordConfirm", ng-model="form.passwordRepeat", required, match="form.password")
+						div.alert.alert-danger(ng-show="__formChangePassword.$submitted", ng-messages="__formChangePassword.passwordConfirm.$error", ng-messages-include="LavaMail/misc/validationMessages")
 					.text-control.btn-control
 						button.btn.btn-block.btn-primary(type="submit") {{'LAVAMAIL.SETTINGS.SECURITY.BTN_CONFIRM' | translate}}
+
 			div(ng-repeat="key in keys")
 				h4(ng-bind="key.user")
 				ul.list-group.padded
