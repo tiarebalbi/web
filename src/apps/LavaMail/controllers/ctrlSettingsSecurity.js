@@ -67,24 +67,6 @@ module.exports = ($scope, $timeout, $translate, $state,
 	});
 
 	$scope.changePassword = () => co(function *(){
-		//console.log($scope.__formChangePassword);
-		/*
-		if ($scope.form.password != $scope.form.passwordRepeat) {
-			notifications.set('password-changed-fail', {
-				text: translations.LB_PASSWORD_CANNOT_BE_CHANGED({error: translations.LB_PASSWORDS_SHOULD_MATCH}),
-				namespace: 'settings'
-			});
-			return;
-		}
-
-		if (!$scope.form.oldPassword || !$scope.form.password) {
-			notifications.set('password-changed-fail', {
-				text: translations.LB_PASSWORD_CANNOT_BE_CHANGED({error: translations.LB_PASSWORD_REQUIRED}),
-				namespace: 'settings'
-			});
-			return;
-		}
-
 		try {
 			const confirmed = yield co.def(dialogs.confirm(translations.TITLE_CONFIRM, translations.LB_CONFIRM_PASSWORD_CHANGE).result, 'cancelled');
 			if (confirmed == 'cancelled')
@@ -105,7 +87,7 @@ module.exports = ($scope, $timeout, $translate, $state,
 				text: translations.LB_PASSWORD_CANNOT_BE_CHANGED({error: err.message}),
 				namespace: 'settings'
 			});
-		}*/
+		}
 	});
 
 	$scope.exportKeys = () => {
