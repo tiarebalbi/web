@@ -32,7 +32,7 @@ module.exports = ($rootScope, $scope, $translate, $state, $stateParams, utils,
 	} else {
 		$scope.details = contacts.getContactById($scope.contactId);
 
-		if (!$scope.details)
+		if (!$scope.details || $scope.details.isHidden())
 			$state.go('main.contacts');
 	}
 

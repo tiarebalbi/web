@@ -1,10 +1,12 @@
 const config = require('./config');
 const output = 'dist/';
+const tmp = 'tmp/';
 
 module.exports = {
 	input: 'src/**/*',
 	cache: 'cache/',
 	output: output,
+	tml: tmp,
 	plugins: 'plugins/',
 	scripts: {
 		cacheOutput: './cache/',
@@ -17,7 +19,7 @@ module.exports = {
 		output: output + 'js/'
 	},
 	styles: {
-		input: 'src/less/lavaboom.less',
+		input: ['src/less/lavaboom.less', 'src/less/fonts.less'],
 		inputAll: ['src/less/**/*.less', 'src/fonts/**/*'],
 		output: output + 'css/'
 	},
@@ -30,7 +32,7 @@ module.exports = {
 		output: output + 'img/'
 	},
 	fonts: {
-		input: 'src/fonts/fonts/*',
+		input: ['src/fonts/lavaboom-icons/fonts/*', 'src/fonts/roboto/*'],
 		output: output + 'css/fonts/'
 	},
 	markup: {
@@ -49,7 +51,8 @@ module.exports = {
 		inputEn: 'src/translations/en.toml',
 		input: 'src/translations/*.toml',
 		output: `${output}/translations/`,
-		outputForPlugin: (pluginName) => `${output}/translations/${pluginName}/`
+		outputForPlugin: (pluginName) => `${output}/translations/${pluginName}/`,
+		outputFormattedForPlugin: (pluginName) => `${tmp}/translations/${pluginName}/`
 	},
 	tests: {
 		unit: {

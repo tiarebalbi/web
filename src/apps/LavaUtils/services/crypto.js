@@ -259,10 +259,15 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, helpers,
 
 	this.changePassword = (email, oldPassword, newPassword) => {
 		const privateKeys = keyring.privateKeys.getForAddress(email);
+
+		console.log('crypto.changePassword privateKeys:', privateKeys);
+
 		privateKeys.forEach(privateKey => {
 			if (authenticate(privateKey, oldPassword)) {
+				console.log('crypto.changePassword authenticated');
 				const updatedPrivateKey = changePasswordForPrivateKey(privateKey, newPassword);
 				if (updatedPrivateKey) {
+					console.log('crypto.changePassword updated', updatedPrivateKey);
 					self.importPrivateKey(updatedPrivateKey);
 
 					authenticate(updatedPrivateKey, newPassword);
