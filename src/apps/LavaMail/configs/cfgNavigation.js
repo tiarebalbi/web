@@ -92,6 +92,11 @@ module.exports = ($stateProvider, $urlRouterProvider, $locationProvider) => {
 			templateUrl: 'LavaMail/settings/settingsSecurity'
 		},
 
+		'main.settings.keys': {
+			url: '/keys',
+			templateUrl: 'LavaMail/settings/settingsKeys'
+		},
+
 		'main.settings.plan': {
 			url: '/plan',
 			templateUrl: 'LavaMail/settings/settingsPlan'
