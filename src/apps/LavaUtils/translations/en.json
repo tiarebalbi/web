@@ -368,7 +368,8 @@
   "LAVAMAIL.SETTINGS.GENERAL.TITLE_MAIL_BEHAVIOUR": "Mail Behaviour",
   "LAVAMAIL.SETTINGS.GENERAL.TITLE_USER_INTERFACE": "User Interface",
   "LAVAMAIL.SETTINGS.MENU.GENERAL": "General",
-  "LAVAMAIL.SETTINGS.MENU.KEYS": "Security",
+  "LAVAMAIL.SETTINGS.MENU.SECURITY": "Security",
+  "LAVAMAIL.SETTINGS.MENU.KEYS": "Keys",
   "LAVAMAIL.SETTINGS.MENU.PROFILE": "Profile",
   "LAVAMAIL.SETTINGS.MENU.SUBSCRIPTION": "Subscription",
   "LAVAMAIL.SETTINGS.PLAN.BETA.LB_ITEMS": "1GB storage|Early access to new features|End to end encryption|Bank-grade security|<a href='http://zeroknowledgeprivacy.org/' target='blank'>Zero Knowledge</a> privacy",
@@ -444,6 +445,7 @@
   "LAVAMAIL.SETTINGS.SECURITY.TITLE_KEYS_MANAGEMENT": "Manage your keys",
   "LAVAMAIL.SETTINGS.SECURITY.TP_KEY_IS_DECRYPTED": "This key is decrypted and can be used to access your emails/contacts",
   "LAVAMAIL.SETTINGS.SECURITY.TP_KEY_IS_ENCRYPTED": "This key is still encrypted",
+  "LAVAMAIL.SETTINGS.KEYS.YOUR_KEY_PAIRS": "Your Key Pairs",
 
   "LAVAMAIL.LABEL.INBOX": "Inbox",
   "LAVAMAIL.LABEL.SENT": "Sent",
