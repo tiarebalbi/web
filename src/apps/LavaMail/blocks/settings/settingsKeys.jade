@@ -2,7 +2,6 @@
 	form.settings.col-xs-22.col-xs-offset-1.col-sm-20.col-sm-offset-2.col-md-12.col-md-offset-6.col-xs-22.col-xs-offset-1(name="__formChangePassword", ng-submit="__formChangePassword.$valid && changePassword()", novalidate, ng-autodisable)
 		.form-wrap
 			h4 {{'LAVAMAIL.SETTINGS.KEYS.YOUR_KEY_PAIRS' | translate}}
-			
 			div(ng-repeat="key in keys")
 				h4(ng-bind="key.user")
 				ul.list-group.padded
