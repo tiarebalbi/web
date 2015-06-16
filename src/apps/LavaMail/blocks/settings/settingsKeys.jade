@@ -3,7 +3,7 @@
 		.form-wrap
 			h4 {{'LAVAMAIL.SETTINGS.KEYS.YOUR_KEY_PAIRS' | translate}}
 			div(ng-repeat="key in keys")
-				h4(ng-bind="key.user")
+				p(ng-bind="key.user")
 				ul.list-group.padded
 					li.list-group-item.header
 						div.input-group.with-label.clickable(ng-click="key.switchCollapse(key)")
