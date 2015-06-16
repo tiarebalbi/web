@@ -12,7 +12,7 @@ const config = {
 	nodeVersion: '>=0.10.35'
 };
 
-config.defaultRootDomain = config.isProduction ? 'lavaboom.com' : 'lavaboom.com';
+config.defaultRootDomain = config.isProduction ? 'lavaboom.com' : 'lavaboom.io';
 config.defaultApiUri = 'https://api.' + config.defaultRootDomain;
 
 module.exports = config;
