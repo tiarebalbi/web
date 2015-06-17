@@ -241,6 +241,18 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 		});
 	};
 
+	this.updateLavaboomSync = () => co(function *(){
+		if (self.settings.isLavaboomSynced) {
+			self.settings.keyring = cryptoKeys.exportKeys(self.email);
+
+			try {
+				yield self.update(self.settings);
+			} catch (err) {
+				throw new Error('LS_ERROR');
+			}
+		}
+	});
+
 	this.removeTokens = () => {
 		delete localStorage['lava-token'];
 		delete sessionStorage['lava-token'];
