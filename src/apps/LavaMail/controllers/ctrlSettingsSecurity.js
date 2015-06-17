@@ -61,7 +61,7 @@ module.exports = ($scope, $timeout, $translate,
 
 			if ($scope.settings.isLavaboomSynced) {
 				let keysBackup = cryptoKeys.exportKeys(user.email);
-				$scope.settings.keyring = keysBackup;
+				$scope.settings.keyring = keysBackup.backup;
 			}
 			else
 			{

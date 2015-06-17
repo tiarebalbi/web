@@ -243,7 +243,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 
 	this.updateLavaboomSync = () => co(function *(){
 		if (self.settings.isLavaboomSynced) {
-			self.settings.keyring = cryptoKeys.exportKeys(self.email);
+			self.settings.keyring = cryptoKeys.exportKeys(self.email).backup;
 
 			try {
 				yield self.update(self.settings);

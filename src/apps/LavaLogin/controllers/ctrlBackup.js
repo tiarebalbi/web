@@ -14,7 +14,7 @@ module.exports = ($scope, $state, $window, co, user, signUp, crypto, cryptoKeys,
 
 	$scope.backup = () => {
 		let keysBackup = cryptoKeys.exportKeys(user.email);
-		saver.saveAs(keysBackup, cryptoKeys.getExportFilename(keysBackup, user.name), 'text/plain;charset=utf-8');
+		saver.saveAs(keysBackup.backup, cryptoKeys.getExportFilename(keysBackup.hash, user.styledName), 'text/plain;charset=utf-8');
 
 		navigateMainApplication();
 	};
@@ -26,7 +26,7 @@ module.exports = ($scope, $state, $window, co, user, signUp, crypto, cryptoKeys,
 	$scope.sync = () => co(function *(){
 		let keysBackup = cryptoKeys.exportKeys(user.email);
 
-		yield user.update({isLavaboomSynced: true, keyring: keysBackup, state: 'backupKeys'});
+		yield user.update({isLavaboomSynced: true, keyring: keysBackup.backup, state: 'backupKeys'});
 
 		let keys = crypto.clearPermanentPrivateKeysForEmail(user.email);
 		crypto.initialize({isShortMemory: true});

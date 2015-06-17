@@ -101,13 +101,16 @@ module.exports = function ($q, $rootScope, $filter, $translate, co, crypto, cons
 	function formatExportFile(body) {
 		let bodyHash = utils.hexify(openpgp.crypto.hash.sha512(JSON.stringify(body)));
 
-		return JSON.stringify({
-			readme: consts.KEYS_BACKUP_README,
-			warning: translations.BACKUP_WARNING_TEXT,
-			body: body,
-			exported: $filter('date')(Date.now(), 'yyyy-MM-dd HH:mm:ss Z'),
-			bodyHash: bodyHash
-		}, null, 4);
+		return {
+			backup: JSON.stringify({
+				readme: consts.KEYS_BACKUP_README,
+				warning: translations.BACKUP_WARNING_TEXT,
+				body: body,
+				exported: $filter('date')(Date.now(), 'yyyy-MM-dd HH:mm:ss Z'),
+				bodyHash: bodyHash
+			}, null, 4),
+			hash: bodyHash
+		};
 	}
 
 	this.exportKeys = (email = null) => {
@@ -150,8 +153,8 @@ module.exports = function ($q, $rootScope, $filter, $translate, co, crypto, cons
 		return publicKey.armor();
 	};
 
-	this.getExportFilename = (backup, userName) => {
-		let hashPostfix = utils.hexify(openpgp.crypto.hash.md5(backup)).substr(0, 8);
+	this.getExportFilename = (hash, userName) => {
+		let hashPostfix = hash.substr(0, 8);
 		return `${userName}-${hashPostfix}.json`;
 	};
 };

@@ -34,7 +34,7 @@ module.exports = ($scope, $timeout, $translate, $state,
 
 	$scope.exportKeys = () => {
 		var keysBackup = cryptoKeys.exportKeys();
-		saver.saveAs(keysBackup, cryptoKeys.getExportFilename(keysBackup, user.name), 'text/plain;charset=utf-8');
+		saver.saveAs(keysBackup.backup, cryptoKeys.getExportFilename(keysBackup.hash, user.name), 'text/plain;charset=utf-8');
 	};
 
 	$scope.generateKeys = () => {
@@ -53,7 +53,7 @@ module.exports = ($scope, $timeout, $translate, $state,
 
 	$scope.exportKeys = () => {
 		var keysBackup = cryptoKeys.exportKeys();
-		saver.saveAs(keysBackup, cryptoKeys.getExportFilename(keysBackup, user.name), 'text/plain;charset=utf-8');
+		saver.saveAs(keysBackup.backup, cryptoKeys.getExportFilename(keysBackup.hash, user.styledName), 'text/plain;charset=utf-8');
 	};
 
 	$scope.exportPublicKey = (key) => {
