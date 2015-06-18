@@ -1,4 +1,6 @@
-module.exports = function ($rootScope, $templateCache, $compile, co, utils) {
+module.exports = function ($rootScope, $interval, $timeout, $templateCache, $compile, co, utils, consts, crypto, user, LavaboomAPI) {
+	const self = this;
+
 	const transformNodes = (dom, level = 0) => {
 		for(let node of dom.childNodes) {
 			if (node.getAttribute) {
@@ -21,6 +23,48 @@ module.exports = function ($rootScope, $templateCache, $compile, co, utils) {
 		console.log('cleanupOutboundEmail: ', body, 'transformed to: ', dom.innerHTML);
 
 		return dom.innerHTML;
+	};
+
+	this.getKeys = (to, cc, bcc) => co(function *(){
+		return yield ([...to, ...cc, ...bcc].reduce((a, e) => {
+			a[e.email] = co.transform(co.def(e.loadKey(), null), e => e ? e.armor() : null);
+			return a;
+		}, {}));
+	});
+
+	this.autoSave = (getEmail) => {
+		$timeout(() => co(function *(){
+			let email = getEmail();
+			let key = user.key.armor();
+
+			console.log('auto save:', email);
+
+			let [meta, body] = yield [
+				crypto.encodeWithKeys(JSON.stringify({
+					publicKey: email.publicKey,
+					to: email.to,
+					cc: email.cc,
+					bcc: email.bcc,
+					subject: email.subject
+				}), [key]),
+
+				crypto.encodeWithKeys(email.body, [key])
+			];
+
+			meta = btoa(crypto.messageToBinary(meta.pgpData));
+			body = btoa(crypto.messageToBinary(body.pgpData));
+
+			console.log('auto save:', meta, body);
+
+			let data = {
+				name: 'draft',
+				meta: {meta: meta},
+				body: body,
+				tags: ['draft']
+			};
+
+			yield email.id ? LavaboomAPI.files.update(email.id, data) : LavaboomAPI.files.create(data);
+		}), 1000);
 	};
 
 	this.buildForwardedTemplate = (body, signature, forwardEmails) => co(function *(){

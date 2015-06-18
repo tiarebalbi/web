@@ -42,6 +42,7 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 		};
 
 		self.id = opt.id;
+		self.name = opt.name;
 		self.created = opt.date_created;
 		self.modified = opt.date_modified;
 		self.isToYourself = false;
@@ -52,13 +53,15 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 		self.labels = opt.labels && opt.labels.length > 0 ? opt.labels : [];
 		self.isRead = !!opt.is_read;
 		self.secure = opt.secure;
-		self.isReplied = opt.emails.length > 1;
+		self.isReplied = opt.emails && opt.emails.length > 1;
 		self.isForwarded = Email.getSubjectWithoutRe(self.subject) != self.subject;
 
 		this.setupManifest = (manifest, setIsLoaded = false) => {
 			isLoaded = setIsLoaded;
 
 			self.to = manifest ? manifest.to : [];
+			self.cc = manifest ? manifest.cc : [];
+			self.bcc = manifest ? manifest.bcc : [];
 
 			self.subject = manifest && manifest.subject ? manifest.subject : opt.subject;
 			if (!self.subject)
@@ -74,6 +77,27 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 
 		self.setupManifest(manifest);
 	}
+
+	Thread.fromDraftFile = (file) => co(function *() {
+		let inbox = $injector.get('inbox');
+		let labels = yield inbox.getLabels();
+
+		let thread = new Thread(file, null, labels);
+
+		co(function *(){
+			let manifestRaw;
+			try {
+				manifestRaw = yield co.def(crypto.decodeRaw(file.meta.meta), null);
+				console.log('thread manifest', manifestRaw);
+			} catch (err) {
+				thread.setupManifest(null, true);
+				throw err;
+			}
+			thread.setupManifest(manifestRaw ? Manifest.createFromJson(manifestRaw) : null, true);
+		});
+
+		return thread;
+	});
 
 	Thread.fromEnvelope = (envelope) => co(function *() {
 		let inbox = $injector.get('inbox');

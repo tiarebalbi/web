@@ -127,7 +127,10 @@ module.exports = ($rootScope, $scope, $state, $timeout, $interval, $translate,
 	};
 
 	$scope.selectThread = (tid) => {
-		$state.go('main.inbox.label', {threadId: tid});
+		if ($scope.threads[tid].name == 'draft')
+			$scope.showPopup('compose', {draftId: tid});
+		else
+			$state.go('main.inbox.label', {threadId: tid});
 		$scope.selectedTid = tid;
 	};
 
