@@ -1,5 +1,5 @@
 module.exports = ($rootScope, $scope, $state, router, hotkey) => {
-	const settingsList = ['main.settings.general', 'main.settings.profile', 'main.settings.security', 'main.settings.plan'];
+	const settingsList = ['main.settings.general', 'main.settings.profile', 'main.settings.security', 'main.settings.keys', 'main.settings.plan'];
 
 	{
 		const goSettings = (event, delta) => {

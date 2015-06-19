@@ -202,10 +202,7 @@ module.exports = ($rootScope, $scope, $state, $timeout, $interval, $translate,
 		inbox.invalidateThreadCache();
 		inbox.invalidateEmailCache();
 
-		if ($scope.selectedTid)
-			$state.go('main.inbox.label', {labelName: $scope.labelName, threadId: $scope.selectedTid}, {reload: true});
-		else
-			$state.go('main.inbox', {labelName: $scope.labelName}, {reload: true});
+		$state.go('main.inbox.label', {labelName: $scope.labelName.toLowerCase(), threadId: $scope.selectedTid}, {reload: true});
 	});
 
 	$scope.scroll = () => {

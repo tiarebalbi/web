@@ -7,11 +7,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Spanish (provided by mortaldamm)
 - settings/security password change error validation  
 
+### Modified
+- settings/security and settings/keys - split
+
 ### Fixed
 - fixed openpgp.js issue with decrypting messages when there is one or more keys are still encrypted
 - wrong error message when message can't be decrypted
 - hidden contacts reverted
 - settings/security password change works correctly with Lavaboom Sync
+- refresh issue when refreshing an empty label
+- export keys now name files && emails correctly(styled)
 
 ## 0.4.6 - 2015-06-10
 ### Fixed
