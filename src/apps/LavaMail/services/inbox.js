@@ -160,7 +160,7 @@ module.exports = function($q, $rootScope, $timeout,
 
 		console.log(res);
 
-		return res.body.file ? File.fromEnvelope(res.body.file) : null;
+		return res.body.file ? yield File.fromEnvelope(res.body.file) : null;
 	});
 
 	this.createFile = (file) => co(function *(){
@@ -185,10 +185,11 @@ module.exports = function($q, $rootScope, $timeout,
 			//yield files.map(f => LavaboomAPI.files.delete(f.id));
 
 			let r =  files ? yield files.map(f => co(function *(){
-				const cachedThread = yield self.getThreadById(f.id, true);
+				let file = yield File.fromEnvelope(f);
+				const cachedThread = yield self.getThreadById(file.id, true);
 				if (cachedThread)
 					return cachedThread;
-				return yield co.def(Thread.fromDraftFile(f), null);
+				return yield co.def(Thread.fromDraftFile(file), null);
 			})) : [];
 
 			console.log('files', r);

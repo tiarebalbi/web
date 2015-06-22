@@ -82,7 +82,15 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 		let inbox = $injector.get('inbox');
 		let labels = yield inbox.getLabels();
 
-		let thread = new Thread(file, null, labels);
+		let thread = new Thread({
+			id: file.id,
+			is_read: true,
+			tags: file.tags,
+			name: file.name,
+			subject: file.meta.subject,
+			date_created: file.created,
+			date_modified: file.modified
+		}, null, labels);
 
 		co(function *(){
 			let manifestRaw;

@@ -8,6 +8,9 @@ module.exports = (co, utils, crypto) => {
 
 		this.body = opt.body;
 		this.meta = opt.meta;
+
+		self.created = opt.date_created;
+		self.modified = opt.date_modified;
 	}
 
 	File.fromEnvelope = (envelope) => co(function *() {
