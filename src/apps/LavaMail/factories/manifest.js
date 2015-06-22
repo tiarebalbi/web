@@ -96,9 +96,12 @@ module.exports = ($translate, contacts, utils, crypto, ManifestPart) => {
 	Manifest.create = ({fromEmail, to, cc, bcc, subject}) => {
 		function encode (s) {
 			return s;
-			/*return angular.isArray(s)
+			/*if (!s)
+				return s;
+
+			return angular.isArray(s)
 				? s.map(e => encode(e))
-				: qEncoding.encode(utf8.encode(s));*/
+				: '=?utf-8?Q?' + qEncoding.encode(utf8.encode(s)) + '?=';*/
 		}
 
 		const manifest = {
