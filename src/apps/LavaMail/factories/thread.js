@@ -54,7 +54,6 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 		self.isRead = !!opt.is_read;
 		self.secure = opt.secure;
 		self.isReplied = opt.emails && opt.emails.length > 1;
-		self.isForwarded = Email.getSubjectWithoutRe(self.subject) != self.subject;
 
 		this.setupManifest = (manifest, setIsLoaded = false) => {
 			isLoaded = setIsLoaded;
@@ -66,6 +65,7 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 			self.subject = manifest && manifest.subject ? manifest.subject : opt.subject;
 			if (!self.subject)
 				self.subject = '';
+			self.isForwarded = Email.getSubjectWithoutRe(self.subject) != self.subject;
 
 			self.attachmentsCount = manifest && manifest.files ? manifest.files.length : 0;
 		};
@@ -89,20 +89,15 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 			name: file.name,
 			subject: file.meta.subject,
 			date_created: file.created,
-			date_modified: file.modified
+			date_modified: file.modified,
+			members: file.meta.to
 		}, null, labels);
 
-		co(function *(){
-			let manifestRaw;
-			try {
-				manifestRaw = yield co.def(crypto.decodeRaw(file.meta.meta), null);
-				console.log('thread manifest', manifestRaw);
-			} catch (err) {
-				thread.setupManifest(null, true);
-				throw err;
-			}
-			thread.setupManifest(manifestRaw ? Manifest.createFromJson(manifestRaw) : null, true);
-		});
+		let manifest = file.meta ? Manifest.createFromObject({headers: file.meta, parts: []}) : null;
+
+		console.log('fromDraftFile manifest', manifest);
+
+		thread.setupManifest(manifest, true);
 
 		return thread;
 	});

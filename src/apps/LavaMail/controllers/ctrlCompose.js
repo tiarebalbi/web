@@ -24,6 +24,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $interval,
 		body: ''
 	};
 
+	$scope.isSent = false;
 	$scope.isSending = false;
 	$scope.isWarning = false;
 	$scope.isError = false;
@@ -63,6 +64,34 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $interval,
 		LB_NO_SUBJECT: ''
 	};
 	$translate.bindAsObject(translations, 'LAVAMAIL.COMPOSE');
+
+	const saveAsDraft = () => co(function *(){
+		let key = user.key.armor();
+
+		let [meta, body] = yield [
+			crypto.encodeWithKeys(JSON.stringify({
+				publicKey: publicKey,
+				to: $scope.form.selected.to ? $scope.form.selected.to.map(e => e.email) : [],
+				cc: $scope.form.selected.cc ? $scope.form.selected.cc.map(e => e.email) : [],
+				bcc: $scope.form.selected.bcc ? $scope.form.selected.bcc.map(e => e.email) : [],
+				subject: $scope.form.subject
+			}), [key]),
+
+			crypto.encodeWithKeys($scope.form.body, [key])
+		];
+
+		meta = btoa(crypto.messageToBinary(meta.pgpData));
+		body = btoa(crypto.messageToBinary(body.pgpData));
+
+		let data = {
+			name: 'draft',
+			meta: {meta: meta},
+			body: body,
+			tags: ['draft']
+		};
+
+		yield draftId ? inbox.updateFile(draftId, data) : inbox.createFile(data);
+	});
 
 	const processAttachment = (attachmentStatus) => co(function *() {
 		attachmentStatus.status = translations.LB_ATTACHMENT_STATUS_READING;
@@ -222,38 +251,12 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $interval,
 					};
 				}
 
-				autoSaveInterval = $interval(() => co(function *(){
-					let key = user.key.armor();
-
-					let [meta, body] = yield [
-						crypto.encodeWithKeys(JSON.stringify({
-							publicKey: publicKey,
-							to: $scope.form.selected.to ? $scope.form.selected.to.map(e => e.email) : [],
-							cc: $scope.form.selected.cc ? $scope.form.selected.cc.map(e => e.email) : [],
-							bcc: $scope.form.selected.bcc ? $scope.form.selected.bcc.map(e => e.email) : [],
-							subject: $scope.form.subject
-						}), [key]),
-
-						crypto.encodeWithKeys($scope.form.body, [key])
-					];
-
-					meta = btoa(crypto.messageToBinary(meta.pgpData));
-					body = btoa(crypto.messageToBinary(body.pgpData));
-
-					let data = {
-						name: 'draft',
-						meta: {meta: meta},
-						body: body,
-						tags: ['draft']
-					};
-
-					yield draftId ? inbox.updateFile(draftId, data) : inbox.createFile(data);
-				}), consts.COMPOSE_AUTO_SAVE_INTERVAL);
+				autoSaveInterval = $interval(() => saveAsDraft(), consts.COMPOSE_AUTO_SAVE_INTERVAL);
 
 				console.log('$scope.form', $scope.form);
 			});
 		});
-	}).catch(e => console.error('!wtf!', e));
+	});
 
 	$scope.onFileDrop = (file) => {
 		if (file.type && file.type.startsWith('image'))
@@ -415,6 +418,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $interval,
 
 			manifest = null;
 
+			$scope.isSent = true;
 			router.hidePopup();
 		} catch (err) {
 			$scope.isError = true;
@@ -521,6 +525,8 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $interval,
 
 	$scope.$on('$destroy',  () => {
 		$interval.cancel(autoSaveInterval);
+		if (!$scope.isSent)
+			saveAsDraft();
 	});
 
 	hotkey.registerCustomHotkeys($scope, [
