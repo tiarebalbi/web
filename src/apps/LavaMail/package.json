@@ -9,6 +9,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "mailparser": "^0.5.1",
     "q-encoding": "^0.1.1",
     "semver-compare": "^1.0.0",
     "utf8": "^2.1.0",

@@ -104,6 +104,8 @@ module.exports = ($rootScope, $scope, $timeout, $state, $stateParams, $translate
 				yield utils.wait(() => $scope.isThreads);
 
 				$scope.emails = (yield emailsPromise).map(e => {
+
+
 					e.originalBodyData = e.body.data;
 					e.displayBodyData = e.body.data;
 					return e;
