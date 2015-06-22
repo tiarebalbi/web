@@ -1,11 +1,11 @@
 const MailParser = require('mailparser').MailParser;
 const chan = require('chan');
 
-module.exports = (co, crypto, user, Manifest) => {
+module.exports = (co, crypto, user, Manifest, ManifestPart) => {
 	const reRegex =
 		/([\[\(] *)?(RE?S?|FYI|RIF|I|FS|VB|RV|ENC|ODP|PD|YNT|ILT|SV|VS|VL|AW|WG|ΑΠ|ΣΧΕΤ|ΠΡΘ|תגובה|הועבר|主题|转发|FWD?) *([-:;)\]][ :;\])-]*|$)|\]+ *$/i;
 
-	function Email (opt, manifest, isHtml = false) {
+	function Email (opt, manifest, files, isHtml = false) {
 		const self = this;
 
 		this.id =  opt.id;
@@ -17,7 +17,9 @@ module.exports = (co, crypto, user, Manifest) => {
 		if (!self.subject)
 			self.subject = '';
 
-		this.files = manifest ? manifest.files : [];
+		this.files = manifest ? manifest.files : files;
+
+		this.getFileById = (id) => self.files.find(f => f.id == id);
 		this.isHtml = manifest ? manifest.getPart('body').isHtml() : isHtml;
 
 		const prettify = (a) => a.map(e => e.prettyName).join(',');
@@ -109,6 +111,7 @@ module.exports = (co, crypto, user, Manifest) => {
 	Email.fromEnvelope = (envelope) => co(function *() {
 		let [body, manifestRaw] = [null, null];
 		let isHtml = false;
+		let files = [];
 
 		try {
 			let [bodyData, manifestRawData] = yield [
@@ -132,6 +135,17 @@ module.exports = (co, crypto, user, Manifest) => {
 
 				isHtml = !!mailObject.html;
 				body.data = mailObject.text ? mailObject.text : mailObject.html;
+
+				for(let a of mailObject.attachments)
+					files.push(new ManifestPart({
+						id: a.contentId,
+						hash: a.checksum,
+						filename: a.fileName,
+						content_type: a.contentType ? a.contentType : 'application/octet-stream',
+						charset: 'utf-8',
+						size: a.length,
+						data: a.content
+					}));
 			}
 		} catch (err) {
 			console.error('Email.fromEnvelope decrypt error', err);
@@ -141,7 +155,7 @@ module.exports = (co, crypto, user, Manifest) => {
 		let email = new Email(angular.extend({}, envelope, {
 			body: body,
 			preview: body
-		}), manifestRaw ? Manifest.createFromJson(manifestRaw) : null, isHtml);
+		}), manifestRaw ? Manifest.createFromJson(manifestRaw) : null, files, isHtml);
 
 		console.log('email decoded', email, manifestRaw);
 

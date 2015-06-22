@@ -21,7 +21,7 @@ module.exports = function($translate, utils, notifications, co) {
 		if (!checkBrowser())
 			return;
 
-		var blob = new Blob([utils.str2Uint8Array(data)], {type: type});
+		var blob = new Blob([data instanceof Uint8Array ? data : utils.str2Uint8Array(data)], {type: type});
 		saveAs(blob, name);
 	};
 
