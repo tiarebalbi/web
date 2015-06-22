@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'lavaboom';
-	src:url('fonts/lavaboom.eot?4r909e');
-	src:url('fonts/lavaboom.eot?#iefix4r909e') format('embedded-opentype'),
-		url('fonts/lavaboom.ttf?4r909e') format('truetype'),
-		url('fonts/lavaboom.woff?4r909e') format('woff'),
-		url('fonts/lavaboom.svg?4r909e#lavaboom') format('svg');
+	src:url('fonts/lavaboom.eot?-fiflg1');
+	src:url('fonts/lavaboom.eot?#iefix-fiflg1') format('embedded-opentype'),
+		url('fonts/lavaboom.ttf?-fiflg1') format('truetype'),
+		url('fonts/lavaboom.woff?-fiflg1') format('woff'),
+		url('fonts/lavaboom.svg?-fiflg1#lavaboom') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,8 +23,80 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-refresh:before {
-	content: "\e622";
+.icon-H1:before {
+	content: "\e61d";
+}
+.icon-H2:before {
+	content: "\e61e";
+}
+.icon-H3:before {
+	content: "\e61f";
+}
+.icon-edit-label:before {
+	content: "\e623";
+}
+.icon-key-pair-download2:before {
+	content: "\e624";
+}
+.icon-label:before {
+	content: "\e625";
+}
+.icon-add-contact:before {
+	content: "\e601";
+}
+.icon-archive:before {
+	content: "\e607";
+}
+.icon-arrow-down:before {
+	content: "\fc";
+}
+.icon-arrow-left:before {
+	content: "\e621";
+}
+.icon-arrow-right:before {
+	content: "\79";
+}
+.icon-arrow-up:before {
+	content: "\f6";
+}
+.icon-ban:before {
+	content: "\68";
+}
+.icon-cancel:before {
+	content: "\e610";
+}
+.icon-chevron-down:before {
+	content: "\76";
+}
+.icon-close:before {
+	content: "\73";
+}
+.icon-cog:before {
+	content: "\6c";
+}
+.icon-compose:before {
+	content: "\61";
+}
+.icon-contacts:before {
+	content: "\e608";
+}
+.icon-delete:before {
+	content: "\e611";
+}
+.icon-download:before {
+	content: "\e620";
+}
+.icon-draft:before {
+	content: "\63";
+}
+.icon-edit:before {
+	content: "\e612";
+}
+.icon-edit-circle:before {
+	content: "\e613";
+}
+.icon-empty-trash:before {
+	content: "\e60a";
 }
 .icon-format-align-center:before {
 	content: "\e602";
@@ -41,6 +113,9 @@
 .icon-format-bold:before {
 	content: "\e606";
 }
+.icon-format-code:before {
+	content: "\f121";
+}
 .icon-format-italic:before {
 	content: "\e619";
 }
@@ -53,38 +128,62 @@
 .icon-format-underline:before {
 	content: "\e61c";
 }
-.icon-format-code:before {
-	content: "\f121";
+.icon-head:before {
+	content: "\6b";
 }
-.icon-download:before {
-	content: "\e620";
+.icon-inbox:before {
+	content: "\62";
 }
-.icon-H1:before {
-	content: "\e61d";
+.icon-info-circle:before {
+	content: "\39";
 }
-.icon-H2:before {
-	content: "\e61e";
+.icon-key:before {
+	content: "\35";
 }
-.icon-H3:before {
-	content: "\e61f";
+.icon-key-pair:before {
+	content: "\e615";
 }
-.icon-add-contact:before {
-	content: "\e601";
+.icon-key-pair-download:before {
+	content: "\e614";
 }
-.icon-archive:before {
-	content: "\e607";
-}
-.icon-contacts:before {
-	content: "\e608";
+.icon-key-solid:before {
+	content: "\38";
 }
 .icon-later:before {
 	content: "\e609";
 }
-.icon-empty-trash:before {
-	content: "\e60a";
+.icon-lavaboom:before {
+	content: "\36";
 }
-.icon-put-back:before {
-	content: "\e60b";
+.icon-lock:before {
+	content: "\70";
+}
+.icon-lock-hallow:before {
+	content: "\e600";
+}
+.icon-outbox:before {
+	content: "\64";
+}
+.icon-paper-clip:before {
+	content: "\6e";
+}
+.icon-plus:before {
+	content: "\2b";
+}
+.icon-plus-circle:before {
+	content: "\e60f";
+}
+.icon-power:before {
+	content: "\6d";
+}
+.icon-preferences:before {
+	content: "\33";
+}
+.icon-profile:before {
+	content: "\34";
+}
+.icon-provide:before {
+	content: "\e616";
 }
 .icon-public-key-download:before {
 	content: "\e60c";
@@ -95,110 +194,14 @@
 .icon-public-key-upload:before {
 	content: "\e60e";
 }
-.icon-plus-circle:before {
-	content: "\e60f";
+.icon-put-back:before {
+	content: "\e60b";
 }
-.icon-cancel:before {
-	content: "\e610";
+.icon-read:before {
+	content: "\32";
 }
-.icon-delete:before {
-	content: "\e611";
-}
-.icon-edit:before {
-	content: "\e612";
-}
-.icon-edit-circle:before {
-	content: "\e613";
-}
-.icon-key-pair-download:before {
-	content: "\e614";
-}
-.icon-key-pair:before {
-	content: "\e615";
-}
-.icon-provide:before {
-	content: "\e616";
-}
-.icon-save:before {
-	content: "\e617";
-}
-.icon-yes:before {
-	content: "\e618";
-}
-.icon-plus:before {
-	content: "\2b";
-}
-.icon-lock-hallow:before {
-	content: "\e600";
-}
-.icon-key-solid:before {
-	content: "\38";
-}
-.icon-info-circle:before {
-	content: "\39";
-}
-.icon-compose:before {
-	content: "\61";
-}
-.icon-inbox:before {
-	content: "\62";
-}
-.icon-draft:before {
-	content: "\63";
-}
-.icon-outbox:before {
-	content: "\64";
-}
-.icon-sent:before {
-	content: "\65";
-}
-.icon-star-outline:before {
-	content: "\66";
-}
-.icon-star:before {
-	content: "\67";
-}
-.icon-ban:before {
-	content: "\68";
-}
-.icon-trash:before {
-	content: "\6a";
-}
-.icon-head:before {
-	content: "\6b";
-}
-.icon-cog:before {
-	content: "\6c";
-}
-.icon-power:before {
-	content: "\6d";
-}
-.icon-paper-clip:before {
-	content: "\6e";
-}
-.icon-search:before {
-	content: "\6f";
-}
-.icon-lock:before {
-	content: "\70";
-}
-.icon-unlock:before {
-	content: "\71";
-}
-.icon-unread:before {
-	content: "\72";
-}
-.icon-close:before {
-	content: "\73";
-}
-.icon-chevron-down:before {
-	content: "\76";
-}
-.icon-arrow-left:before {
-	content: "\e621";
-}
-.icon-arrow-right:before {
-	content: "\79";
+.icon-refresh:before {
+	content: "\e622";
 }
 .icon-reply:before {
 	content: "\7a";
@@ -206,27 +209,33 @@
 .icon-reply-all:before {
 	content: "\e4";
 }
-.icon-arrow-up:before {
-	content: "\f6";
+.icon-save:before {
+	content: "\e617";
 }
-.icon-arrow-down:before {
-	content: "\fc";
+.icon-search:before {
+	content: "\6f";
+}
+.icon-sent:before {
+	content: "\65";
+}
+.icon-star:before {
+	content: "\67";
+}
+.icon-star-outline:before {
+	content: "\66";
 }
 .icon-tag:before {
 	content: "\df";
 }
-.icon-read:before {
-	content: "\32";
+.icon-trash:before {
+	content: "\6a";
 }
-.icon-preferences:before {
-	content: "\33";
+.icon-unlock:before {
+	content: "\71";
 }
-.icon-profile:before {
-	content: "\34";
+.icon-unread:before {
+	content: "\72";
 }
-.icon-key:before {
-	content: "\35";
-}
-.icon-lavaboom:before {
-	content: "\36";
+.icon-yes:before {
+	content: "\e618";
 }

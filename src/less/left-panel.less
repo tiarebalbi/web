@@ -68,7 +68,7 @@
 					vertical-align: middle;
 				}
 
-				> span:first-child{
+				[class^="icon-"], [class*=" icon-"] {
 					display: inline-block;
 					.lava-icon-22();
 					position: relative;
@@ -78,7 +78,7 @@
 					left: -.3rem;
 				}
 				> .action{
-					transition: .4s all;
+					transition: .4s color;
 					white-space: nowrap;
 					overflow-x: hidden;
 					.opacity(1);
@@ -93,15 +93,41 @@
 					margin-left: .5rem;
 					font-weight: normal;
 				}
+				
 				&:hover{
 					color: @lava-left-panel-icon-hover;
-					> span:first-child{
+					> [class^="icon-"], > [class*=" icon-"]{
 						color: @lava-left-panel-icon-hover;
 						transition: .2s color;
 					}
 				}
 
 				outline: 0 none !important;
+			}
+
+			li {
+				a{
+					padding-right: 0;
+					&:hover{
+						.action{
+							width: 9.5rem;
+						}
+						.icon-edit{
+							display: block;
+						}
+					}
+				}
+				.action{
+					width: 12.6rem;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+				.icon-edit{
+					display: none;
+					float: right;
+					left: 0;
+					.lava-icon-22();
+				}
 			}
 
 			&.compose{
