@@ -1,0 +1,23 @@
+.key-pair{
+	border: @border-site-wide;
+	padding: .8rem;
+	list-style: none !important;
+	.header{
+		height: 5rem;
+	}
+	.key-pair-details{
+		li{
+			display: flex;
+			> * {
+				// display: table-cell;
+				width: 50%;
+			}
+			span{
+				.text-right();
+			}
+		}
+	}
+	.keys{
+		.list-unstyled();
+	}
+}
