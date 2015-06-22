@@ -136,16 +136,18 @@ module.exports = (co, crypto, user, Manifest, ManifestPart) => {
 				isHtml = !!mailObject.html;
 				body.data = mailObject.text ? mailObject.text : mailObject.html;
 
-				for(let a of mailObject.attachments)
-					files.push(new ManifestPart({
-						id: a.contentId,
-						hash: a.checksum,
-						filename: a.fileName,
-						content_type: a.contentType ? a.contentType : 'application/octet-stream',
-						charset: 'utf-8',
-						size: a.length,
-						data: a.content
-					}));
+				if (mailObject.attachments) {
+					for (let a of mailObject.attachments)
+						files.push(new ManifestPart({
+							id: a.contentId,
+							hash: a.checksum,
+							filename: a.fileName,
+							content_type: a.contentType ? a.contentType : 'application/octet-stream',
+							charset: 'utf-8',
+							size: a.length,
+							data: a.content
+						}));
+				}
 			}
 		} catch (err) {
 			console.error('Email.fromEnvelope decrypt error', err);
