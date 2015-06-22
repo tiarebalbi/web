@@ -1,4 +1,4 @@
-module.exports = function ($rootScope, $interval, $timeout, $templateCache, $compile, co, utils, consts, crypto, user, LavaboomAPI) {
+module.exports = function ($rootScope, $templateCache, $compile, co, utils, consts, crypto, user, LavaboomAPI) {
 	const self = this;
 
 	const transformNodes = (dom, level = 0) => {
@@ -31,41 +31,6 @@ module.exports = function ($rootScope, $interval, $timeout, $templateCache, $com
 			return a;
 		}, {}));
 	});
-
-	this.autoSave = (getEmail) => {
-		$timeout(() => co(function *(){
-			let email = getEmail();
-			let key = user.key.armor();
-
-			console.log('auto save:', email);
-
-			let [meta, body] = yield [
-				crypto.encodeWithKeys(JSON.stringify({
-					publicKey: email.publicKey,
-					to: email.to,
-					cc: email.cc,
-					bcc: email.bcc,
-					subject: email.subject
-				}), [key]),
-
-				crypto.encodeWithKeys(email.body, [key])
-			];
-
-			meta = btoa(crypto.messageToBinary(meta.pgpData));
-			body = btoa(crypto.messageToBinary(body.pgpData));
-
-			console.log('auto save:', meta, body);
-
-			let data = {
-				name: 'draft',
-				meta: {meta: meta},
-				body: body,
-				tags: ['draft']
-			};
-
-			yield email.id ? LavaboomAPI.files.update(email.id, data) : LavaboomAPI.files.create(data);
-		}), 1000);
-	};
 
 	this.buildForwardedTemplate = (body, signature, forwardEmails) => co(function *(){
 		return yield utils.fetchAndCompile('LavaMail/inbox/forwardedEmail', {

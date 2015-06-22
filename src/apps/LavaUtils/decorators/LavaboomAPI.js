@@ -41,12 +41,12 @@ module.exports = ($delegate, $rootScope, $translate, co, utils) => {
 		let originalFunction = obj[k];
 
 		obj[k] = (...args) => {
-			console.log(`Calling ${callName}`, args ? args : '[no args]', '...');
+			console.log(`Calling ${callName}`, args ? angular.copy(args) : '[no args]', '...');
 			return co(function *() {
 				try {
 					let res = yield originalFunction(...args);
 
-					console.log(`${callName}: `, res);
+					console.log(`${callName}: `, angular.copy(res));
 
 					return res;
 				} catch (err) {

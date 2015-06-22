@@ -11,11 +11,16 @@ module.exports = (co, utils, crypto) => {
 	}
 
 	File.fromEnvelope = (envelope) => co(function *() {
-		let [body, meta] = yield [co.def(crypto.decodeRaw(envelope.body), null), co.def(crypto.decodeRaw(envelope.meta.meta), null)];
+		let [body, meta] = yield [crypto.decodeRaw(envelope.body, true), crypto.decodeRaw(envelope.meta.meta, true)];
+
 		envelope.body = body;
 		envelope.meta = JSON.parse(meta);
 
-		return new File(envelope);
+		let r = new File(envelope);
+
+		console.log('file created', r);
+
+		return r;
 	});
 	
 	return File;

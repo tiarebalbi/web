@@ -78,17 +78,18 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, helpers,
 
 	this.options = {};
 
-	this.decodeRaw = (message) => co(function *(){
+	this.decodeRaw = (message, isRaw = false) => co(function *(){
 		if (!message)
 			throw new Error('nothing_to_decrypt');
 
-		const pgpMessage = openpgp.message.readArmored(message);
+		const pgpMessage = isRaw ? self.messageFromBinary(atob(message)) : openpgp.message.readArmored(message);
 
-		console.log('decodeRaw with keys', getDecryptedPrivateKeys());
+		console.log('decodeRaw with keys', pgpMessage, getDecryptedPrivateKeys());
 
 		const decryptResults = yield (getDecryptedPrivateKeys()
 			.map(key => {
 				var encryptionKeyIds = pgpMessage.getEncryptionKeyIds();
+				console.log('decodeRaw', encryptionKeyIds);
 				if (!encryptionKeyIds.length)
 					return null;
 
@@ -112,6 +113,8 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, helpers,
 			a = a.concat(openpgp.key.readArmored(k).keys);
 			return a;
 		}, []);
+
+		console.log('encodeWithKeys', message, mergedPublicKeys);
 
 		return {
 			pgpData: yield openpgp.encryptMessage(mergedPublicKeys, message),
@@ -372,7 +375,15 @@ module.exports = function($q, $rootScope, $injector, consts, co, utils, helpers,
 		};
 	});
 
-	this.messageToBinary = (message) => openpgp.message.readArmored(message).packets.write();
+	this.messageToBinary = (message) => {
+		return openpgp.message.readArmored(message).packets.write();
+	};
+
+	this.messageFromBinary = (message) => {
+		let packetList = new openpgp.packet.List();
+		packetList.read(message);
+		return new openpgp.message.Message(packetList);
+	};
 
 	this.removeAllKeys = () => {
 		storage.clearAllKeys();

@@ -158,12 +158,23 @@ module.exports = function($q, $rootScope, $timeout,
 	this.getDraftById = (draftId) => co(function *(){
 		const res = yield LavaboomAPI.files.get(draftId);
 
+		console.log(res);
+
 		return res.body.file ? File.fromEnvelope(res.body.file) : null;
+	});
+
+	this.createFile = (file) => co(function *(){
+		return yield LavaboomAPI.files.create(file);
+	});
+
+	this.updateFile = (fileId, file) => co(function *(){
+		return yield LavaboomAPI.files.update(fileId, file);
 	});
 
 	this.requestList = (labelName, offset, limit) => co(function *() {
 		if (labelName == 'Drafts') {
 			let files = (yield LavaboomAPI.files.list({
+				tags: ['draft'],
 				sort: sortQuery,
 				offset: offset,
 				limit: limit

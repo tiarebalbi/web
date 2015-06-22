@@ -1,4 +1,4 @@
-module.exports = ($rootScope, $scope, $stateParams, $translate,
+module.exports = ($rootScope, $scope, $stateParams, $translate, $interval,
 							   utils, consts, co, router, composeHelpers, textAngularHelpers, crypto,
 							   user, contacts, inbox, Manifest, Contact, hotkey, ContactEmail, Email, Attachment) => {
 	$scope.toolbar = [
@@ -10,6 +10,19 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		['submit']
 	];
 	$scope.taggingTokens = 'SPACE|,|/';
+
+	$scope.form = {
+		person: {},
+		selected: {
+			to: [],
+			cc: [],
+			bcc: [],
+			from: contacts.myself
+		},
+		fromEmails: [contacts.myself],
+		subject: '',
+		body: ''
+	};
 
 	$scope.isSending = false;
 	$scope.isWarning = false;
@@ -31,6 +44,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 	let forwardThreadId = $stateParams.forwardThreadId;
 	let toEmail = $stateParams.to;
 	let publicKey = null;
+	let autoSaveInterval = null;
 
 	let manifest = null;
 	let newHiddenContact = null;
@@ -79,13 +93,13 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		let draft = null;
 		if (draftId) {
 			draft = yield inbox.getDraftById(draftId);
-			params = draft.meta.meta;
+			params = draft.meta;
 		} else 
 			params = $stateParams;
 
-		console.log('compose initialize, draft:', draft);
-
 		publicKey = params.publicKey ? crypto.getPublicKeyByFingerprint(params.publicKey) : null;
+
+		console.log('compose initialize, draft:', draft,  publicKey);
 
 		if (publicKey) {
 			let blob = new Blob([publicKey.armor()], {type: 'text/plain'});
@@ -99,6 +113,8 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		}
 
 		$scope.$bind('contacts-changed', () => {
+			console.log('compose initialize contacts-changed binding');
+
 			let toEmailContact = ContactEmail.transform(toEmail);
 
 			let people = [...contacts.people.values()];
@@ -206,22 +222,38 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 					};
 				}
 
-				console.log('wub wub', $scope.form);
+				autoSaveInterval = $interval(() => co(function *(){
+					let key = user.key.armor();
 
-				composeHelpers.autoSave(() => ({
-					id: draftId,
-					publicKey: publicKey,
-					to: $scope.form.selected.to,
-					cc: $scope.form.selected.cc,
-					bcc: $scope.form.selected.bcc,
-					subject: $scope.form.subject,
-					body: $scope.form.body
-				}));
+					let [meta, body] = yield [
+						crypto.encodeWithKeys(JSON.stringify({
+							publicKey: publicKey,
+							to: $scope.form.selected.to ? $scope.form.selected.to.map(e => e.email) : [],
+							cc: $scope.form.selected.cc ? $scope.form.selected.cc.map(e => e.email) : [],
+							bcc: $scope.form.selected.bcc ? $scope.form.selected.bcc.map(e => e.email) : [],
+							subject: $scope.form.subject
+						}), [key]),
+
+						crypto.encodeWithKeys($scope.form.body, [key])
+					];
+
+					meta = btoa(crypto.messageToBinary(meta.pgpData));
+					body = btoa(crypto.messageToBinary(body.pgpData));
+
+					let data = {
+						name: 'draft',
+						meta: {meta: meta},
+						body: body,
+						tags: ['draft']
+					};
+
+					yield draftId ? inbox.updateFile(draftId, data) : inbox.createFile(data);
+				}), consts.COMPOSE_AUTO_SAVE_INTERVAL);
 
 				console.log('$scope.form', $scope.form);
 			});
 		});
-	});
+	}).catch(e => console.error('!wtf!', e));
 
 	$scope.onFileDrop = (file) => {
 		if (file.type && file.type.startsWith('image'))
@@ -486,6 +518,10 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		};
 
 	$scope.formatPaste = (html) => textAngularHelpers.formatPaste(html);
+
+	$scope.$on('$destroy',  () => {
+		$interval.cancel(autoSaveInterval);
+	});
 
 	hotkey.registerCustomHotkeys($scope, [
 		{
