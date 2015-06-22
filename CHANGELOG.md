@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - settings/security password change works correctly with Lavaboom Sync
 - refresh issue when refreshing an empty label
 - export keys now name files && emails correctly(styled)
+- pgp/mime support: text, html, attachments
 
 ## 0.4.6 - 2015-06-10
 ### Fixed

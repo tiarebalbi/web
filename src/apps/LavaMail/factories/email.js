@@ -1,8 +1,11 @@
-module.exports = (co, crypto, user, Manifest) => {
+const MailParser = require('mailparser').MailParser;
+const chan = require('chan');
+
+module.exports = (co, crypto, user, Manifest, ManifestPart) => {
 	const reRegex =
 		/([\[\(] *)?(RE?S?|FYI|RIF|I|FS|VB|RV|ENC|ODP|PD|YNT|ILT|SV|VS|VL|AW|WG|ΑΠ|ΣΧΕΤ|ΠΡΘ|תגובה|הועבר|主题|转发|FWD?) *([-:;)\]][ :;\])-]*|$)|\]+ *$/i;
 
-	function Email (opt, manifest) {
+	function Email (opt, manifest, files, isHtml = false) {
 		const self = this;
 
 		this.id =  opt.id;
@@ -14,11 +17,14 @@ module.exports = (co, crypto, user, Manifest) => {
 		if (!self.subject)
 			self.subject = '';
 
-		this.files = manifest ? manifest.files : [];
-		this.isHtml = manifest ? manifest.getPart('body').isHtml() : false;
+		this.files = manifest ? manifest.files : files;
+
+		this.getFileById = (id) => self.files.find(f => f.id == id);
+		this.isHtml = manifest ? manifest.getPart('body').isHtml() : isHtml;
 
 		const prettify = (a) => a.map(e => e.prettyName).join(',');
 
+		this.kind = opt.kind;
 		this.from = manifest ? manifest.from : Manifest.parseAddresses(opt.from);
 		this.fromAllPretty = prettify(self.from);
 
@@ -104,14 +110,45 @@ module.exports = (co, crypto, user, Manifest) => {
 
 	Email.fromEnvelope = (envelope) => co(function *() {
 		let [body, manifestRaw] = [null, null];
+		let isHtml = false;
+		let files = [];
 
 		try {
 			let [bodyData, manifestRawData] = yield [
 				crypto.decodeRaw(envelope.body),
-				crypto.decodeRaw(envelope.manifest)
+				envelope.kind == 'manifest' ? crypto.decodeRaw(envelope.manifest) : null
 			];
 			body = {state: 'ok', data: bodyData};
 			manifestRaw = manifestRawData;
+
+			if (envelope.kind == 'pgpmime') {
+				let ch = chan();
+				let mailparser = new MailParser();
+				mailparser.on('end', function(mailObject){
+					ch(mailObject);
+				});
+				mailparser.write(body.data);
+				mailparser.end();
+
+				let mailObject = yield ch;
+				console.log('parsed mime', mailObject);
+
+				isHtml = !!mailObject.html;
+				body.data = mailObject.text ? mailObject.text : mailObject.html;
+
+				if (mailObject.attachments) {
+					for (let a of mailObject.attachments)
+						files.push(new ManifestPart({
+							id: a.contentId,
+							hash: a.checksum,
+							filename: a.fileName,
+							content_type: a.contentType ? a.contentType : 'application/octet-stream',
+							charset: 'utf-8',
+							size: a.length,
+							data: a.content
+						}));
+				}
+			}
 		} catch (err) {
 			console.error('Email.fromEnvelope decrypt error', err);
 			body = {state: err.message, data: envelope.body};
@@ -120,7 +157,7 @@ module.exports = (co, crypto, user, Manifest) => {
 		let email = new Email(angular.extend({}, envelope, {
 			body: body,
 			preview: body
-		}), manifestRaw ? Manifest.createFromJson(manifestRaw) : null);
+		}), manifestRaw ? Manifest.createFromJson(manifestRaw) : null, files, isHtml);
 
 		console.log('email decoded', email, manifestRaw);
 
