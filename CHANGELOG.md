@@ -2,14 +2,51 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-##Not released
-###Modified
+## UNRELEASED
+### Added
+- Spanish (provided by mortaldamm)
+- settings/security password change error validation  
+
+### Modified
+- settings/security and settings/keys - split
+
+### Fixed
+- fixed openpgp.js issue with decrypting messages when there is one or more keys are still encrypted
+- wrong error message when message can't be decrypted
+- hidden contacts reverted
+- settings/security password change works correctly with Lavaboom Sync
+- refresh issue when refreshing an empty label
+- export keys now name files && emails correctly(styled)
+- pgp/mime support: text, html, attachments
+
+## 0.4.6 - 2015-06-10
+### Fixed
+- fixed initialization failed caused by migration issue from old contacts format
+- fixed wrong time titles display caused by timeAgo i18n issue
+
+## 0.4.5 - 2015-06-10
+### Added
+- update notification
+- support for mixed public-private .asc key-pairs
+
+### Modified
 - german language
+- contacts: hidden contacts now create unnamed contact - they can be edited and removed same as any other contact
+- contacts: saving contacts with duplicate emails results in a warning
+- better error handling for keys import and Lavaboom sync update
+
+### Fixed
+- use N-1 web-threads for crypto as UI may become unresponsive on heavy tasks
+- up/down hotkey removed from settings/* as it may interfere with scrolling(which is more important operation here)
+- reply-to shortcut
+- pgp/inline should be handled properly now
+- import keys should update synced copy when Lavaboom sync is enabled
 
 ## 0.4.4 - 2015-06-09
 ### Added
 - build system: added translation file normalization(same keys as en.json, same keys order, same spacing)
 - more tooltips all around
+- update is available notification(hard refresh + logout if defined in manifest.json)
 
 ### Modified
 - contacts: star works in non-edit mode and triggers auto-save after standard delay

@@ -13,17 +13,13 @@ body{
 }
 
 .lava-font{
-	font-weight: @base-font-weight !important;
-	.medium{
-		.lava-font-medium();
-	}
+	
+	.lava-font-base();
+	
 	strong, .strong{
 		.lava-font-strong();
 	}
-	@media (-webkit-min-device-pixel-ratio: 2), 
-		(min-resolution: 192dpi) { 
-		font-weight: @light-font-weight !important;
-	}
+	
 }
 
 .lava-font-strong{
@@ -34,20 +30,12 @@ body{
 	}
 }
 
-.lava-font-medium{
+.lava-font-base{
 	font-weight: 400;
 	@media (-webkit-min-device-pixel-ratio: 2), 
 		(min-resolution: 192dpi) {
 		font-weight: 300;
 	}
-}
-
-.lava-font-light{
-	font-weight: 100 !important;
-	// @media (-webkit-min-device-pixel-ratio: 2), 
-	// 	(min-resolution: 192dpi) {
-	// 	font-weight: 100 !important;
-	// }
 }
 
 .email-formatting{

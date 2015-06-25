@@ -36,10 +36,17 @@ module.exports = ($rootScope, $scope, $stateParams, $interval, $timeout, $transl
 		console.log('downloading file from email', 'email', email);
 
 		$scope.label = translations.LB_DOWNLOADING;
-		let fileData = yield inbox.downloadAttachment(emailId, fileId);
 
-		let manifestFile = email.manifest.getFileById(fileId);
-		saver.saveAs(fileData, manifestFile.filename);
+		if (fileId.includes('@')) {
+			let file = email.getFileById(fileId);
+			console.log(file.data);
+			saver.saveAs(file.data, file.filename);
+		} else {
+			let fileData = yield inbox.downloadAttachment(emailId, fileId);
+
+			let manifestFile = email.manifest.getFileById(fileId);
+			saver.saveAs(fileData, manifestFile.filename);
+		}
 
 		$scope.progress = 100;
 		$scope.label = translations.LB_COMPLETED;

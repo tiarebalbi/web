@@ -15,20 +15,31 @@ module.exports = function ($q, $rootScope, $filter, $translate, co, crypto, cons
 		try {
 			importObj = JSON.parse(jsonBackup);
 		} catch (error) {
-			let keyring = openpgp.key.readArmored(jsonBackup);
+			let publicArmoredKey = utils.findChunkEnclosedWith(jsonBackup, '-----BEGIN PGP PUBLIC KEY BLOCK-----', '-----END PGP PUBLIC KEY BLOCK-----');
+			let privateArmoredKey = utils.findChunkEnclosedWith(jsonBackup, '-----BEGIN PGP PRIVATE KEY BLOCK-----', '-----END PGP PRIVATE KEY BLOCK-----');
 
-			if (keyring.err && keyring.err.length > 0)
-				throw new Error('WRONG_FORMAT');
+			function processKeyring(armored) {
+				if (!armored)
+					return;
 
-			for (let key of keyring.keys) {
-				if (key.primaryKey.tag == 5)
-					privateKeys.push(key);
-				else
-				if (key.primaryKey.tag == 6)
-					publicKeys.push(key);
-				else
-					throw new Error('UNEXPECTED_KEY_TYPE_FOUND');
+				let keyring = openpgp.key.readArmored(armored);
+
+				if (keyring.err && keyring.err.length > 0)
+					throw new Error('WRONG_FORMAT');
+
+				for (let key of keyring.keys) {
+					if (key.primaryKey.tag == 5)
+						privateKeys.push(key);
+					else
+					if (key.primaryKey.tag == 6)
+						publicKeys.push(key);
+					else
+						throw new Error('UNEXPECTED_KEY_TYPE_FOUND');
+				}
 			}
+
+			processKeyring(publicArmoredKey);
+			processKeyring(privateArmoredKey);
 
 			return {
 				prv: privateKeys,
@@ -90,13 +101,16 @@ module.exports = function ($q, $rootScope, $filter, $translate, co, crypto, cons
 	function formatExportFile(body) {
 		let bodyHash = utils.hexify(openpgp.crypto.hash.sha512(JSON.stringify(body)));
 
-		return JSON.stringify({
-			readme: consts.KEYS_BACKUP_README,
-			warning: translations.BACKUP_WARNING_TEXT,
-			body: body,
-			exported: $filter('date')(Date.now(), 'yyyy-MM-dd HH:mm:ss Z'),
-			bodyHash: bodyHash
-		}, null, 4);
+		return {
+			backup: JSON.stringify({
+				readme: consts.KEYS_BACKUP_README,
+				warning: translations.BACKUP_WARNING_TEXT,
+				body: body,
+				exported: $filter('date')(Date.now(), 'yyyy-MM-dd HH:mm:ss Z'),
+				bodyHash: bodyHash
+			}, null, 4),
+			hash: bodyHash
+		};
 	}
 
 	this.exportKeys = (email = null) => {
@@ -139,8 +153,8 @@ module.exports = function ($q, $rootScope, $filter, $translate, co, crypto, cons
 		return publicKey.armor();
 	};
 
-	this.getExportFilename = (backup, userName) => {
-		let hashPostfix = utils.hexify(openpgp.crypto.hash.md5(backup)).substr(0, 8);
+	this.getExportFilename = (hash, userName) => {
+		let hashPostfix = hash.substr(0, 8);
 		return `${userName}-${hashPostfix}.json`;
 	};
 };

@@ -132,11 +132,13 @@ module.exports = ($rootScope, $scope, $state, $timeout, $interval, $translate,
 	};
 
 	$scope.replyThread = (event, tid) => {
-		$scope.showPopup('compose', {replyThreadId: tid});
+		let thread = $scope.threads[tid];
+
+		if (thread)
+			$scope.showPopup('compose', {replyThreadId: tid, replyEmailId: thread.emails[thread.emails.length - 1]});
 	};
 
 	$scope.deleteThread = (tid) => {
-		console.log('deleteThread', tid, $scope.threads[tid]);
 		inbox.requestDelete($scope.threads[tid]);
 	};
 
@@ -200,10 +202,7 @@ module.exports = ($rootScope, $scope, $state, $timeout, $interval, $translate,
 		inbox.invalidateThreadCache();
 		inbox.invalidateEmailCache();
 
-		if ($scope.selectedTid)
-			$state.go('main.inbox.label', {labelName: $scope.labelName, threadId: $scope.selectedTid}, {reload: true});
-		else
-			$state.go('main.inbox', {labelName: $scope.labelName}, {reload: true});
+		$state.go('main.inbox.label', {labelName: $scope.labelName.toLowerCase(), threadId: $scope.selectedTid}, {reload: true});
 	});
 
 	$scope.scroll = () => {

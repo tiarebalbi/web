@@ -1,13 +1,15 @@
-module.exports = ($rootScope, $scope, $translate, $state, $stateParams,
+module.exports = ($rootScope, $scope, $translate, $state, $stateParams, utils,
 							   dialogs, co, contacts, notifications, ContactEmail) => {
 	$scope.contactId = $stateParams.contactId;
-	const email = $stateParams.email;
-
 	$scope.isEditMode = $scope.contactId == 'new';
+
+	const email = $stateParams.email;
+	let originalContact = null;
 
 	const translations = {
 		LB_NEW_CONTACT: '',
 		LB_CONTACT_CANNOT_BE_SAVED: '',
+		LB_CONTACT_CANNOT_BE_SAVED_DUPLICATE: '',
 		LB_CONTACT_SAVED: '',
 		LB_CONTACT_DELETED: '',
 		LB_CONTACT_CANNOT_BE_DELETED: '',
@@ -53,8 +55,6 @@ module.exports = ($rootScope, $scope, $translate, $state, $stateParams,
 		$scope.details.businessEmails.push(e);
 	};
 
-	let originalContact = null;
-
 	$scope.openEditMode = () => {
 		originalContact = angular.copy($scope.details);
 		$scope.isEditMode = true;
@@ -67,6 +67,17 @@ module.exports = ($rootScope, $scope, $translate, $state, $stateParams,
 
 	$scope.saveThisContact = () => co(function *(){
 		try {
+			let allEmails = $scope.details.privateEmails.concat($scope.details.businessEmails);
+			let uniqEmails = utils.uniq(allEmails, e => e.email);
+
+			if (uniqEmails.length != allEmails.length) {
+				notifications.set('contact-save-fail', {
+					text: translations.LB_CONTACT_CANNOT_BE_SAVED_DUPLICATE,
+					namespace: 'contact.profile'
+				});
+				return;
+			}
+
 			if ($scope.details.id != 'new')
 				yield contacts.updateContact($scope.details);
 			else {

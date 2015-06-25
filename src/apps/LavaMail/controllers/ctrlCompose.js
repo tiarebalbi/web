@@ -415,7 +415,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 
 		let p = emailTemplate.split('@');
 
-		let name, email;
+		let name = '', email = '';
 
 		if (p.length > 1)
 			[name, email] = [p[0].trim(), `${p[0].trim()}@${p[1].trim()}`];

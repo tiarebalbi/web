@@ -12,6 +12,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 	this.email = '';
 	this.styledEmail = '';
 	this.nameEmail = '';
+	this.nameStyledEmail = '';
 	this.altEmail = '';
 	this.aliases = [];
 	this.accountType = '';
@@ -73,6 +74,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 		self.email = `${username}@${consts.ROOT_DOMAIN}`;
 		self.styledEmail = `${styledUsername}@${consts.ROOT_DOMAIN}`;
 		self.nameEmail = `${self.name} <${self.email}>`;
+		self.nameStyledEmail = `${self.name} <${self.styledEmail}>`;
 		self.altEmail = altEmail;
 		self.accountType = type;
 		self.aliases = aliases ? aliases.map(a => `${a}@${consts.ROOT_DOMAIN}`) : [];
@@ -110,9 +112,14 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 		let publicKeys = crypto.getAvailablePublicKeysForEmail(self.email);
 		let keysCreationPromises = [];
 
+		console.log('user.syncKeys publicKeys: ', publicKeys);
+
 		publicKeys.forEach(key => {
 			if (!keysByFingerprint[key.primaryKey.fingerprint]) {
 				console.log(`Importing key with fingerprint '${key.primaryKey.fingerprint}' to the server...`);
+
+				console.log(key, key.armor());
+				console.log(openpgp.key.readArmored(key.armor()));
 
 				keysCreationPromises.push(LavaboomAPI.keys.create(key.armor()));
 			} else
@@ -234,12 +241,24 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 		});
 	};
 
+	this.updateLavaboomSync = () => co(function *(){
+		if (self.settings.isLavaboomSynced) {
+			self.settings.keyring = cryptoKeys.exportKeys(self.email).backup;
+
+			try {
+				yield self.update(self.settings);
+			} catch (err) {
+				throw new Error('LS_ERROR');
+			}
+		}
+	});
+
 	this.removeTokens = () => {
 		delete localStorage['lava-token'];
 		delete sessionStorage['lava-token'];
 	};
 
-	this.logout = () => co(function *(){
+	this.logoutFromMemory = () => {
 		$rootScope.$broadcast('logout');
 
 		self.settings = {};
@@ -250,6 +269,10 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 		LavaboomHttpAPI.setAuthToken('');
 		isAuthenticated = false;
 		token = '';
+	};
+
+	this.logout = () => co(function *(){
+		self.logoutFromMemory();
 
 		yield $state.go('empty');
 

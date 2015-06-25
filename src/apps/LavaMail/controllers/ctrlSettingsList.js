@@ -1,5 +1,5 @@
 module.exports = ($rootScope, $scope, $state, router, hotkey) => {
-	const settingsList = ['main.settings.general', 'main.settings.profile', 'main.settings.security', 'main.settings.plan'];
+	const settingsList = ['main.settings.general', 'main.settings.profile', 'main.settings.security', 'main.settings.keys', 'main.settings.plan'];
 
 	{
 		const goSettings = (event, delta) => {
@@ -18,12 +18,12 @@ module.exports = ($rootScope, $scope, $state, router, hotkey) => {
 
 		hotkey.registerCustomHotkeys($scope, [
 			{
-				combo: ['h', 'k', 'left', 'up'],
+				combo: ['h', 'k', 'left'],
 				description: 'LAVAMAIL.HOTKEY.MOVE_UP',
 				callback: (event, key) => goSettings(event, -1)
 			},
 			{
-				combo: ['j', 'l', 'right', 'down'],
+				combo: ['j', 'l', 'right'],
 				description: 'LAVAMAIL.HOTKEY.MOVE_DOWN',
 				callback: (event, key) => goSettings(event, +1)
 			}

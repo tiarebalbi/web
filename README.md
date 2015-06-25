@@ -1,10 +1,10 @@
-# Lavaboom WEB [![Build Status](https://travis-ci.org/lavab/web.svg)](https://travis-ci.org/lavab/web)
+# Lavaboom WEB Client [![Build Status](https://travis-ci.org/lavab/web.svg)](https://travis-ci.org/lavab/web)
 
 <img src="https://mail.lavaboom.com/img/Lavaboom-logo.svg" align="right" width="200px" />
 
 Lavaboom's Web written using angular.js, jade, less
 
-Contains the whole web interface and client-side logic. Consists from 2 applications - thin singup/signin application and the core application.
+Contains the whole web interface and client-side logic. Consists from 2 applications - thin singup/signin application and the core application. You can run the client locally for testing, or if you just want a faster front-end. Have fun.
 
 ## Requirements
 
@@ -38,7 +38,7 @@ Before running `gulp`, please make sure `npm` finished without errors
 
 please check `web/gulp/config.js` for available configuration options
 
-- `isProduction` - is production build?(don't change directly, use `gulp develop`, `gulp productiuon`)
+- `isProduction` - is production build?(don't change directly, use `gulp develop`, `gulp production`)
 - `nodeVersion` - minimum required node version(don't change)
 - `isDebugable` - is debugable build?(if it's not gulp will not generate source maps)
 - `isLogs` - is loggable build?(if it's not gulp will not remove all logging statements)

@@ -45,6 +45,7 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 		self.created = opt.date_created;
 		self.modified = opt.date_modified;
 		self.isToYourself = false;
+		self.emails = opt.emails;
 
 		self.members = opt.members && opt.members.length > 0 ? filterMembers(Manifest.parseAddresses(opt.members)) : [];
 		self.membersPretty = prettify(self.members);

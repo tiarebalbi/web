@@ -92,13 +92,8 @@ module.exports = function($q, $rootScope, $timeout,
 	});
 
 	this.setThreadReadStatus = (threadId) => co(function *(){
-		const thread = (yield LavaboomAPI.threads.get(threadId)).body.thread;
-
 		yield LavaboomAPI.threads.update(threadId, {
-			is_read: true,
-
-			// todo: hack
-			labels: thread.labels
+			is_read: true
 		});
 	});
 

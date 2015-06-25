@@ -15,6 +15,23 @@ div.ng-cloak
 					span.action {{labelTranslations[label.name.toUpperCase()]}}
 					span.badge {{label.threadsUnread | unread}}
 					span.combo(ng-show="isActive('g')") ({{getMultiComboPrettified('g', label.name)}})
+			li
+				a
+					span.icon-label
+					span.action Labels
+				ul
+					li
+						a
+							span.action Football
+							span.icon-edit
+					li
+						a
+							span.action European Vacation
+							span.icon-edit
+					li
+						a(title="An Extremely Long Label Name")
+							span.action An extremely long label name
+							span.icon-edit
 			li.separator
 			li(ui-sref-active="active")
 				a(ng-click="toggleLeftPanel('main.contacts')", ui-sref="main.contacts", tooltip-placement="right", tooltip = "{{'LAVAMAIL.NAV.LB_CONTACTS' | translate}}")

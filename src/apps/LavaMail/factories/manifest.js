@@ -2,33 +2,11 @@ const mimelib = require('mimelib');
 const utf8 = require('utf8');
 const qEncoding = require('q-encoding');
 
-module.exports = ($translate, contacts, utils, crypto) => {
+module.exports = ($translate, contacts, utils, crypto, ManifestPart) => {
 	const translations = {
 		LB_NO_SUBJECT: ''
 	};
 	$translate.bindAsObject(translations, 'LAVAMAIL.INBOX');
-
-	function ManifestPart (manifestPart) {
-		const self = this;
-
-		this.id = manifestPart.id;
-		this.size = manifestPart.size;
-		this.filename = manifestPart.filename;
-		this.hash = manifestPart.hash;
-
-		this.isValid = (body) => body.length == self.size && crypto.hash(body) == self.hash;
-
-		const contentType = manifestPart.content_type;
-		if (contentType) {
-			this.contentType = (contentType.defaultValue ? contentType.defaultValue : contentType).toLowerCase();
-			this.charset = (contentType.charset ? contentType.charset : 'utf-8').toLowerCase();
-		} else {
-			this.contentType = 'text/plain';
-			this.charset = 'utf-8';
-		}
-
-		this.isHtml = () => self.contentType.includes('/html');
-	}
 
 	function Manifest (manifest) {
 		const self = this;
@@ -118,9 +96,12 @@ module.exports = ($translate, contacts, utils, crypto) => {
 	Manifest.create = ({fromEmail, to, cc, bcc, subject}) => {
 		function encode (s) {
 			return s;
-			/*return angular.isArray(s)
+			/*if (!s)
+				return s;
+
+			return angular.isArray(s)
 				? s.map(e => encode(e))
-				: qEncoding.encode(utf8.encode(s));*/
+				: '=?utf-8?Q?' + qEncoding.encode(utf8.encode(s)) + '?=';*/
 		}
 
 		const manifest = {

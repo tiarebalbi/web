@@ -38,9 +38,12 @@ module.exports = {
 	POPUP_AUTO_HIDE_DELAY: 500,
 	ORDERED_LABELS: ['Inbox', 'Drafts', 'Sent', 'Starred', 'Spam', 'Trash'],
 	PLAN_LIST: ['free', 'beta', 'supporter', 'premium'],
-	CRYPTO_DEFAULT_THREAD_POOL_SIZE: 4,
+	CRYPTO_DEFAULT_THREAD_POOL_SIZE: 3,
 	KEY_EXPIRY_DAYS: 365 * 30,
 	KEY_EXPIRY_DAYS_WARNING: 10,
+
+	UPDATE_REMIND_AFTER: 60 * 3 * 1000,
+	UPDATE_PULL_INTERVAL: 30000,
 
 	// what, why? because reasons ^^
 	stripBOM: (str) => str.replace(/^\ufeff/g, '')
