@@ -68,6 +68,7 @@ module.exports = ($rootScope, $scope, $translate, $state, $stateParams, dialogs,
 		$scope.contacts = contacts.people;
 
 		const group = (map, letter, item) => {
+			letter = letter.toUpperCase();
 			if (!map[letter])
 				map[letter] = [];
 			map[letter].push(item);
