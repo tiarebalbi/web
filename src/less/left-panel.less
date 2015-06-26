@@ -115,6 +115,8 @@
 						}
 						.icon-edit{
 							display: block;
+							right: 0;
+							transition: .2s right;
 						}
 					}
 				}
@@ -122,12 +124,18 @@
 					width: 12.6rem;
 					overflow: hidden;
 					text-overflow: ellipsis;
+					float: left;
+					transition: .2s width;
 				}
 				.icon-edit{
 					display: none;
 					float: right;
 					left: 0;
 					.lava-icon-22();
+					padding-left: 0;
+					position: relative;
+					right: -100%;
+					transition: .2s right;
 				}
 			}
 
