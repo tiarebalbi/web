@@ -30,11 +30,11 @@ module.exports = (assets) => {
 			scripts: [
 				{
 					src: SRC_UTILS_VENDOR,
-					progressText: 'Loading Lavaboom utils(1)...'
+					progressText: 'Loading Lavaboom Utilities'
 				},
 				{
 					src: SRC_UTILS,
-					progressText: 'Loading Lavaboom utils(2)...'
+					progressText: 'Loading Lavaboom Utilities...'
 				}
 			]
 		},
