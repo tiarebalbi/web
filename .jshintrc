@@ -12,7 +12,7 @@
 	"quotmark": "single",
 	"browserify": true,
 	"globals": {
-		"_": true,
+		"$": true,
 		"angular": true,
 		"openpgp": true,
 		"saveAs": true,
@@ -22,7 +22,6 @@
 		"checker": true,
 
 		"assets": true,
-		"primaryApplicationName": true,
 		"console": true
 	},
 	"undef": true,

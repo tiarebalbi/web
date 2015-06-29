@@ -42,6 +42,7 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 		};
 
 		self.id = opt.id;
+		self.name = opt.name;
 		self.created = opt.date_created;
 		self.modified = opt.date_modified;
 		self.isToYourself = false;
@@ -52,17 +53,19 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 		self.labels = opt.labels && opt.labels.length > 0 ? opt.labels : [];
 		self.isRead = !!opt.is_read;
 		self.secure = opt.secure;
-		self.isReplied = opt.emails.length > 1;
-		self.isForwarded = Email.getSubjectWithoutRe(self.subject) != self.subject;
+		self.isReplied = opt.emails && opt.emails.length > 1;
 
 		this.setupManifest = (manifest, setIsLoaded = false) => {
 			isLoaded = setIsLoaded;
 
 			self.to = manifest ? manifest.to : [];
+			self.cc = manifest ? manifest.cc : [];
+			self.bcc = manifest ? manifest.bcc : [];
 
 			self.subject = manifest && manifest.subject ? manifest.subject : opt.subject;
 			if (!self.subject)
 				self.subject = '';
+			self.isForwarded = Email.getSubjectWithoutRe(self.subject) != self.subject;
 
 			self.attachmentsCount = manifest && manifest.files ? manifest.files.length : 0;
 		};
@@ -74,6 +77,30 @@ module.exports = ($injector, $translate, co, utils, crypto, user, Email, Manifes
 
 		self.setupManifest(manifest);
 	}
+
+	Thread.fromDraftFile = (file) => co(function *() {
+		let inbox = $injector.get('inbox');
+		let labels = yield inbox.getLabels();
+
+		let thread = new Thread({
+			id: file.id,
+			is_read: true,
+			tags: file.tags,
+			name: file.name,
+			subject: file.meta.subject,
+			date_created: file.created,
+			date_modified: file.modified,
+			members: file.meta.to
+		}, null, labels);
+
+		let manifest = file.meta ? Manifest.createFromObject({headers: file.meta, parts: []}) : null;
+
+		console.log('fromDraftFile manifest', manifest);
+
+		thread.setupManifest(manifest, true);
+
+		return thread;
+	});
 
 	Thread.fromEnvelope = (envelope) => co(function *() {
 		let inbox = $injector.get('inbox');
