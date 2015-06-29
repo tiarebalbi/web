@@ -1,6 +1,6 @@
 module.exports = ($rootScope, $timeout, $scope, $state, $translate, $sanitize,
 							   notifications, tests, utils,
-							   router, update,
+							   router, update, consts,
 							   LavaboomAPI, co, translate, crypto, user, inbox, contacts, hotkey, loader, timeAgo) => {
 
 	const translations = {
@@ -277,6 +277,11 @@ module.exports = ($rootScope, $timeout, $scope, $state, $translate, $sanitize,
 			hotkey.initialize(user.settings.isHotkeyEnabled);
 
 			update.initialize();
+
+			user.idleNotify(crypto.options.isPrivateComputer ? consts.LOGOUT_PRIVATE_PC_TIMEOUT : consts.LOGOUT_PUBLIC_PC_TIMEOUT, () => {
+				console.log('idle - logout');
+				user.logout();
+			});
 
 			return {lbDone: translations.LB_SUCCESS};
 		} catch (error) {

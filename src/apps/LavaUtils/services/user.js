@@ -43,6 +43,21 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 	let token = null;
 	let isAuthenticated = false;
 
+	self.idleNotify = (timeout, onIdle) => {
+		var idleState = false;
+		var idleTimer = null;
+		$('*').bind('mousemove click mouseup mousedown keydown keypress keyup submit change mouseenter scroll resize dblclick', () => {
+			clearTimeout(idleTimer);
+			idleState = false;
+
+			idleTimer = setTimeout(() => {
+				idleState = true;
+				onIdle();
+			}, timeout);
+		});
+		$('body').trigger('mousemove');
+	};
+
 	function setupSettings (settings) {
 		return co(function *(){
 			self.defaultSettings.signatureHtml = yield utils.fetchAndCompile('LavaUtils/misc/defaultSignature');
@@ -272,6 +287,7 @@ module.exports = function($q, $rootScope, $state, $timeout, $window, $translate,
 	};
 
 	this.logout = () => co(function *(){
+		console.log('logout');
 		self.logoutFromMemory();
 
 		yield $state.go('empty');
