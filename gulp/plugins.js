@@ -170,8 +170,8 @@ module.exports = function () {
 			for(let k of Object.keys(sharedEnvironment))
 				env[k] = sharedEnvironment[k];
 
-			let defaultTranslationPath = paths.translations.outputForPlugin(plugin.name) + config.defaultLanguageCode + '.json';
-			let indexPath = paths.translations.outputForPlugin(plugin.name) + 'index' + '.json';
+			let defaultTranslationPath = path.resolve(__dirname, '..', paths.translations.outputForPlugin(plugin.name) + config.defaultLanguageCode + '.json');
+			let indexPath = path.resolve(__dirname, '..', paths.translations.outputForPlugin(plugin.name) + 'index' + '.json');
 			if (fs.existsSync(defaultTranslationPath) && fs.existsSync(indexPath)) {
 				env.translationPath = defaultTranslationPath;
 				env.translationIndexPath = indexPath;
