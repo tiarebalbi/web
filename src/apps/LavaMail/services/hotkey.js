@@ -56,7 +56,7 @@ module.exports = function ($rootScope, $translate, $state, $timeout, hotkeys, ro
 	}
 
 	function removeHotkey (option, isDeleteFromList = false) {
-		console.debug('hotkeys: removed', option);
+		//console.debug('hotkeys: removed', option);
 		
 		for(let k of angular.isArray(option.combo) ? option.combo : [option.combo]) {
 			hotkeys.del(k);
@@ -99,7 +99,7 @@ module.exports = function ($rootScope, $translate, $state, $timeout, hotkeys, ro
 		{
 			let callback = option.callback;
 			option.callback = (event, key) => {
-				console.log('router.isOpenedDialog()', router.isOpenedDialog());
+				//console.log('router.isOpenedDialog()', router.isOpenedDialog());
 				if (router.isOpenedDialog())
 					return;
 
@@ -123,11 +123,11 @@ module.exports = function ($rootScope, $translate, $state, $timeout, hotkeys, ro
 			};
 		}
 
-		console.debug('added hotkey', option);
+		//console.debug('added hotkey', option);
 	}
 
 	function clearHotkeys (isRemoveAll = false) {
-		console.log('hotkeys.clearHotkeys', isRemoveAll);
+		//console.log('hotkeys.clearHotkeys', isRemoveAll);
 
 		let isPopupState = router.isPopupState($state.current.name);
 		let isLegendState = isPopupState && $state.current.name.endsWith('.hotkeys');
@@ -170,7 +170,7 @@ module.exports = function ($rootScope, $translate, $state, $timeout, hotkeys, ro
 		if (!options.addedFromState)
 			options.addedFromState = $state.current.name;
 
-		console.log('registerCustomHotkeys', options, 'isActive: ', isActive);
+		//console.log('registerCustomHotkeys', options, 'isActive: ', isActive);
 
 		function register(isFirstTime = false) {
 			let isPopupState = router.isPopupState($state.current.name);
@@ -183,8 +183,8 @@ module.exports = function ($rootScope, $translate, $state, $timeout, hotkeys, ro
 			if (!options.isGlobal && !currentStateName.includes(options.addedFromState))
 				return;
 
-			console.debug(`hotkeys: register(${options.scope}),
-				current state is ${currentStateName} added from state is ${options.addedFromState}`, hotkeys);
+			//console.debug(`hotkeys: register(${options.scope}),
+			//	current state is ${currentStateName} added from state is ${options.addedFromState}`, hotkeys);
 
 			for (let k of hotkeys)
 				addHotkey(k, options.addedFromState, options.isGlobal);

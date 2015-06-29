@@ -5,16 +5,16 @@ div.pane-status(ng-if="selectedTid === null")
 	nav.navbar.navbar-inverse(role="navigation")
 		div
 			ul.nav.navbar-nav
-				li(ng-show="selectedTid && labelName != 'Spam' && labelName != 'Trash'")
+				li(ng-show="selectedTid && labelName != 'Spam' && labelName != 'Trash' && labelName != 'Drafts'")
 					button.btn.btn-default(ng-click="deleteThread(selectedTid)", tooltip="{{'LAVAMAIL.INBOX.MOVE_TO_TRASH' | translate}}", tooltip-placement="bottom", tooltip-append-to-body="true")
 						span.icon-trash
-				li(ng-show="(selectedTid && labelName == 'Trash') || (selectedTid && labelName == 'Spam')")
+				li(ng-show="selectedTid && (labelName == 'Trash' || labelName == 'Drafts' || labelName == 'Spam')")
 					button.btn.btn-default(ng-click="deleteThread(selectedTid)", tooltip="{{'LAVAMAIL.INBOX.BTN_DELETE_PERMANENTLY' | translate}}", tooltip-placement="bottom", tooltip-append-to-body="true")
 						span.icon-empty-trash
-				li(ng-show="(selectedTid && labelName != 'Spam') && (selectedTid && labelName != 'Sent')")
+				li(ng-show="selectedTid && labelName != 'Spam' && labelName != 'Sent' && labelName != 'Drafts'")
 					button.btn.btn-default(ng-click="spamThread(selectedTid)", tooltip="{{'LAVAMAIL.INBOX.MARK_AS_SPAM' | translate}}", tooltip-placement="bottom", tooltip-append-to-body="true")
 						span.icon-ban
-				li(ng-show="selectedTid && labelName != 'Spam' && labelName != 'Trash'")
+				li(ng-show="selectedTid && labelName != 'Spam' && labelName != 'Trash' && labelName != 'Drafts'")
 					button.btn.btn-default(ng-click="starThread(selectedTid)", tooltip="{{'LAVAMAIL.INBOX.STAR_THIS_CONVERSATION' | translate}}", tooltip-placement="bottom", tooltip-append-to-body="true")
 						span.icon-star(ng-show="selectedTid && threads[selectedTid].isLabel('Starred')")
 						span.icon-star-outline(ng-show="selectedTid && !threads[selectedTid].isLabel('Starred')")
@@ -40,7 +40,7 @@ div(ng-if="selectedTid").main-view
 	div.logo.only-print
 		img(src="/img/Lavaboom-logo-gray.svg")
 	.row.no-gutter.mail(ng-repeat="email in emails")
-		.col-xs-24.table
+		.col-xs-24.table(ng-click="showPopup('compose', {draftId: selectedTid});")
 			div.email-left
 				span.icon-star.lava(ng-hide="true")
 			div.meta
@@ -80,7 +80,7 @@ div(ng-if="selectedTid").main-view
 					.row.no-gutter
 						.col-xs-12(ng-repeat="file in email.files")
 							include ./_attachment
-				div.btn-group.navbar-right-buttons
+				div.btn-group.navbar-right-buttons(ng-show="labelName != 'Drafts'")
 					button.btn.btn-default(ng-show="selectedTid", ng-click="downloadEmail(email.originalBodyData, email.id, email.isHtml)", tooltip="{{'LAVAMAIL.COMPOSE.TOOLTIP_DOWNLOAD_ORIGINAL' | translate}}", tooltip-append-to-body="true")
 						span.icon-download
 					button.btn.btn-default(ng-show="selectedTid && !threads[selectedTid].isToYourself", ng-click="showPopup('compose', {replyThreadId: selectedTid, replyEmailId: email.id})")

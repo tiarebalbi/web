@@ -1,5 +1,5 @@
 module.exports = function($q, $rootScope, $timeout,
-									   router, consts, co, LavaboomAPI, LavaboomHttpAPI, user, crypto, contacts, Email, Thread, Label) {
+									   router, consts, co, LavaboomAPI, LavaboomHttpAPI, user, crypto, contacts, Email, Thread, Label, File, utils) {
 	const self = this;
 
 	const newLineRegex = /(\r\n|\n)/g;
@@ -102,12 +102,16 @@ module.exports = function($q, $rootScope, $timeout,
 
 		const r = labels.reduce((a, labelOpts) => {
 			const label = new Label(labelOpts);
-			if (label.name == 'Drafts')
-				return a;
-
 			a.byName[label.name] = a.byId[label.id] = label;
 			return a;
-		}, {byName: {}, byId: {}, list: []});
+		}, {byName: {}, byId: {}});
+
+		r.byName.Drafts = r.byId[-1] = new Label({
+			id: -1,
+			name: 'Drafts',
+			emails_total: 0,
+			builtin: true
+		});
 
 		r.list = consts.ORDERED_LABELS.map(labelName => r.byName[labelName]).filter(e => !!e);
 
@@ -119,11 +123,6 @@ module.exports = function($q, $rootScope, $timeout,
 	this.initialize = () => co(function *(){
 		const info = yield LavaboomAPI.info();
 		console.log('info', info);
-
-		const labels = yield self.getLabels();
-
-		/*if (!labels.byName.Drafts)
-			yield self.createLabel('Drafts');*/
 	});
 
 	this.createLabel = (name) => co(function *(){
@@ -156,7 +155,51 @@ module.exports = function($q, $rootScope, $timeout,
 		return res.body.email ? Email.fromEnvelope(res.body.email) : null;
 	});
 
+	this.deleteDraft = (draftId) => co(function *(){
+		yield LavaboomAPI.files.delete(draftId);
+	});
+
+	this.getDraftById = (draftId) => co(function *(){
+		const res = yield LavaboomAPI.files.get(draftId);
+
+		console.log(res);
+
+		return res.body.file ? yield File.fromEnvelope(res.body.file) : null;
+	});
+
+	this.createFile = (file) => co(function *(){
+		return yield LavaboomAPI.files.create(file);
+	});
+
+	this.updateFile = (fileId, file) => co(function *(){
+		return yield LavaboomAPI.files.update(fileId, file);
+	});
+
 	this.requestList = (labelName, offset, limit) => co(function *() {
+		if (labelName == 'Drafts') {
+			let files = (yield LavaboomAPI.files.list({
+				tags: ['draft'],
+				sort: sortQuery,
+				offset: offset,
+				limit: limit
+			})).body.files;
+			if (!files)
+				files = [];
+
+			//yield files.map(f => LavaboomAPI.files.delete(f.id));
+
+			let r =  files ? yield files.map(f => co(function *(){
+				let file = yield File.fromEnvelope(f);
+				const cachedThread = yield self.getThreadById(file.id, true);
+				if (cachedThread)
+					return cachedThread;
+				return yield co.def(Thread.fromDraftFile(file), null);
+			})) : [];
+
+			console.log('files', r);
+			return r;
+		}
+
 		const labels = yield self.getLabels();
 		const requestLabels = [labels.byName[labelName].id];
 

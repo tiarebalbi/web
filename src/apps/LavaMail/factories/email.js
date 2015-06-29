@@ -20,12 +20,21 @@ module.exports = (co, crypto, user, Manifest, ManifestPart) => {
 		this.files = manifest ? manifest.files : files;
 
 		this.getFileById = (id) => self.files.find(f => f.id == id);
-		this.isHtml = manifest ? manifest.getPart('body').isHtml() : isHtml;
+		this.isHtml = (() => {
+			if (!manifest)
+				return isHtml;
+
+			let body = manifest.getPart('body');
+			return body ? body.isHtml() : isHtml;
+		})();
 
 		const prettify = (a) => a.map(e => e.prettyName).join(',');
 
 		this.kind = opt.kind;
 		this.from = manifest ? manifest.from : Manifest.parseAddresses(opt.from);
+		if (!this.from)
+			this.from = [];
+
 		this.fromAllPretty = prettify(self.from);
 
 		this.to = manifest ? manifest.to : [];
@@ -160,6 +169,23 @@ module.exports = (co, crypto, user, Manifest, ManifestPart) => {
 		}), manifestRaw ? Manifest.createFromJson(manifestRaw) : null, files, isHtml);
 
 		console.log('email decoded', email, manifestRaw);
+
+		return email;
+	});
+
+	Email.fromDraftFile = (file) => co(function *() {
+		let manifest = file.meta ? Manifest.createFromObject({headers: file.meta, parts: []}) : null;
+
+		let email = new Email({
+			id: file.id,
+			thread: file.id,
+			kind: 'manifest',
+			date_created: file.created,
+			date_modified: file.modified,
+			body: file.body
+		}, manifest, null, true);
+
+		console.log('fromDraftFile', email);
 
 		return email;
 	});

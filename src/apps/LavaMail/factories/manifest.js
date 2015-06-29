@@ -38,7 +38,10 @@ module.exports = ($translate, contacts, utils, crypto, ManifestPart) => {
 			});
 		};
 
-		this.getPart = (id = 'body') => new ManifestPart(manifest.parts.find(p => p.id == id));
+		this.getPart = (id = 'body') => {
+			let part = manifest.parts.find(p => p.id == id);
+			return part ? new ManifestPart(part) : null;
+		};
 
 		this.files = manifest.parts.filter(p => p.id != 'body').map(p => new ManifestPart(p));
 
@@ -125,23 +128,16 @@ module.exports = ($translate, contacts, utils, crypto, ManifestPart) => {
 		return new Manifest(manifest);
 	};
 
-	Manifest.createFromJson = (manifest) => {
-		function decode (s) {
-			if (!s)
-				return s;
+	function decode (s) {
+		if (!s)
+			return s;
 
-			return angular.isArray(s)
-				? s.map(e => decode(e))
-				: s.includes('=') ? utf8.decode(qEncoding.decode(s.replace(/=\?utf-8\?Q\?([^?]+)\?=/, '$1'))) : s;
-		}
+		return angular.isArray(s)
+			? s.map(e => decode(e))
+			: s.includes('=') ? utf8.decode(qEncoding.decode(s.replace(/=\?utf-8\?Q\?([^?]+)\?=/, '$1'))) : s;
+	}
 
-		let rawManifest;
-		try {
-			rawManifest = JSON.parse(manifest);
-		} catch (error) {
-			throw new Error('invalid manifest format!');
-		}
-
+	function processManifest(rawManifest) {
 		if (rawManifest.headers) {
 			rawManifest.headers.cc = decode(rawManifest.headers.cc);
 			rawManifest.headers.bcc = decode(rawManifest.headers.bcc);
@@ -149,6 +145,22 @@ module.exports = ($translate, contacts, utils, crypto, ManifestPart) => {
 			rawManifest.headers.to = decode(rawManifest.headers.to);
 			rawManifest.headers.subject = decode(rawManifest.headers.subject);
 		}
+	}
+
+	Manifest.createFromObject = (rawManifest) => {
+		processManifest(rawManifest);
+		return new Manifest(rawManifest);
+	};
+
+	Manifest.createFromJson = (manifest) => {
+		let rawManifest;
+		try {
+			rawManifest = JSON.parse(manifest);
+		} catch (error) {
+			throw new Error('invalid manifest format!');
+		}
+
+		processManifest(rawManifest);
 
 		return new Manifest(rawManifest);
 	};

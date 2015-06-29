@@ -1,4 +1,4 @@
-module.exports = ($rootScope, $scope, $stateParams, $translate,
+module.exports = ($rootScope, $scope, $stateParams, $translate, $interval,
 							   utils, consts, co, router, composeHelpers, textAngularHelpers, crypto,
 							   user, contacts, inbox, Manifest, Contact, hotkey, ContactEmail, Email, Attachment) => {
 	$scope.toolbar = [
@@ -11,6 +11,20 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 	];
 	$scope.taggingTokens = 'SPACE|,|/';
 
+	$scope.form = {
+		person: {},
+		selected: {
+			to: [],
+			cc: [],
+			bcc: [],
+			from: contacts.myself
+		},
+		fromEmails: [contacts.myself],
+		subject: '',
+		body: ''
+	};
+
+	$scope.isSent = false;
 	$scope.isSending = false;
 	$scope.isWarning = false;
 	$scope.isError = false;
@@ -22,14 +36,16 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 
 	$scope.isToolbarShown = false;
 
-	const hiddenContacts = {};
-	const replyThreadId = $stateParams.replyThreadId;
-	const replyEmailId = $stateParams.replyEmailId;
-	const isReplyAll = $stateParams.isReplyAll;
-	const forwardEmailId = $stateParams.forwardEmailId;
-	const forwardThreadId = $stateParams.forwardThreadId;
-	const toEmail = $stateParams.to;
-	const publicKey = $stateParams.publicKey ? crypto.getPublicKeyByFingerprint($stateParams.publicKey) : null;
+	let hiddenContacts = {};
+	let draftId = $stateParams.draftId;
+	let replyThreadId = $stateParams.replyThreadId;
+	let replyEmailId = $stateParams.replyEmailId;
+	let isReplyAll = $stateParams.isReplyAll;
+	let forwardEmailId = $stateParams.forwardEmailId;
+	let forwardThreadId = $stateParams.forwardThreadId;
+	let toEmail = $stateParams.to;
+	let publicKey = null;
+	let autoSaveInterval = null;
 
 	let manifest = null;
 	let newHiddenContact = null;
@@ -48,6 +64,34 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		LB_NO_SUBJECT: ''
 	};
 	$translate.bindAsObject(translations, 'LAVAMAIL.COMPOSE');
+
+	const saveAsDraft = () => co(function *(){
+		let key = user.key.armor();
+
+		let [meta, body] = yield [
+			crypto.encodeWithKeys(JSON.stringify({
+				publicKey: publicKey,
+				to: $scope.form.selected.to ? $scope.form.selected.to.map(e => e.email) : [],
+				cc: $scope.form.selected.cc ? $scope.form.selected.cc.map(e => e.email) : [],
+				bcc: $scope.form.selected.bcc ? $scope.form.selected.bcc.map(e => e.email) : [],
+				subject: $scope.form.subject
+			}), [key]),
+
+			crypto.encodeWithKeys($scope.form.body, [key])
+		];
+
+		meta = btoa(crypto.messageToBinary(meta.pgpData));
+		body = btoa(crypto.messageToBinary(body.pgpData));
+
+		let data = {
+			name: 'draft',
+			meta: {meta: meta},
+			body: body,
+			tags: ['draft']
+		};
+
+		yield draftId ? inbox.updateFile(draftId, data) : inbox.createFile(data);
+	});
 
 	const processAttachment = (attachmentStatus) => co(function *() {
 		attachmentStatus.status = translations.LB_ATTACHMENT_STATUS_READING;
@@ -72,7 +116,20 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		}
 	});
 
-	function initialize() {
+	co(function* () {
+		console.log('compose initialize');
+		let params = null;
+		let draft = null;
+		if (draftId) {
+			draft = yield inbox.getDraftById(draftId);
+			params = draft.meta;
+		} else 
+			params = $stateParams;
+
+		publicKey = params.publicKey ? crypto.getPublicKeyByFingerprint(params.publicKey) : null;
+
+		console.log('compose initialize, draft:', draft,  publicKey);
+
 		if (publicKey) {
 			let blob = new Blob([publicKey.armor()], {type: 'text/plain'});
 			blob.lastModifiedDate = publicKey.primaryKey.created;
@@ -85,6 +142,8 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		}
 
 		$scope.$bind('contacts-changed', () => {
+			console.log('compose initialize contacts-changed binding');
+
 			let toEmailContact = ContactEmail.transform(toEmail);
 
 			let people = [...contacts.people.values()];
@@ -156,7 +215,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 					}]);
 				} else
 					body = yield composeHelpers.buildDirectTemplate(body, signature);
-
+				
 				if (replyThreadId && replyEmailId) {
 					let thread = yield inbox.getThreadById(replyThreadId);
 					let email = yield inbox.getEmailById(replyEmailId);
@@ -168,36 +227,36 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 					$scope.form = {
 						person: {},
 						selected: {
-							to: to,
-							cc: [],
-							bcc: [],
+							to: draft ? ContactEmail.transform(draft.meta.to) : to,
+							cc: draft ? ContactEmail.transform(draft.meta.cc) : [],
+							bcc: draft ? ContactEmail.transform(draft.meta.bcc) : [],
 							from: contacts.myself
 						},
 						fromEmails: [contacts.myself],
-						subject: `Re: ${Email.getSubjectWithoutRe(thread.subject)}`,
-						body: body
+						subject: draft ? draft.meta.subject : `Re: ${Email.getSubjectWithoutRe(thread.subject)}`,
+						body: draft ? draft.body.data : body
 					};
 				} else {
 					$scope.form = {
 						person: {},
 						selected: {
-							to: toEmailContact ? [toEmailContact] : [],
-							cc: [],
-							bcc: [],
+							to: draft ? ContactEmail.transform(draft.meta.to) : (toEmailContact ? [toEmailContact] : []),
+							cc: draft ? ContactEmail.transform(draft.meta.cc) : [],
+							bcc: draft ? ContactEmail.transform(draft.meta.bcc) : [],
 							from: contacts.myself
 						},
 						fromEmails: [contacts.myself],
-						subject: subject,
-						body: body
+						subject: draft ? draft.meta.subject : subject,
+						body: draft ? draft.body.data : body
 					};
 				}
+
+				autoSaveInterval = $interval(() => saveAsDraft(), consts.COMPOSE_AUTO_SAVE_INTERVAL);
 
 				console.log('$scope.form', $scope.form);
 			});
 		});
-	}
-
-	initialize();
+	});
 
 	$scope.onFileDrop = (file) => {
 		if (file.type && file.type.startsWith('image'))
@@ -293,11 +352,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 				cc = $scope.form.selected.cc.map(e => e.email),
 				bcc = $scope.form.selected.bcc.map(e => e.email);
 
-			let keys = yield ([...$scope.form.selected.to, ...$scope.form.selected.cc, ...$scope.form.selected.bcc].reduce((a, e) => {
-				a[e.email] = co.transform(co.def(e.loadKey(), null), e => e ? e.armor() : null);
-				return a;
-			}, {}));
-
+			let keys = composeHelpers.getKeys($scope.form.selected.to, $scope.form.selected.cc, $scope.form.selected.bcc);
 			const isSecured = Email.isSecuredKeys(keys);
 
 			yield $scope.attachments.map(attachmentStatus => $scope.uploadAttachment(attachmentStatus, keys));
@@ -363,6 +418,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 
 			manifest = null;
 
+			$scope.isSent = true;
 			router.hidePopup();
 		} catch (err) {
 			$scope.isError = true;
@@ -466,6 +522,12 @@ module.exports = ($rootScope, $scope, $stateParams, $translate,
 		};
 
 	$scope.formatPaste = (html) => textAngularHelpers.formatPaste(html);
+
+	$scope.$on('$destroy',  () => {
+		$interval.cancel(autoSaveInterval);
+		if (!$scope.isSent)
+			saveAsDraft();
+	});
 
 	hotkey.registerCustomHotkeys($scope, [
 		{

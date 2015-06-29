@@ -166,18 +166,18 @@ module.exports = function () {
 			console.log(`creating build task for plugin "${plugin.url}"...`);
 			let taskName = 'plugins:build:' + plugin.name;
 
-			let env = {};
-			for(let k of Object.keys(sharedEnvironment))
-				env[k] = sharedEnvironment[k];
-
-			let defaultTranslationPath = path.resolve(__dirname, '..', paths.translations.outputForPlugin(plugin.name) + config.defaultLanguageCode + '.json');
-			let indexPath = path.resolve(__dirname, '..', paths.translations.outputForPlugin(plugin.name) + 'index' + '.json');
-			if (fs.existsSync(defaultTranslationPath) && fs.existsSync(indexPath)) {
-				env.translationPath = defaultTranslationPath;
-				env.translationIndexPath = indexPath;
-			}
-
 			gulp.task(taskName, gulp.series('plugins:install:' + plugin.name, () => {
+				let env = {};
+				for(let k of Object.keys(sharedEnvironment))
+					env[k] = sharedEnvironment[k];
+
+				let defaultTranslationPath = path.resolve(__dirname, '..', paths.translations.outputForPlugin(plugin.name) + config.defaultLanguageCode + '.json');
+				let indexPath = path.resolve(__dirname, '..', paths.translations.outputForPlugin(plugin.name) + 'index' + '.json');
+				if (fs.existsSync(defaultTranslationPath) && fs.existsSync(indexPath)) {
+					env.translationPath = defaultTranslationPath;
+					env.translationIndexPath = indexPath;
+				}
+
 				return pipelines.browserifyBundle(base, plugin.path, sectionName, env, null, (bundler, config, isUpdate) => {
 					let isApplication = sectionName == 'APPLICATION';
 					let coreAppName = isApplication ? plugin.name : config.belongsTo;

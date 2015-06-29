@@ -1,4 +1,10 @@
 module.exports = ($scope, $timeout, $translate, user, co, notifications) => {
+	$scope.toolbar = [
+		['h1', 'h2', 'h3'],
+		['bold', 'italics', 'underline'],
+		['justifyLeft', 'justifyCenter', 'justifyRight']
+	];
+
 	$scope.name = user.styledName;
 	$scope.status = '';
 	$scope.settings = {};
