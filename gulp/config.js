@@ -4,7 +4,7 @@ const config = {
 	isLogs: true,
 	contribPluginsBaseUrl: 'https://github.com/lavab-plugins/',
 	coreAppNames: ['LavaLoader', 'LavaUtils', 'LavaLogin', 'LavaMail'],
-	defaultLanguageCode: 'en',
+	defaultLanguageCode: 'en_US',
 	livereloadListenAddress: '0.0.0.0',
 	livereloadListenPort: 35729,
 	listenAddress: '0.0.0.0',

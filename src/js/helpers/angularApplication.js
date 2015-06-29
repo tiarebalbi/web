@@ -182,6 +182,8 @@ function AngularApplication ({name, dependencies, productionOnlyDependencies, is
 let config = process.env.applicationConfig;
 let application = new AngularApplication(config);
 
+console.log('process.env.translationPath for', config.name, 'is', process.env.translationPath);
+
 if (process.env.translationPath) {
 	let translationConfig = /*@ngInject*/($translateProvider, consts) => {
 		const setDefaultTranslation = (translation) =>
