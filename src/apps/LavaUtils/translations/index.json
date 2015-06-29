@@ -3,13 +3,13 @@
     "en_US": {
       "name": "English(US)"
     },
-    "de": {
+    "de_DE": {
       "name": "Deutsch (formal)"
     },
-    "fr": {
+    "fr_FR": {
       "name": "Français (vous)"
     },
-    "es": {
+    "es_ES": {
       "name": "Spanish"
     }
   }

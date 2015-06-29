@@ -238,7 +238,7 @@ module.exports = function () {
 	}
 
 	function verifyTranslations(name, translations) {
-		let enKeys = Object.keys(translations.en);
+		let enKeys = Object.keys(translations.en_US);
 		for(let langName of Object.keys(translations)) {
 			if (langName == 'index')
 				continue;
@@ -247,7 +247,7 @@ module.exports = function () {
 			let newTranslation = {};
 
 			for(let enKey of enKeys)
-				newTranslation[enKey] = enKey in translation ? translation[enKey] : translations.en[enKey];
+				newTranslation[enKey] = enKey in translation ? translation[enKey] : translations.en_US[enKey];
 
 			translations[langName] = newTranslation;
 		}
@@ -297,7 +297,7 @@ module.exports = function () {
 
 						let lang = translations[langName];
 
-						if (!lang['LANG.CODE'] || !lang['LANG.FULL_CODE'])
+						if (!lang['LANG.FULL_CODE'])
 							throw new Error(`Plugin '${name}': language file '${langName}' should have root LANG.CODE and LANG.FULL_CODE defined`);
 					}
 
