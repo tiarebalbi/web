@@ -155,6 +155,10 @@ module.exports = function($q, $rootScope, $timeout,
 		return res.body.email ? Email.fromEnvelope(res.body.email) : null;
 	});
 
+	this.deleteDraft = (draftId) => co(function *(){
+		yield LavaboomAPI.files.delete(draftId);
+	});
+
 	this.getDraftById = (draftId) => co(function *(){
 		const res = yield LavaboomAPI.files.get(draftId);
 
