@@ -14,10 +14,21 @@ module.exports = (co, utils, crypto) => {
 	}
 
 	File.fromEnvelope = (envelope) => co(function *() {
-		let [body, meta] = yield [crypto.decodeRaw(envelope.body, true), crypto.decodeRaw(envelope.meta.meta, true)];
+		try {
+			let [body, meta] = yield [crypto.decodeRaw(envelope.body, true), crypto.decodeRaw(envelope.meta.meta, true)];
 
-		envelope.body = body;
-		envelope.meta = JSON.parse(meta);
+			envelope.body = {
+				data: body,
+				state: 'ok'
+			};
+			envelope.meta = JSON.parse(meta);
+		} catch (err) {
+			envelope.body = {
+				data: '',
+				state: err.message
+			};
+			envelope.meta = {};
+		}
 
 		let r = new File(envelope);
 

@@ -38,7 +38,10 @@ module.exports = ($translate, contacts, utils, crypto, ManifestPart) => {
 			});
 		};
 
-		this.getPart = (id = 'body') => new ManifestPart(manifest.parts.find(p => p.id == id));
+		this.getPart = (id = 'body') => {
+			let part = manifest.parts.find(p => p.id == id);
+			return part ? new ManifestPart(part) : null;
+		};
 
 		this.files = manifest.parts.filter(p => p.id != 'body').map(p => new ManifestPart(p));
 

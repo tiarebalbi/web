@@ -234,7 +234,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $interval,
 						},
 						fromEmails: [contacts.myself],
 						subject: draft ? draft.meta.subject : `Re: ${Email.getSubjectWithoutRe(thread.subject)}`,
-						body: draft ? draft.body : body
+						body: draft ? draft.body.data : body
 					};
 				} else {
 					$scope.form = {
@@ -247,7 +247,7 @@ module.exports = ($rootScope, $scope, $stateParams, $translate, $interval,
 						},
 						fromEmails: [contacts.myself],
 						subject: draft ? draft.meta.subject : subject,
-						body: draft ? draft.body : body
+						body: draft ? draft.body.data : body
 					};
 				}
 

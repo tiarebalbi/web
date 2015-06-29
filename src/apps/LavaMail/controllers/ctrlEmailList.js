@@ -1,5 +1,5 @@
 module.exports = ($rootScope, $scope, $timeout, $state, $stateParams, $translate, $sanitize,
-							   user, utils, co, inbox, saver, notifications) => {
+							   user, utils, co, inbox, saver, notifications, Email) => {
 
 	$scope.selfEmail = user.email;
 	$scope.labelName = utils.capitalize($state.params.labelName);
@@ -82,37 +82,48 @@ module.exports = ($rootScope, $scope, $timeout, $state, $stateParams, $translate
 			inbox.setThreadReadStatus($scope.selectedTid);
 	});
 
+	function transformEmails (emails) {
+		console.log(emails);
+		return emails.map(e => {
+			e.originalBodyData = e.body.data;
+			e.displayBodyData = e.body.data;
+			return e;
+		});
+	}
+
 	if ($scope.selectedTid) {
 		$scope.emails = [];
 		$scope.isLoading = true;
-
 		console.log('emails has selected tid', $scope.selectedTid);
 
-		co(function *(){
+		co(function *() {
 			try {
-				const threadPromise = inbox.getThreadById($scope.selectedTid);
-				const emailsPromise = inbox.getEmailsByThreadId($scope.selectedTid);
+				if ($scope.labelName == 'Drafts') {
+					let draft = yield inbox.getDraftById($scope.selectedTid);
 
-				const thread = yield co.def(threadPromise, null);
+					$scope.emails = transformEmails([yield Email.fromDraftFile(draft)]);
+				} else {
+					let threadPromise = inbox.getThreadById($scope.selectedTid);
+					let emailsPromise = inbox.getEmailsByThreadId($scope.selectedTid);
 
-				if (!thread || !thread.isLabel($scope.labelName)) {
-					inbox.selectedTidByLabelName[$scope.labelName] = null;
-					yield $state.go('main.inbox.label', {labelName: $scope.labelName.toLowerCase(), threadId: null});
-					return;
+					let thread = yield co.def(threadPromise, null);
+
+					if (!thread || !thread.isLabel($scope.labelName)) {
+						inbox.selectedTidByLabelName[$scope.labelName] = null;
+						yield $state.go('main.inbox.label', {
+							labelName: $scope.labelName.toLowerCase(),
+							threadId: null
+						});
+						return;
+					}
+
+					yield utils.wait(() => $scope.isThreads);
+
+					$scope.emails = transformEmails(yield emailsPromise);
+
+					if ($scope.emails.every(e => e.body.state == 'ok'))
+						inbox.setThreadReadStatus($scope.selectedTid);
 				}
-
-				yield utils.wait(() => $scope.isThreads);
-
-				$scope.emails = (yield emailsPromise).map(e => {
-
-
-					e.originalBodyData = e.body.data;
-					e.displayBodyData = e.body.data;
-					return e;
-				});
-
-				if ($scope.emails.every(e => e.body.state == 'ok'))
-					inbox.setThreadReadStatus($scope.selectedTid);
 			} finally {
 				$scope.isLoading = false;
 			}
@@ -126,11 +137,7 @@ module.exports = ($rootScope, $scope, $timeout, $state, $stateParams, $translate
 		co(function *() {
 			$scope.isLoading = true;
 			try {
-				$scope.emails = (yield inbox.getEmailsByThreadId(threadId)).map(e => {
-					e.originalBodyData = e.body.data;
-					e.displayBodyData = e.body.data;
-					return e;
-				});
+				$scope.emails = transformEmails(yield inbox.getEmailsByThreadId(threadId));
 			} finally {
 				$scope.isLoading = false;
 			}

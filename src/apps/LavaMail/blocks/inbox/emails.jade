@@ -40,7 +40,7 @@ div(ng-if="selectedTid").main-view
 	div.logo.only-print
 		img(src="/img/Lavaboom-logo-gray.svg")
 	.row.no-gutter.mail(ng-repeat="email in emails")
-		.col-xs-24.table
+		.col-xs-24.table(ng-click="showPopup('compose', {draftId: selectedTid});")
 			div.email-left
 				span.icon-star.lava(ng-hide="true")
 			div.meta
@@ -80,7 +80,7 @@ div(ng-if="selectedTid").main-view
 					.row.no-gutter
 						.col-xs-12(ng-repeat="file in email.files")
 							include ./_attachment
-				div.btn-group.navbar-right-buttons
+				div.btn-group.navbar-right-buttons(ng-show="labelName != 'Drafts'")
 					button.btn.btn-default(ng-show="selectedTid", ng-click="downloadEmail(email.originalBodyData, email.id, email.isHtml)", tooltip="{{'LAVAMAIL.COMPOSE.TOOLTIP_DOWNLOAD_ORIGINAL' | translate}}", tooltip-append-to-body="true")
 						span.icon-download
 					button.btn.btn-default(ng-show="selectedTid && !threads[selectedTid].isToYourself", ng-click="showPopup('compose', {replyThreadId: selectedTid, replyEmailId: email.id})")
