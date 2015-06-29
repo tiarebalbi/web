@@ -151,6 +151,9 @@ module.exports = ($rootScope, $translate, $timeout, $injector, co, consts, crypt
 	}, 'hidden');
 
 	ContactEmail.transform = email => {
+		if (angular.isArray(email))
+			return email.map(e => ContactEmail.transform(e));
+
 		let contacts = $injector.get('contacts');
 
 		if (!email)
