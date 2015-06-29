@@ -10,7 +10,10 @@
       "name": "Français (vous)"
     },
     "es_ES": {
-      "name": "Spanish"
+      "name": "Español"
+    }
+    "pl_PL":{
+    "name": "Polski"
     }
   }
 }
