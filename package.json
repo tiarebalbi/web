@@ -108,7 +108,7 @@
     "watchify": "^3.2.1"
   },
   "dependencies": {
-    "lodash": "^3.5.0"
+    "lodash": "^4.17.20"
   },
   "scripts": {
     "test": "gulp tests"
